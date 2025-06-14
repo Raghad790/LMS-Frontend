@@ -1,0 +1,14 @@
+:root {
+  --primary: #7f56da;
+  --secondary: #ff7eb3;
+  --accent: #e0d7f9;
+  --light-bg: #f9f9fe;
+
+  --text-dark: #2e2e2e;
+  --subtext-color: #6c6f7d;
+  --border-color: #dee2e6;
+
+  --shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+  --font-family: 'Poppins', sans-serif;
+  --radius: 12px;
+}
