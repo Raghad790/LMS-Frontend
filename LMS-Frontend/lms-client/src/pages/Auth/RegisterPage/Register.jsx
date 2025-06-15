@@ -5,7 +5,10 @@ import {
   Checkbox,
   FormControlLabel,
   Typography,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -13,18 +16,11 @@ import * as yup from "yup";
 import axios from "axios";
 import GoogleLoginButton from "../../../components/auth/GoogleLoginButton";
 import { useAuth } from "../../../hooks/useAuth";
-// ✅ Validation schema aligned with backend (Joi)
+import { useState } from "react";
+
 const schema = yup.object().shape({
-  name: yup
-    .string()
-    .min(2, "Name must be at least 2 characters")
-    .max(255, "Name cannot exceed 255 characters")
-    .required("Full name is required"),
-  email: yup
-    .string()
-    .email("Enter a valid email")
-    .max(255, "Email cannot exceed 255 characters")
-    .required("Email is required"),
+  name: yup.string().min(2).max(255).required("Full name is required"),
+  email: yup.string().email().max(255).required("Email is required"),
   password: yup
     .string()
     .min(8, "Password must be at least 8 characters")
@@ -45,6 +41,8 @@ const schema = yup.object().shape({
 const Register = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const {
     handleSubmit,
@@ -66,7 +64,7 @@ const Register = () => {
       name: data.name,
       email: data.email,
       password: data.password,
-      role: "student", // default
+      role: "student",
     };
 
     try {
@@ -77,13 +75,21 @@ const Register = () => {
       );
 
       if (res.data.success) {
-        login(res.data.user); // store in AuthContext
+        login(res.data.user);
+        const redirectByRole = (role) => {
+  switch (role) {
+    case 'admin':
+      return navigate('/dashboard/admin');
+    case 'instructor':
+      return navigate('/dashboard/instructor');
+    case 'student':
+    default:
+      return navigate('/dashboard');
+  }
+};
 
-        // 🎯 Redirect by role
-        const role = res.data.user?.role;
-        if (role === "admin") navigate("/admin");
-        else if (role === "instructor") navigate("/instructor");
-        else navigate("/dashboard"); // student default
+redirectByRole(res.data.user.role);
+
       } else {
         alert(res.data.message || "Registration failed");
       }
@@ -103,11 +109,7 @@ const Register = () => {
 
         <p className={styles.orText}>Or sign up with email</p>
 
-        <form
-          className={styles.form}
-          onSubmit={handleSubmit(onSubmit)}
-          noValidate
-        >
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
           <Controller
             name="name"
             control={control}
@@ -145,11 +147,20 @@ const Register = () => {
               <TextField
                 {...field}
                 label="Password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 fullWidth
                 margin="normal"
                 error={!!errors.password}
                 helperText={errors.password?.message}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
             )}
           />
@@ -161,11 +172,20 @@ const Register = () => {
               <TextField
                 {...field}
                 label="Confirm Password"
-                type="password"
+                type={showConfirm ? "text" : "password"}
                 fullWidth
                 margin="normal"
                 error={!!errors.confirmPassword}
                 helperText={errors.confirmPassword?.message}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={() => setShowConfirm((prev) => !prev)} edge="end">
+                        {showConfirm ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
             )}
           />

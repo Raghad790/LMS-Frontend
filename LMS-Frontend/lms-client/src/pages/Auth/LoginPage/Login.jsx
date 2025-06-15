@@ -1,24 +1,27 @@
-import styles from './LoginPage.module.css';
-import {
-  TextField,
-  Button,
-  Typography,
-} from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
-import { useForm, Controller } from 'react-hook-form';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import axios from 'axios';
-import GoogleLoginButton from '../../../components/auth/GoogleLoginButton';
+import styles from "./LoginPage.module.css";
+import { TextField, Button, InputAdornment, IconButton } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm, Controller } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import axios from "axios";
+import GoogleLoginButton from "../../../components/auth/GoogleLoginButton";
 import { useAuth } from "../../../hooks/useAuth";
+import { useState } from "react";
+
 const schema = yup.object().shape({
-  email: yup.string().email('Enter a valid email').required('Email is required'),
-  password: yup.string().required('Password is required'),
+  email: yup
+    .string()
+    .email("Enter a valid email")
+    .required("Email is required"),
+  password: yup.string().required("Password is required"),
 });
 
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     handleSubmit,
@@ -27,30 +30,44 @@ const Login = () => {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
   });
 
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', data, {
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        data,
+        {
+          withCredentials: true,
+        }
+      );
 
       if (res.data.success) {
-        login(res.data.user); // Save to AuthContext
+        login(res.data.user);
 
-        const role = res.data.user.role;
-        if (role === 'admin') navigate('/admin');
-        else if (role === 'instructor') navigate('/instructor');
-        else navigate('/dashboard'); // student
+        // ✅ Role-based redirection
+        const redirectByRole = (role) => {
+          switch (role) {
+            case "admin":
+              return navigate("/dashboard/admin");
+            case "instructor":
+              return navigate("/dashboard/instructor");
+            case "student":
+            default:
+              return navigate("/dashboard");
+          }
+        };
+
+        redirectByRole(res.data.user.role);
       } else {
-        alert(res.data.message || 'Login failed');
+        alert(res.data.message || "Login failed");
       }
     } catch (error) {
-      console.error('Login error:', error);
-      alert(error.response?.data?.message || 'Login failed');
+      console.error("Login error:", error);
+      alert(error.response?.data?.message || "Login failed");
     }
   };
 
@@ -61,10 +78,13 @@ const Login = () => {
         <p className={styles.subtitle}>Use your email or Google account</p>
 
         <GoogleLoginButton />
-
         <p className={styles.orText}>Or log in with email</p>
 
-        <form onSubmit={handleSubmit(onSubmit)} className={styles.form} noValidate>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className={styles.form}
+          noValidate
+        >
           <Controller
             name="email"
             control={control}
@@ -87,11 +107,23 @@ const Login = () => {
               <TextField
                 {...field}
                 label="Password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 fullWidth
                 margin="normal"
                 error={!!errors.password}
                 helperText={errors.password?.message}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
             )}
           />

@@ -22,6 +22,9 @@
 .text h1 span {
   color: #ff7eb3;
   border-bottom: 4px solid #7f56da;
+  /* Add background-clip for compatibility */
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
 .text p {
@@ -56,4 +59,22 @@
 .image img {
   max-width: 400px;
   width: 100%;
+}
+.stickyCta {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  background-color: #7f56da;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  z-index: 999;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s;
+}
+
+.stickyCta:hover {
+  background-color: #6a3fcc;
 }
