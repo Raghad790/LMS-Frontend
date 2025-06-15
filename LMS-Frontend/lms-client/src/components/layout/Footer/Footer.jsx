@@ -2,7 +2,8 @@ import styles from './Footer.module.css';
 
 const Footer = () => {
   return (
-    <footer className={styles.footer}>
+
+    <footer className={styles.footer} data-aos="fade-up">
       <div className={styles.grid}>
         <div>
           <h3>Khatwa LMS</h3>

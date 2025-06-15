@@ -3,33 +3,55 @@
   top: 0;
   width: 100%;
   background: white;
-  border-bottom: 1px solid #eee;
   z-index: 1000;
-  padding: 1rem 2rem;
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  overflow: visible;
 }
 
 .container {
   max-width: 1200px;
-  margin: 0 auto;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+.brand {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 0.75rem;
 }
 
 .logo {
-  height: 50px;
+  height: 60px; /* increased */
+  transition: transform 0.3s ease;
+}
+.name {
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(45deg, #7f56da, #ff7eb3);
+  -webkit-background-clip: text;
+  background-clip: text; /* Standard property for compatibility */
+  color: transparent;
 }
 
 .nav {
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
   align-items: center;
+
+  max-height: 100vh;
+  overflow-y: auto;
 }
 
 .link {
   text-decoration: none;
   color: #444;
   font-weight: 500;
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
 }
 
 .btn {
@@ -37,5 +59,81 @@
   color: white;
   padding: 8px 16px;
   border-radius: 8px;
+  font-weight: 600;
   text-decoration: none;
+  font-size: 1rem;
+}
+
+.toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #7f56da;
+}
+
+.hero {
+  padding-top: 6.5rem; /* ensure content doesn't hide under fixed header */
+}
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .toggle {
+    display: block;
+  }
+
+  .nav {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.5rem;
+    gap: 1rem;
+    display: none;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    animation: slideDown 0.3s ease-out;
+    z-index: 999;
+  }
+
+  .nav.active {
+    display: flex;
+  }
+
+  .link,
+  .btn {
+    width: 100%;
+    text-align: left;
+    font-size: 1.1rem;
+    padding: 0.75rem 0.5rem;
+    border-radius: 6px;
+  }
+
+  .btn {
+    background-color: #7f56da;
+    color: white;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+@media (max-width: 480px) {
+  .brand {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+.logo:hover {
+  transform: scale(1.05) rotate(-1deg);
 }

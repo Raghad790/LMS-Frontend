@@ -1,33 +1,43 @@
-import  { createContext, useState, useEffect } from 'react';
-
+import { createContext, useState, useEffect } from "react";
+import api from '../services/api';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null); // { id, name, role }
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // TODO: fetch user from localStorage or API if token exists
-    const stored = localStorage.getItem('user');
-    if (stored) setUser(JSON.parse(stored));
-  }, []);
+
+useEffect(() => {
+  const restoreSession = async () => {
+    try {
+      const res = await api.get('/auth/me');
+      setUser(res.data.data);
+    } catch (err) {
+      console.error('Session restore failed:', err);
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  restoreSession();
+}, []);
 
   const login = (userData) => {
     setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('user');
+    // optionally: axios.post('/logout', ...)
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
 };
-
 
 export { AuthContext };

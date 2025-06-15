@@ -1,25 +1,32 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import Login from './pages/Auth/LoginPage/Login';
-import Register from './pages/Auth/RegisterPage/Register';
-import StudentDashboard from './pages/Dashboard/StudentDashboard';
-import InstructorDashboard from './pages/Dashboard/InstructorDashboard';
-import AdminDashboard from './pages/Dashboard/AdminDashboard';
-import Unauthorized from './pages/Unauthorized/Unauthorized';
-import ProtectedRoute from './components/auth/ProtectedRoute';
-import DashboardLayout from './components/layout/DashboardLayout/DashboardLayout';
-import Home from './pages/Home/Home';
+import { Routes, Route } from "react-router-dom";
+import { useAuth } from "./hooks/useAuth";
+import Home from "./pages/Home/Home";
+import Login from "./pages/Auth/LoginPage/Login";
+import Register from "./pages/Auth/RegisterPage/Register";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
+import Unauthorized from "./pages/Unauthorized/Unauthorized";
+import DashboardLayout from "./components/layout/DashboardLayout/DashboardLayout";
+
+// Dashboards
+import StudentDashboard from "./pages/Dashboard/StudentDashboard";
+import InstructorDashboard from "./pages/Dashboard/InstructorDashboard";
+import AdminDashboard from "./pages/Dashboard/AdminDashboard";
+import UsersPage from "./pages/Admin/UsersPage";
 
 function App() {
+  const { loading } = useAuth();
+
+  if (loading) return <div>Loading...</div>;
+
   return (
     <Routes>
-      {/* Public routes */}
+      {/* Public Routes */}
+      <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/unauthorized" element={<Unauthorized />} />
-      <Route path="/" element={<Home />} />
 
-      {/* Student Dashboard (with layout + nested routing) */}
+      {/* Student Dashboard */}
       <Route
         path="/dashboard"
         element={
@@ -29,30 +36,34 @@ function App() {
         }
       >
         <Route index element={<StudentDashboard />} />
-        {/* Future nested routes for student */}
-        {/* <Route path="courses" element={<StudentCourses />} /> */}
-        {/* <Route path="assignments" element={<StudentAssignments />} /> */}
+        {/* add more nested routes for student here if needed */}
       </Route>
 
-      {/* Instructor dashboard */}
+      {/* Instructor Dashboard */}
       <Route
-        path="/instructor"
+        path="/dashboard/instructor"
         element={
           <ProtectedRoute role="instructor">
-            <InstructorDashboard />
+            <DashboardLayout />
           </ProtectedRoute>
         }
-      />
+      >
+        <Route index element={<InstructorDashboard />} />
+        {/* Instructor-specific routes */}
+      </Route>
 
-      {/* Admin dashboard */}
+      {/* Admin Dashboard */}
       <Route
-        path="/admin"
+        path="/dashboard/admin"
         element={
           <ProtectedRoute role="admin">
-            <AdminDashboard />
+            <DashboardLayout />
           </ProtectedRoute>
         }
-      />
+      >
+        <Route index element={<AdminDashboard />} />
+        <Route path="users" element={<UsersPage />} />
+      </Route>
     </Routes>
   );
 }
