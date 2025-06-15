@@ -1,0 +1,13 @@
+
+.container {
+  padding: 2rem;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+h2 {
+  margin-bottom: 1rem;
+}

@@ -1,17 +1,23 @@
 import { Routes, Route } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
+
+// Public Pages
 import Home from "./pages/Home/Home";
 import Login from "./pages/Auth/LoginPage/Login";
 import Register from "./pages/Auth/RegisterPage/Register";
-import ProtectedRoute from "./components/auth/ProtectedRoute";
 import Unauthorized from "./pages/Unauthorized/Unauthorized";
+
+// Layout
 import DashboardLayout from "./components/layout/DashboardLayout/DashboardLayout";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 // Dashboards
-import StudentDashboard from "./pages/Dashboard/StudentDashboard";
-import InstructorDashboard from "./pages/Dashboard/InstructorDashboard";
-import AdminDashboard from "./pages/Dashboard/AdminDashboard";
-import UsersPage from "./pages/Admin/UsersPage";
+import StudentDashboard from "./pages/Dashboard/StudentDashboard/Dashboard";
+import InstructorDashboard from "./pages/Dashboard/InstructorDashboard/InstructorDashboard";
+import AdminDashboard from "./pages/Dashboard/AdminDashboard/AdminDashboard";
+
+// Admin Panel
+import UsersPage from "./pages/Dashboard/AdminDashboard/UsersPage";
 
 function App() {
   const { loading } = useAuth();
@@ -36,7 +42,6 @@ function App() {
         }
       >
         <Route index element={<StudentDashboard />} />
-        {/* add more nested routes for student here if needed */}
       </Route>
 
       {/* Instructor Dashboard */}
@@ -49,7 +54,6 @@ function App() {
         }
       >
         <Route index element={<InstructorDashboard />} />
-        {/* Instructor-specific routes */}
       </Route>
 
       {/* Admin Dashboard */}

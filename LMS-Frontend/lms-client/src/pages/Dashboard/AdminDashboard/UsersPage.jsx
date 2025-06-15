@@ -2,6 +2,7 @@ import styles from "./UsersPage.module.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../../hooks/useAuth";
+import UserTable from "../../../components/ui/admin/UserTable/UserTable";
 
 const UsersPage = () => {
   const { user } = useAuth();
@@ -22,9 +23,7 @@ const UsersPage = () => {
         { withCredentials: true }
       );
       setUsers((prev) =>
-        prev.map((u) =>
-          u.id === userId ? { ...u, role: newRole } : u
-        )
+        prev.map((u) => (u.id === userId ? { ...u, role: newRole } : u))
       );
     } catch (error) {
         console.log(error);
@@ -39,34 +38,7 @@ const UsersPage = () => {
   return (
     <div className={styles.container}>
       <h2>All Users</h2>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Name</th><th>Email</th><th>Role</th><th>Change Role</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((u) => (
-            <tr key={u.id}>
-              <td>{u.name}</td>
-              <td>{u.email}</td>
-              <td>{u.role}</td>
-              <td>
-                <select
-                  value={u.role}
-                  onChange={(e) =>
-                    handleRoleChange(u.id, e.target.value)
-                  }
-                >
-                  <option value="student">Student</option>
-                  <option value="instructor">Instructor</option>
-                  <option value="admin">Admin</option>
-                </select>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <UserTable users={users} onRoleChange={handleRoleChange} />
     </div>
   );
 };
