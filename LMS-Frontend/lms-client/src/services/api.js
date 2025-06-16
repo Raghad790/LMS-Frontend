@@ -9,6 +9,16 @@ const api = axios.create({
 });
 
 
+// ✅ Add token to every request
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+
 export const checkHealth = async () => {
   const response = await api.get('/health');
   return response.data;

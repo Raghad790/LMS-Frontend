@@ -36,9 +36,11 @@
 }
 
 .active {
-  background-color: #7f56da;
+  background: linear-gradient(90deg, #a149df, #ea6fb8);
   color: white;
 }
+
+
 
 .content {
   flex: 1;

@@ -1,0 +1,50 @@
+.container {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}
+
+.module {
+  margin-bottom: 1rem;
+}
+
+.moduleTitle {
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.lessonList {
+  padding-left: 1rem;
+  margin-top: 0.5rem;
+}
+
+.lessonItem {
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  background-color: #f9f9fe;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.lessonItem:hover {
+  background-color: #eef1fb;
+}
+
+.lessonTitle {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.lessonType {
+  font-size: 0.85rem;
+  color: #6b7280;
+}

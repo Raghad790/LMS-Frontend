@@ -1,22 +1,30 @@
-import styles from "./Main.module.css";
 import { useStudentCourses } from "../../../features/student/hooks/useStudentCourses";
+import styles from "./Main.module.css";
+import { CircularProgress } from "@mui/material";
 import CourseCard from "../../../features/student/components/CourseCard";
-import { CircularProgress, Typography } from "@mui/material";
+import { useAuth } from "../../../hooks/useAuth";
 
 const Main = () => {
   const { courses, loading } = useStudentCourses();
-
+  const { user } = useAuth();
   return (
-    <div className={styles.dashboard}>
-      <h2 className={styles.title}>Welcome Back! 🎓</h2>
-      <p className={styles.subtitle}>Here are your enrolled courses:</p>
+    <section className={styles.dashboard}>
+      <div className={styles.header}>
+        <h1 className={styles.title}>
+          🎓 Welcome back{user?.name ? `, ${user.name}` : ""}!
+        </h1>
+
+        <p className={styles.subtitle}>
+          Let’s continue learning with your courses below.
+        </p>
+      </div>
 
       {loading ? (
         <div className={styles.loader}>
           <CircularProgress />
         </div>
       ) : courses.length === 0 ? (
-        <Typography variant="body1">You are not enrolled in any courses yet.</Typography>
+        <p className={styles.empty}>You are not enrolled in any courses yet.</p>
       ) : (
         <div className={styles.grid}>
           {courses.map((course) => (
@@ -24,7 +32,7 @@ const Main = () => {
           ))}
         </div>
       )}
-    </div>
+    </section>
   );
 };
 

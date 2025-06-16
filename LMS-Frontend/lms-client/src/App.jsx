@@ -19,6 +19,9 @@ import AdminDashboard from "./pages/Dashboard/AdminDashboard/AdminDashboard";
 // Admin Panel
 import UsersPage from "./pages/Dashboard/AdminDashboard/UsersPage";
 
+// Student Course Detail Page
+import CourseDetails from "./pages/Dashboard/StudentDashboard/CourseDetails";
+
 function App() {
   const { loading } = useAuth();
 
@@ -42,6 +45,7 @@ function App() {
         }
       >
         <Route index element={<StudentDashboard />} />
+        <Route path="courses/:courseId" element={<CourseDetails />} />
       </Route>
 
       {/* Instructor Dashboard */}
