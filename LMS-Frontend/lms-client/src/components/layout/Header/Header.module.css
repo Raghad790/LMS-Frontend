@@ -27,11 +27,12 @@
 .logo {
   height: 60px; /* increased */
   transition: transform 0.3s ease;
+
 }
 .name {
   font-size: 1.5rem;
   font-weight: 800;
-  background: linear-gradient(45deg, #7f56da, #ff7eb3);
+  background: linear-gradient(90deg, #a149df, #ea6fb8);
   -webkit-background-clip: text;
   background-clip: text; /* Standard property for compatibility */
   color: transparent;
