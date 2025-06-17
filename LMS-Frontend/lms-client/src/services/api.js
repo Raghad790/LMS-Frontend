@@ -1,27 +1,23 @@
-import axios from 'axios';
+// src/services/api.js
+import axios from "axios";
+import { logoutAndRedirect } from "../utils/logoutHandler";
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = "http://localhost:5000/api";
 
-// Create a shared axios instance with credentials enabled
 const api = axios.create({
   baseURL: API_BASE,
-  withCredentials: true, // ✅ needed to send session cookies
+  withCredentials: true,
 });
 
-
-// ✅ Add token to every request
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+// ⛔ Automatically logout on 401
+api.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (err.response?.status === 401) {
+      logoutAndRedirect(); // ⬅ call logout + navigate
+    }
+    return Promise.reject(err);
   }
-  return config;
-});
-
-
-export const checkHealth = async () => {
-  const response = await api.get('/health');
-  return response.data;
-};
+);
 
 export default api;
