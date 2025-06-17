@@ -1,0 +1,143 @@
+/* File: src/features/instructor/styles/InstructorCourseManager.module.css */
+
+.courseManager {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.header h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.createButton {
+  background-color: #007BFF;
+  color: #fff;
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.createButton:hover {
+  background-color: #0056b3;
+}
+
+.loading,
+.empty {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #666;
+  padding: 2rem 1rem;
+}
+
+.courseGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 2rem;
+}
+
+.courseCard {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease;
+}
+
+.courseCard:hover {
+  transform: translateY(-5px);
+}
+
+.thumbnail {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+}
+
+.courseInfo {
+  padding: 1rem;
+  flex: 1;
+}
+
+.courseInfo h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  color: #222;
+}
+
+.status span {
+  font-weight: 600;
+  color: #17a2b8;
+}
+
+.students {
+  font-size: 0.95rem;
+  color: #555;
+  margin-top: 0.25rem;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  border-top: 1px solid #eee;
+  background: #fafafa;
+  gap: 0.5rem;
+}
+
+.editButton,
+.viewButton {
+  flex: 1;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 0.4rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.editButton {
+  background: #ffc107;
+  color: #000;
+}
+
+.editButton:hover {
+  background: #e0a800;
+}
+
+.viewButton {
+  background: #28a745;
+  color: white;
+}
+
+.viewButton:hover {
+  background: #218838;
+}
+
+@media screen and (max-width: 600px) {
+  .actions {
+    flex-direction: column;
+  }
+
+  .editButton,
+  .viewButton {
+    width: 100%;
+  }
+}

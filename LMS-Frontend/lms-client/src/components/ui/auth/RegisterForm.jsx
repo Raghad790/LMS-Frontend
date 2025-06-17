@@ -1,3 +1,5 @@
+// src/features/ui/auth/RegisterForm.jsx
+import { useState } from "react";
 import styles from "./RegisterForm.module.css";
 import {
   TextField,
@@ -7,16 +9,16 @@ import {
   Typography,
   InputAdornment,
   IconButton,
+  Alert,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import axios from "axios";
 import GoogleLoginButton from "../../../components/auth/GoogleLoginButton";
 import { useAuth } from "../../../hooks/useAuth";
-import { useState } from "react";
+import api from "../../../services/api";
 
 const schema = yup.object().shape({
   name: yup.string().min(2).max(255).required("Full name is required"),
@@ -44,6 +46,7 @@ const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const {
     handleSubmit,
@@ -68,27 +71,51 @@ const RegisterForm = () => {
       role: "student",
     };
 
+    setError("");
+    setLoading(true);
+    
     try {
-      setLoading(true);
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/register",
-        payload,
-        { withCredentials: true }
-      );
+      // Use api service instead of direct axios calls
+      const res = await api.post("/auth/register", payload);
 
       if (res.data.success) {
+        // Store JWT token in localStorage
+        if (res.data.token) {
+          localStorage.setItem("token", res.data.token);
+        }
+        
+        // Update auth context with user data
         login(res.data.user);
 
+        // Role-based redirection
         const role = res.data.user.role;
         if (role === "admin") navigate("/dashboard/admin");
         else if (role === "instructor") navigate("/dashboard/instructor");
         else navigate("/dashboard");
       } else {
-        alert(res.data.message || "Registration failed");
+        setError(res.data.message || "Registration failed");
       }
     } catch (error) {
       console.error("Registration error:", error);
-      alert(error.response?.data?.message || "Validation failed");
+      
+      if (error.response) {
+        // The server responded with an error
+        if (error.response.status === 400) {
+          setError(error.response.data?.message || "Invalid registration data");
+        } else if (error.response.status === 404) {
+          setError("Server endpoint not found. Please check API configuration.");
+        } else if (error.response.status === 409) {
+          setError("Email already exists. Please use a different email or log in.");
+        } else {
+          setError(error.response.data?.message || "Registration failed");
+        }
+      } else if (error.request) {
+        // The request was made but no response was received
+        setError("Server not responding. Please check your connection.");
+      } else {
+        // Something happened in setting up the request
+        setError("An unexpected error occurred");
+      }
     } finally {
       setLoading(false);
     }
@@ -104,6 +131,12 @@ const RegisterForm = () => {
 
         <p className={styles.orText}>Or sign up with email</p>
 
+        {error && (
+          <Alert severity="error" sx={{ mb: 2, width: '100%' }}>
+            {error}
+          </Alert>
+        )}
+
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
           <Controller
             name="name"
@@ -116,6 +149,7 @@ const RegisterForm = () => {
                 margin="normal"
                 error={!!errors.name}
                 helperText={errors.name?.message}
+                disabled={loading}
               />
             )}
           />
@@ -131,6 +165,7 @@ const RegisterForm = () => {
                 margin="normal"
                 error={!!errors.email}
                 helperText={errors.email?.message}
+                disabled={loading}
               />
             )}
           />
@@ -147,10 +182,15 @@ const RegisterForm = () => {
                 margin="normal"
                 error={!!errors.password}
                 helperText={errors.password?.message}
+                disabled={loading}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
+                      <IconButton 
+                        onClick={() => setShowPassword((prev) => !prev)} 
+                        edge="end"
+                        disabled={loading}
+                      >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
@@ -172,10 +212,15 @@ const RegisterForm = () => {
                 margin="normal"
                 error={!!errors.confirmPassword}
                 helperText={errors.confirmPassword?.message}
+                disabled={loading}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton onClick={() => setShowConfirm((prev) => !prev)} edge="end">
+                      <IconButton 
+                        onClick={() => setShowConfirm((prev) => !prev)} 
+                        edge="end"
+                        disabled={loading}
+                      >
                         {showConfirm ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
@@ -191,7 +236,7 @@ const RegisterForm = () => {
             render={({ field }) => (
               <>
                 <FormControlLabel
-                  control={<Checkbox {...field} color="primary" />}
+                  control={<Checkbox {...field} color="primary" disabled={loading} />}
                   label={
                     <Typography variant="body2">
                       I agree to the{" "}

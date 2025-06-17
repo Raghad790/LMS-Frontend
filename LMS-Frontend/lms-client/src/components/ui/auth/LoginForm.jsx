@@ -1,14 +1,15 @@
+// src/features/ui/auth/LoginForm.jsx
+import { useState } from "react";
 import styles from './LoginForm.module.css';
-import { TextField, Button, InputAdornment, IconButton } from "@mui/material";
+import { TextField, Button, InputAdornment, IconButton, Alert } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import axios from "axios";
 import GoogleLoginButton from "../../../components/auth/GoogleLoginButton";
 import { useAuth } from "../../../hooks/useAuth";
-import { useState } from "react";
+import api from "../../../services/api";
 
 const schema = yup.object().shape({
   email: yup.string().email("Enter a valid email").required("Email is required"),
@@ -19,6 +20,8 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const {
     handleSubmit,
@@ -33,25 +36,53 @@ const LoginForm = () => {
   });
 
   const onSubmit = async (data) => {
+    setError("");
+    setIsLoading(true);
+    
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", data, {
-        withCredentials: true,
-      });
+      // Use api service instead of direct axios calls
+      const res = await api.post("/auth/login", data);
 
       if (res.data.success) {
+        // Store JWT token in localStorage
+        if (res.data.token) {
+          localStorage.setItem('token', res.data.token);
+        }
+        
+        // Update auth context with user data
         login(res.data.user);
 
-        // ✅ Role-based redirection
+        // Role-based redirection
         const role = res.data.user.role;
         if (role === "admin") navigate("/dashboard/admin");
         else if (role === "instructor") navigate("/dashboard/instructor");
         else navigate("/dashboard");
       } else {
-        alert(res.data.message || "Login failed");
+        setError(res.data.message || "Login failed");
       }
     } catch (error) {
       console.error("Login error:", error);
-      alert(error.response?.data?.message || "Login failed");
+      
+      if (error.response) {
+        // The server responded with an error
+        if (error.response.status === 401) {
+          setError("Invalid email or password");
+        } else if (error.response.status === 404) {
+          setError("Server endpoint not found. Please check API configuration.");
+        } else if (error.response.status === 429) {
+          setError("Too many attempts. Please try again later.");
+        } else {
+          setError(error.response.data?.message || "Login failed");
+        }
+      } else if (error.request) {
+        // The request was made but no response was received
+        setError("Server not responding. Please check your connection.");
+      } else {
+        // Something happened in setting up the request
+        setError("An unexpected error occurred");
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -63,6 +94,12 @@ const LoginForm = () => {
 
         <GoogleLoginButton />
         <p className={styles.orText}>Or log in with email</p>
+
+        {error && (
+          <Alert severity="error" sx={{ mb: 2, width: '100%' }}>
+            {error}
+          </Alert>
+        )}
 
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form} noValidate>
           <Controller
@@ -76,6 +113,7 @@ const LoginForm = () => {
                 margin="normal"
                 error={!!errors.email}
                 helperText={errors.email?.message}
+                disabled={isLoading}
               />
             )}
           />
@@ -92,10 +130,15 @@ const LoginForm = () => {
                 margin="normal"
                 error={!!errors.password}
                 helperText={errors.password?.message}
+                disabled={isLoading}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
+                      <IconButton 
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        edge="end"
+                        disabled={isLoading}
+                      >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
@@ -110,12 +153,13 @@ const LoginForm = () => {
             type="submit"
             fullWidth
             className={styles.submitBtn}
+            disabled={isLoading}
           >
-            Log In
+            {isLoading ? "Logging in..." : "Log In"}
           </Button>
 
           <p className={styles.authRedirect}>
-            Don’t have an account? <Link to="/register">Sign up for free</Link>
+            Don't have an account? <Link to="/register">Sign up for free</Link>
           </p>
         </form>
       </div>

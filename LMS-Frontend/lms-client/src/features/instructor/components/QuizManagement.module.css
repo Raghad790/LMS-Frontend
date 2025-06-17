@@ -1,0 +1,132 @@
+/* LMS-Frontend/lms-client/src/features/instructor/components/QuizManagement.module.css */
+
+.quizManagement {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+.courseTitle {
+  color: #666;
+  margin-top: 5px;
+}
+
+.headerActions {
+  display: flex;
+  gap: 10px;
+}
+
+.backButton {
+  padding: 8px 16px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.backButton:hover {
+  background-color: #e0e0e0;
+}
+
+.createButton {
+  padding: 8px 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.createButton:hover {
+  background-color: #388e3c;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 60px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px dashed #ddd;
+}
+
+.createFirstButton {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.createFirstButton:hover {
+  background-color: #388e3c;
+}
+
+.quizTable {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.quizTable th,
+.quizTable td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.quizTable th {
+  background-color: #f5f5f5;
+  font-weight: 500;
+}
+
+.quizTable tr:last-child td {
+  border-bottom: none;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #2196f3;
+  padding: 5px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.actions button:hover {
+  background-color: #f0f0f0;
+}
+
+.deleteButton {
+  color: #f44336 !important;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+}

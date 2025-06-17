@@ -1,0 +1,115 @@
+/* LMS-Frontend/lms-client/src/features/instructor/components/CourseAnalytics.module.css */
+
+.analytics {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+.courseTitle {
+  color: #666;
+  margin-top: 5px;
+}
+
+.backButton {
+  padding: 8px 16px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.backButton:hover {
+  background-color: #e0e0e0;
+}
+
+.dashboardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto;
+  gap: 20px;
+}
+
+.statsCards {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.statCard {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  text-align: center;
+}
+
+.statValue {
+  font-size: 32px;
+  font-weight: 600;
+  color: #3f51b5;
+}
+
+.statLabel {
+  margin-top: 5px;
+  color: #666;
+  font-size: 14px;
+}
+
+.chartCard {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chartCard h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #333;
+}
+
+.chartContainer {
+  height: 300px;
+  width: 100%;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  font-size: 18px;
+  color: #666;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 900px) {
+  .dashboardGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .statsCards {
+    flex-wrap: wrap;
+  }
+  
+  .statCard {
+    min-width: 45%;
+  }
+}
+
+@media (max-width: 600px) {
+  .statCard {
+    min-width: 100%;
+  }
+}
