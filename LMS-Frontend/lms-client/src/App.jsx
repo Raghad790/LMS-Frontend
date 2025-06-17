@@ -6,9 +6,10 @@ import Home from "./pages/Home/Home";
 import Login from "./pages/Auth/LoginPage/Login";
 import Register from "./pages/Auth/RegisterPage/Register";
 import Unauthorized from "./pages/Unauthorized/Unauthorized";
+import OAuthRedirect from "./pages/Auth/OAuthRedirect";
 
 // Layout
-import DashboardLayout from "./components/layout/DashboardLayout/DashboardLayout";
+import DashboardLayout from "./components/layout/DashboardLayout/DashboardLayoutV2";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 // Dashboards
@@ -19,8 +20,13 @@ import AdminDashboard from "./pages/Dashboard/AdminDashboard/AdminDashboard";
 // Admin Panel
 import UsersPage from "./pages/Dashboard/AdminDashboard/UsersPage";
 
-// Student Course Detail Page
-import CourseDetails from "./pages/Dashboard/StudentDashboard/CourseDetails";
+// Courses
+import BrowseCourses from "./pages/Course/BrowseCourses";
+import CourseDetails from "./pages/Course/CourseDetails"; // 🔍 public preview
+import CourseLearning from "./pages/Course/CourseLearning"; // 📚 student-only learning route
+
+// Lessons
+import LessonViewer from "./features/student/components/LessonViewer"; // ⬅ correct path
 
 function App() {
   const { loading } = useAuth();
@@ -29,13 +35,14 @@ function App() {
 
   return (
     <Routes>
-      {/* Public Routes */}
+      {/* 🔓 Public Routes */}
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/unauthorized" element={<Unauthorized />} />
+      <Route path="/oauth-redirect" element={<OAuthRedirect />} />
 
-      {/* Student Dashboard */}
+      {/* 🔐 Student Routes */}
       <Route
         path="/dashboard"
         element={
@@ -45,10 +52,15 @@ function App() {
         }
       >
         <Route index element={<StudentDashboard />} />
-        <Route path="courses/:courseId" element={<CourseDetails />} />
+        <Route path="courses" element={<BrowseCourses />} />
+        <Route path="lessons/:lessonId" element={<LessonViewer />} />
+        <Route path="courses/:courseId" element={<CourseLearning />} />
       </Route>
 
-      {/* Instructor Dashboard */}
+      {/* 🔓 Public course preview route */}
+      <Route path="/courses/:courseId" element={<CourseDetails />} />
+
+      {/* 🔐 Instructor Routes */}
       <Route
         path="/dashboard/instructor"
         element={
@@ -60,7 +72,7 @@ function App() {
         <Route index element={<InstructorDashboard />} />
       </Route>
 
-      {/* Admin Dashboard */}
+      {/* 🔐 Admin Routes */}
       <Route
         path="/dashboard/admin"
         element={

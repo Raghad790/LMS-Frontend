@@ -58,13 +58,7 @@ const HomeHero = () => {
           <img src={heroImage} alt="Student" />
         </div>
       </section>
-      <Footer />
-      <ScrollToTopButton />
-
-      {/* Sticky smart CTA */}
-      <Link to={getCtaDestination()} className={styles.stickyCta}>
-        {getCtaText()}
-      </Link>
+      
     </>
   );
 };

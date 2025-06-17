@@ -1,78 +1,85 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "../../../services/api";
 import styles from "./CourseDetailsView.module.css";
-import {
-  CircularProgress,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Typography,
-} from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import api from "../../../services/api";
+import { CircularProgress } from "@mui/material";
+import { useAuth } from "../../../hooks/useAuth";
+
 const CourseDetailsView = () => {
   const { courseId } = useParams();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
   const [course, setCourse] = useState(null);
-  const [modules, setModules] = useState([]);
-  const [lessonsByModule, setLessonsByModule] = useState({});
   const [loading, setLoading] = useState(true);
+  const [enrolled, setEnrolled] = useState(false);
 
   useEffect(() => {
-    const fetchCourseData = async () => {
+    const fetchCourse = async () => {
       try {
-        const [courseRes, modulesRes] = await Promise.all([
-          axios.get(`/courses/${courseId}`),
-          axios.get(`/courses/${courseId}/modules`)
-        ]);
-        setCourse(courseRes.data);
-        const modules = modulesRes.data;
-        setModules(modules);
+        const res = await api.get(`/courses/${courseId}`);
+        const courseData = {
+          ...res.data.course,
+          instructor: { name: res.data.course.instructor_name },
+          category: { name: res.data.course.category_name },
+        };
+        setCourse(courseData);
 
-        const lessonsMap = {};
-        await Promise.all(modules.map(async (mod) => {
-          const res = await axios.get(`/modules/${mod.id}/lessons`);
-          lessonsMap[mod.id] = res.data;
-        }));
-
-        setLessonsByModule(lessonsMap);
-      } catch (error) {
-        console.error("Error loading course data:", error);
+        // Check if enrolled
+        if (user?.id) {
+          const statusRes = await api.get(
+            `/courses/${courseId}/enrollments/${user.id}/status`
+          );
+          setEnrolled(statusRes.data?.enrolled === true);
+        }
+      } catch (err) {
+        console.error("Course fetch error", err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCourseData();
-  }, [courseId]);
+    fetchCourse();
+  }, [courseId, user]);
 
-  if (loading) return <div className={styles.loader}><CircularProgress /></div>;
+  const handleEnroll = async () => {
+    try {
+      await api.post(`/courses/${courseId}/enroll/${user.id}`);
+      alert("Enrolled successfully!");
+      setEnrolled(true);
+      navigate(`/dashboard/courses/${courseId}`);
+    } catch (err) {
+      console.log(err);
+      alert("Enrollment failed or already enrolled.");
+    }
+  };
+
+  if (loading) return <div className={styles.loading}><CircularProgress /></div>;
+
+  if (!course) return <div className={styles.error}>Course not found.</div>;
 
   return (
     <div className={styles.container}>
-      <Typography variant="h4">{course?.title}</Typography>
-      <Typography variant="body1">{course?.description}</Typography>
+      <img src={course.thumbnail_url || "/images/default-course.jpg"} alt={course.title} className={styles.thumbnail} />
 
-      {modules.map((module) => (
-        <Accordion key={module.id} className={styles.module}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={styles.moduleTitle}>{module.title}</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography variant="body2">{module.description}</Typography>
+      <div className={styles.info}>
+        <h1 className={styles.title}>{course.title}</h1>
+        <p className={styles.instructor}>Instructor: <strong>{course.instructor?.name}</strong></p>
+        <p className={styles.category}>Category: <span>{course.category?.name}</span></p>
+        <p className={styles.description}>{course.description}</p>
 
-            <div className={styles.lessonList}>
-              {lessonsByModule[module.id]?.map((lesson) => (
-                <div key={lesson.id} className={styles.lessonItem}>
-                  <div className={styles.lessonTitle}>{lesson.title}</div>
-                  <div className={styles.lessonType}>
-                    Type: {lesson.content_type} | Duration: {lesson.duration} mins
-                  </div>
-                </div>
-              ))}
-            </div>
-          </AccordionDetails>
-        </Accordion>
-      ))}
+        {!enrolled && user?.role === "student" && (
+          <button className={styles.enrollBtn} onClick={handleEnroll}>
+            Enroll Now
+          </button>
+        )}
+
+        {enrolled && (
+          <button className={styles.continueBtn} onClick={() => navigate(`/dashboard/courses/${courseId}`)}>
+            Continue Course →
+          </button>
+        )}
+      </div>
     </div>
   );
 };

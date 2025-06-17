@@ -43,6 +43,7 @@ const RegisterForm = () => {
   const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const {
     handleSubmit,
@@ -68,6 +69,7 @@ const RegisterForm = () => {
     };
 
     try {
+      setLoading(true);
       const res = await axios.post(
         "http://localhost:5000/api/auth/register",
         payload,
@@ -76,26 +78,19 @@ const RegisterForm = () => {
 
       if (res.data.success) {
         login(res.data.user);
-        const redirectByRole = (role) => {
-  switch (role) {
-    case 'admin':
-      return navigate('/dashboard/admin');
-    case 'instructor':
-      return navigate('/dashboard/instructor');
-    case 'student':
-    default:
-      return navigate('/dashboard');
-  }
-};
 
-redirectByRole(res.data.user.role);
-
+        const role = res.data.user.role;
+        if (role === "admin") navigate("/dashboard/admin");
+        else if (role === "instructor") navigate("/dashboard/instructor");
+        else navigate("/dashboard");
       } else {
         alert(res.data.message || "Registration failed");
       }
     } catch (error) {
       console.error("Registration error:", error);
       alert(error.response?.data?.message || "Validation failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -220,8 +215,9 @@ redirectByRole(res.data.user.role);
             variant="contained"
             fullWidth
             className={styles.submitBtn}
+            disabled={loading}
           >
-            Sign Up
+            {loading ? "Creating Account..." : "Sign Up"}
           </Button>
 
           <p className={styles.authRedirect}>

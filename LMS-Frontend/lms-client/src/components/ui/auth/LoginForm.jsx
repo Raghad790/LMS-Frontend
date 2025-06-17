@@ -1,4 +1,3 @@
-// components/ui/auth/LoginForm.jsx
 import styles from './LoginForm.module.css';
 import { TextField, Button, InputAdornment, IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -12,10 +11,7 @@ import { useAuth } from "../../../hooks/useAuth";
 import { useState } from "react";
 
 const schema = yup.object().shape({
-  email: yup
-    .string()
-    .email("Enter a valid email")
-    .required("Email is required"),
+  email: yup.string().email("Enter a valid email").required("Email is required"),
   password: yup.string().required("Password is required"),
 });
 
@@ -38,31 +34,18 @@ const LoginForm = () => {
 
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        data,
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axios.post("http://localhost:5000/api/auth/login", data, {
+        withCredentials: true,
+      });
 
       if (res.data.success) {
         login(res.data.user);
 
         // ✅ Role-based redirection
-        const redirectByRole = (role) => {
-          switch (role) {
-            case "admin":
-              return navigate("/dashboard/admin");
-            case "instructor":
-              return navigate("/dashboard/instructor");
-            case "student":
-            default:
-              return navigate("/dashboard");
-          }
-        };
-
-        redirectByRole(res.data.user.role);
+        const role = res.data.user.role;
+        if (role === "admin") navigate("/dashboard/admin");
+        else if (role === "instructor") navigate("/dashboard/instructor");
+        else navigate("/dashboard");
       } else {
         alert(res.data.message || "Login failed");
       }
@@ -81,11 +64,7 @@ const LoginForm = () => {
         <GoogleLoginButton />
         <p className={styles.orText}>Or log in with email</p>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className={styles.form}
-          noValidate
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form} noValidate>
           <Controller
             name="email"
             control={control}
@@ -116,10 +95,7 @@ const LoginForm = () => {
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => setShowPassword((prev) => !prev)}
-                        edge="end"
-                      >
+                      <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>

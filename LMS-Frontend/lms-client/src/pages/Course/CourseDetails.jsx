@@ -1,4 +1,4 @@
-import CourseDetailsView from "../../../features/student/components/CourseDetailsView";
+import CourseDetailsView from "../../features/student/components/CourseDetailsView";
 
 const CourseDetails = () => {
   return <CourseDetailsView />;

@@ -1,0 +1,53 @@
+.section {
+  padding: 4rem 2rem;
+  background: #f9f9ff;
+  text-align: center;
+}
+
+.heading {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  background: linear-gradient(to right, #7f56da, #9f44ff);
+  -webkit-background-clip: text; /* Vendor-prefixed property */
+  background-clip: text; /* Standard property */
+  color: transparent;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  justify-content: center;
+  padding-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .heading {
+    font-size: 1.5rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+.viewAll {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.button {
+  background: linear-gradient(to right, #7f56da, #a149df);
+  padding: 12px 28px;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.button:hover {
+  background: linear-gradient(to right, #6c3ecb, #943fd2);
+}

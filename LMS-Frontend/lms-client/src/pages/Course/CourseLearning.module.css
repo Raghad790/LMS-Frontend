@@ -1,0 +1,67 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #3f3f46;
+}
+
+.overview {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.modulesList {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.moduleCard {
+  background-color: #f9f9fe;
+  border: 1px solid #e2e8f0;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.moduleCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.moduleTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #3f3f46;
+  margin-bottom: 0.5rem;
+}
+
+.lessonList {
+  list-style: none;
+  padding-left: 1rem;
+}
+
+.lessonItem {
+  color: #6b7280;
+  padding: 0.4rem 0;
+  cursor: pointer;
+}
+
+.lessonItem:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modulesList {
+    grid-template-columns: 1fr;
+  }
+}

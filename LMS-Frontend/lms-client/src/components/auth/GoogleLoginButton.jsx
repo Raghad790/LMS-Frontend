@@ -1,9 +1,9 @@
 import { Button } from '@mui/material';
-import GoogleIcon from '@mui/icons-material/Google'; // Optional, for icon
+import GoogleIcon from '@mui/icons-material/Google'; 
 
 const GoogleLoginButton = ({ fullWidth = true }) => {
   const handleGoogleLogin = () => {
-    window.location.href = 'http://localhost:5000/api/auth/google'; // or your actual backend URL
+    window.location.href = 'http://localhost:5000/api/auth/google';
   };
 
   return (
