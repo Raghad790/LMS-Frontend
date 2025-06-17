@@ -1,0 +1,201 @@
+/* File: src/features/instructor/styles/InstructorDashboard.module.css */
+
+.dashboard {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.25rem;
+  color: #333;
+}
+
+.header p {
+  color: #666;
+  font-size: 1rem;
+}
+
+.statsContainer {
+  display: flex;
+  gap: 1.5rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.statCard {
+  flex: 1;
+  min-width: 220px;
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.statCard h3 {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.statValue {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #007BFF;
+}
+
+.actionsContainer h2,
+.sectionHeader h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.actionButton {
+  background-color: #007BFF;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.actionButton:hover {
+  background-color: #0056b3;
+}
+
+.recentCourses {
+  margin-top: 3rem;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.viewAllButton {
+  background: transparent;
+  border: 1px solid #007BFF;
+  color: #007BFF;
+  padding: 0.5rem 1rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.viewAllButton:hover {
+  background-color: #007BFF;
+  color: #fff;
+}
+
+.loading,
+.empty {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.createButton {
+  background-color: #28a745;
+  color: #fff;
+  padding: 0.6rem 1.25rem;
+  border: none;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.createButton:hover {
+  background-color: #218838;
+}
+
+.courseCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.courseCard {
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.thumbnail {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.courseInfo {
+  padding: 1rem;
+}
+
+.courseInfo h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+  color: #333;
+}
+
+.status span {
+  font-weight: 600;
+  color: #17a2b8;
+}
+
+.students {
+  font-size: 0.95rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+.cardActions {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid #eee;
+  background: #f9f9f9;
+}
+
+.cardActions button {
+  background: #ffc107;
+  color: #000;
+  border: none;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.cardActions button:hover {
+  background-color: #e0a800;
+}
+
+@media screen and (max-width: 600px) {
+  .statsContainer,
+  .actionButtons {
+    flex-direction: column;
+  }
+
+  .viewAllButton,
+  .createButton,
+  .actionButton {
+    width: 100%;
+  }
+}

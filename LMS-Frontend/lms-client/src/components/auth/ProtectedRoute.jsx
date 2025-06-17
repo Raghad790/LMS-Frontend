@@ -1,12 +1,13 @@
-
+// src/components/auth/ProtectedRoute.jsx
 import { Navigate } from 'react-router-dom';
 import { useAuth } from "../../hooks/useAuth";
+
 const ProtectedRoute = ({ children, role }) => {
   const { user } = useAuth();
 
   // 1. Not logged in → redirect to login
   if (!user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   // 2. Logged in but wrong role → redirect to unauthorized page

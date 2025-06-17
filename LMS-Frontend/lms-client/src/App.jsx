@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
-
 // Public Pages
 import Home from "./pages/Home/Home";
 import Login from "./pages/Auth/LoginPage/Login";
@@ -28,7 +27,19 @@ import CourseLearning from "./pages/Course/CourseLearning"; // 📚 student-only
 // Lessons
 import LessonViewer from "./features/student/components/LessonViewer"; // ⬅ correct path
 
+//Instructor
+// At the top of App.jsx, add these imports
+import InstructorCourseManager from "./features/instructor/components/InstructorCourseManager";
+import CourseEditor from "./features/instructor/components/CourseEditor";
+import ModuleManager from "./features/instructor/components/ModuleManager";
+import LessonEditor from "./features/instructor/components/LessonEditor";
+import CourseStudents from "./features/instructor/components/CourseStudents";
+ import QuizBuilder from "./features/instructor/components/QuizBuilder";
+ import QuizManagement from "./features/instructor/components/QuizManagement";
+ import CourseAnalytics from "./features/instructor/components/CourseAnalytics";
+ import DiscussionManagement from "./features/instructor/components/DiscussionManagement";
 function App() {
+  
   const { loading } = useAuth();
 
   if (loading) return <div>Loading...</div>;
@@ -70,6 +81,21 @@ function App() {
         }
       >
         <Route index element={<InstructorDashboard />} />
+        <Route path="courses" element={<InstructorCourseManager />} />
+        <Route path="courses/create" element={<CourseEditor />} />
+        <Route path="courses/edit/:courseId" element={<CourseEditor />} />
+        <Route path="courses/:courseId/modules" element={<ModuleManager />} />
+        <Route
+          path="modules/:moduleId/lessons/create"
+          element={<LessonEditor />}
+        />
+        <Route path="lessons/:lessonId/edit" element={<LessonEditor />} />
+        <Route path="courses/:courseId/students" element={<CourseStudents />} />
+        <Route path="courses/:courseId/quizzes" element={<QuizManagement />} />
+  <Route path="courses/:courseId/quizzes/create" element={<QuizBuilder />} />
+  <Route path="courses/:courseId/quizzes/:quizId/edit" element={<QuizBuilder />} />
+  <Route path="courses/:courseId/analytics" element={<CourseAnalytics />} />
+  <Route path="courses/:courseId/discussions" element={<DiscussionManagement />} />
       </Route>
 
       {/* 🔐 Admin Routes */}

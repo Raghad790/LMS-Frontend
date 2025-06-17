@@ -1,0 +1,189 @@
+/* File: src/features/instructor/styles/ModuleManager.module.css */
+
+.moduleManager {
+  padding: 2rem;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.header h1 {
+  font-size: 1.75rem;
+  color: #333;
+}
+
+.backButton {
+  background: transparent;
+  border: 1px solid #ccc;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  color: #555;
+  font-weight: 500;
+}
+
+.backButton:hover {
+  color: #007BFF;
+  border-color: #007BFF;
+}
+
+.newModuleForm {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.moduleInput {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  min-width: 250px;
+}
+
+.addButton {
+  background: #007BFF;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.addButton:hover {
+  background-color: #0056b3;
+}
+
+.empty {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.moduleList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.moduleItem {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  padding: 1.5rem;
+}
+
+.moduleHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.dragHandle {
+  cursor: grab;
+  font-size: 1.2rem;
+  color: #666;
+  margin-right: 0.5rem;
+}
+
+.deleteButton {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.4rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.deleteButton:hover {
+  background-color: #c82333;
+}
+
+.lessonList {
+  padding-left: 1.25rem;
+  border-left: 3px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.lessonItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8f9fa;
+  padding: 0.5rem 1rem;
+  border-radius: 0.4rem;
+}
+
+.editButton {
+  background: #ffc107;
+  color: #000;
+  border: none;
+  padding: 0.3rem 0.75rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.editButton:hover {
+  background-color: #e0a800;
+}
+
+.addLessonButton {
+  margin-top: 1rem;
+  align-self: flex-start;
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.4rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.addLessonButton:hover {
+  background-color: #218838;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+@media screen and (max-width: 600px) {
+  .moduleHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .lessonItem {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .newModuleForm {
+    flex-direction: column;
+  }
+
+  .addButton,
+  .moduleInput {
+    width: 100%;
+  }
+}
