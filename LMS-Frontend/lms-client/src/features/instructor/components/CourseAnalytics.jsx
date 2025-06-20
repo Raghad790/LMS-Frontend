@@ -1,14 +1,13 @@
-// LMS-Frontend/lms-client/src/features/instructor/components/CourseAnalytics.jsx
-
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { toast } from "react-toastify";
+import api from "../../../services/api";
 import {
   LineChart, Line, BarChart, Bar, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
 } from "recharts";
 import styles from "./CourseAnalytics.module.css";
+import { ArrowLeft, Users, UserCheck, Award, TrendingUp, Loader } from "lucide-react";
 
 const CourseAnalytics = () => {
   const { courseId } = useParams();
@@ -32,11 +31,11 @@ const CourseAnalytics = () => {
         setLoading(true);
         
         // Fetch course details
-        const courseResponse = await axios.get(`/api/courses/${courseId}`);
+        const courseResponse = await api.get(`/courses/${courseId}`);
         setCourse(courseResponse.data.data);
         
         // Fetch analytics data
-        const analyticsResponse = await axios.get(`/api/courses/${courseId}/analytics`);
+        const analyticsResponse = await api.get(`/courses/${courseId}/analytics`);
         setAnalytics(analyticsResponse.data.data);
       } catch (error) {
         toast.error("Failed to load analytics data");
@@ -55,16 +54,21 @@ const CourseAnalytics = () => {
     return `${date.getMonth() + 1}/${date.getDate()}`;
   };
   
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"];
+  const COLORS = ["#8367ff", "#ff6b8b", "#41ce8e", "#ffab49", "#5abdf9"];
   
   if (loading) {
-    return <div className={styles.loading}>Loading analytics data...</div>;
+    return (
+      <div className={styles.loadingContainer}>
+        <Loader size={40} className={styles.loadingSpinner} />
+        <p>Loading analytics data...</p>
+      </div>
+    );
   }
   
   return (
     <div className={styles.analytics}>
       <div className={styles.header}>
-        <div>
+        <div className={styles.headerInfo}>
           <h1>Course Analytics</h1>
           <p className={styles.courseTitle}>{course?.title || "Unknown Course"}</p>
         </div>
@@ -73,7 +77,8 @@ const CourseAnalytics = () => {
           className={styles.backButton}
           onClick={() => navigate(`/dashboard/instructor/courses/edit/${courseId}`)}
         >
-          Back to Course
+          <ArrowLeft size={16} />
+          <span>Back to Course</span>
         </button>
       </div>
       
@@ -81,23 +86,43 @@ const CourseAnalytics = () => {
         {/* Summary Cards */}
         <div className={styles.statsCards}>
           <div className={styles.statCard}>
-            <div className={styles.statValue}>{analytics.totalStudents}</div>
-            <div className={styles.statLabel}>Total Students</div>
+            <div className={styles.statIcon}>
+              <Users size={22} />
+            </div>
+            <div className={styles.statInfo}>
+              <div className={styles.statValue}>{analytics.totalStudents}</div>
+              <div className={styles.statLabel}>Total Students</div>
+            </div>
           </div>
           
           <div className={styles.statCard}>
-            <div className={styles.statValue}>{analytics.activeStudents}</div>
-            <div className={styles.statLabel}>Active Students</div>
+            <div className={styles.statIcon}>
+              <UserCheck size={22} />
+            </div>
+            <div className={styles.statInfo}>
+              <div className={styles.statValue}>{analytics.activeStudents}</div>
+              <div className={styles.statLabel}>Active Students</div>
+            </div>
           </div>
           
           <div className={styles.statCard}>
-            <div className={styles.statValue}>{analytics.completionRate}%</div>
-            <div className={styles.statLabel}>Completion Rate</div>
+            <div className={styles.statIcon}>
+              <Award size={22} />
+            </div>
+            <div className={styles.statInfo}>
+              <div className={styles.statValue}>{analytics.completionRate}%</div>
+              <div className={styles.statLabel}>Completion Rate</div>
+            </div>
           </div>
           
           <div className={styles.statCard}>
-            <div className={styles.statValue}>{analytics.avgProgress}%</div>
-            <div className={styles.statLabel}>Avg. Progress</div>
+            <div className={styles.statIcon}>
+              <TrendingUp size={22} />
+            </div>
+            <div className={styles.statInfo}>
+              <div className={styles.statValue}>{analytics.avgProgress}%</div>
+              <div className={styles.statLabel}>Avg. Progress</div>
+            </div>
           </div>
         </div>
         
@@ -111,19 +136,28 @@ const CourseAnalytics = () => {
                   ...item,
                   date: formatDate(item.date)
                 }))}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
               >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip />
+                <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
+                <XAxis dataKey="date" tick={{ fill: "#666" }} />
+                <YAxis tick={{ fill: "#666" }} />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: "white", 
+                    borderRadius: "8px",
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                    border: "none"
+                  }} 
+                />
                 <Legend />
                 <Line
                   type="monotone"
                   dataKey="count"
                   name="New Enrollments"
-                  stroke="#8884d8"
-                  activeDot={{ r: 8 }}
+                  stroke="#8367ff"
+                  strokeWidth={2}
+                  dot={{ fill: "#8367ff", stroke: "#8367ff", r: 4 }}
+                  activeDot={{ r: 6, fill: "#8367ff", stroke: "white", strokeWidth: 2 }}
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -137,14 +171,30 @@ const CourseAnalytics = () => {
             <ResponsiveContainer width="100%" height={300}>
               <BarChart
                 data={analytics.moduleCompletion}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
+                barSize={30}
               >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
+                <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
+                <XAxis dataKey="name" tick={{ fill: "#666" }} />
+                <YAxis tick={{ fill: "#666" }} />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: "white", 
+                    borderRadius: "8px",
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                    border: "none"
+                  }} 
+                />
                 <Legend />
-                <Bar dataKey="completion_rate" name="Completion %" fill="#82ca9d" />
+                <Bar 
+                  dataKey="completion_rate" 
+                  name="Completion %" 
+                  radius={[4, 4, 0, 0]}
+                >
+                  {analytics.moduleCompletion.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -157,15 +207,33 @@ const CourseAnalytics = () => {
             <ResponsiveContainer width="100%" height={300}>
               <BarChart
                 data={analytics.quizStats}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
+                barSize={20}
               >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="quiz_title" />
-                <YAxis />
-                <Tooltip />
+                <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
+                <XAxis dataKey="quiz_title" tick={{ fill: "#666" }} />
+                <YAxis tick={{ fill: "#666" }} />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: "white", 
+                    borderRadius: "8px",
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                    border: "none"
+                  }} 
+                />
                 <Legend />
-                <Bar dataKey="avg_score" name="Average Score" fill="#8884d8" />
-                <Bar dataKey="passing_rate" name="Passing Rate %" fill="#82ca9d" />
+                <Bar 
+                  dataKey="avg_score" 
+                  name="Average Score" 
+                  fill="#8367ff" 
+                  radius={[4, 4, 0, 0]}
+                />
+                <Bar 
+                  dataKey="passing_rate" 
+                  name="Passing Rate %" 
+                  fill="#ff6b8b"
+                  radius={[4, 4, 0, 0]}
+                />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -181,26 +249,37 @@ const CourseAnalytics = () => {
                   ...item,
                   week: formatDate(item.start_date)
                 }))}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
               >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="week" />
-                <YAxis />
-                <Tooltip />
+                <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
+                <XAxis dataKey="week" tick={{ fill: "#666" }} />
+                <YAxis tick={{ fill: "#666" }} />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: "white", 
+                    borderRadius: "8px",
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                    border: "none"
+                  }} 
+                />
                 <Legend />
                 <Line
                   type="monotone"
                   dataKey="active_users"
                   name="Active Students"
-                  stroke="#8884d8"
-                  activeDot={{ r: 8 }}
+                  stroke="#8367ff"
+                  strokeWidth={2}
+                  dot={{ fill: "#8367ff", stroke: "#8367ff", r: 4 }}
+                  activeDot={{ r: 6, fill: "#8367ff", stroke: "white", strokeWidth: 2 }}
                 />
                 <Line
                   type="monotone"
                   dataKey="content_views"
                   name="Content Views"
-                  stroke="#82ca9d"
-                  activeDot={{ r: 8 }}
+                  stroke="#ff6b8b"
+                  strokeWidth={2}
+                  dot={{ fill: "#ff6b8b", stroke: "#ff6b8b", r: 4 }}
+                  activeDot={{ r: 6, fill: "#ff6b8b", stroke: "white", strokeWidth: 2 }}
                 />
               </LineChart>
             </ResponsiveContainer>

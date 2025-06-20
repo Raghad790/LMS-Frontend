@@ -1,116 +1,505 @@
-/* File: src/features/instructor/styles/CourseEditor.module.css */
-
-.courseEditor {
-  max-width: 800px;
-  margin: auto;
-  padding: 2rem;
-  background: #fff;
-  border-radius: 1rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+.courseEditorPage {
+  width: 100%;
+  padding: 0 0 2rem;
 }
 
-.courseEditor h1 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  color: #333;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--primary);
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  padding: 0.5rem 0;
+}
+
+.backButton:hover {
+  color: var(--secondary);
+}
+
+.title {
+  font-size: 1.75rem;
+  margin: 0;
+  color: var(--text-dark);
+  font-weight: 700;
+}
+
+.courseEditorContent {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+.courseEditor {
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+}
+
+.formSection {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--divider-color);
+}
+
+.formSection:last-child {
+  border-bottom: none;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.25rem;
+  margin: 0 0 1.5rem;
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.sectionTitle svg {
+  color: var(--primary);
 }
 
 .formGroup {
-  display: flex;
-  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+.formGroup:last-child {
+  margin-bottom: 0;
 }
 
 .formGroup label {
-  font-weight: 600;
+  display: block;
+  font-weight: 500;
   margin-bottom: 0.5rem;
-  color: #444;
+  color: var(--text-medium);
+  font-size: 0.95rem;
+}
+
+.inputWrapper {
+  position: relative;
 }
 
 .formGroup input,
 .formGroup select,
 .formGroup textarea {
-  padding: 0.75rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 0.5rem;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
   font-size: 1rem;
-  transition: border 0.2s ease;
+  background-color: white;
+  transition: all var(--transition-fast);
+  color: var(--text-dark);
+  font-family: var(--font-family);
 }
 
 .formGroup input:focus,
 .formGroup select:focus,
 .formGroup textarea:focus {
-  border-color: #007BFF;
+  border-color: var(--primary);
   outline: none;
+  box-shadow: 0 0 0 3px rgba(131, 103, 255, 0.1);
 }
 
-.error {
-  color: #dc3545;
-  font-size: 0.9rem;
-  margin-top: 0.25rem;
+.inputError {
+  border-color: var(--error) !important;
 }
 
-.checkboxGroup {
+.errorMessage {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 1rem;
-  color: #333;
+  gap: 6px;
+  color: var(--error);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.priceInput {
+  position: relative;
+}
+
+.priceIcon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--subtext-color);
+}
+
+.priceInput input {
+  padding-left: 2.5rem !important;
+}
+
+.toggleSwitch {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.toggleSwitch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switchLabel {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--text-medium);
+  user-select: none;
+}
+
+.switchToggle {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 24px;
+  background-color: var(--border-color);
+  border-radius: 34px;
+  margin-right: 12px;
+  transition: var(--transition-fast);
+}
+
+.switchToggle::before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: var(--transition-fast);
+}
+
+.toggleSwitch input:checked + .switchLabel .switchToggle {
+  background: var(--gradient-primary);
+}
+
+.toggleSwitch input:checked + .switchLabel .switchToggle::before {
+  transform: translateX(22px);
 }
 
 .buttons {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
+  margin-top: 1rem;
+}
+
+.cancelButton,
+.submitButton {
+  padding: 0.8rem 1.5rem;
+  border-radius: var(--radius-full);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-normal);
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .cancelButton {
-  background: transparent;
-  color: #666;
-  border: 1px solid #ccc;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
+  background-color: white;
+  color: var(--text-medium);
+  border: 1px solid var(--border-color);
+}
+
+.cancelButton:hover {
+  border-color: var(--subtext-color);
+  color: var(--text-dark);
 }
 
 .submitButton {
-  background: #007BFF;
-  color: #fff;
+  background: var(--gradient-primary);
+  color: white;
   border: none;
-  padding: 0.5rem 1.5rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(131, 103, 255, 0.3);
 }
 
 .submitButton:hover {
-  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(131, 103, 255, 0.4);
 }
 
-.loading {
-  text-align: center;
+.submitButton:disabled,
+.cancelButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.buttonIcon {
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.thumbnailUpload {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.fileInput {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.thumbnailLabel {
+  display: block;
+  cursor: pointer;
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: var(--transition-fast);
+}
+
+.thumbnailLabel:hover {
+  border-color: var(--primary);
+}
+
+.uploadPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 2rem;
-  font-size: 1.2rem;
-  color: #555;
+  color: var(--subtext-color);
+  text-align: center;
 }
 
-@media screen and (max-width: 600px) {
-  .courseEditor {
-    padding: 1rem;
-  }
+.uploadPlaceholder svg {
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
 
-  .buttons {
+.uploadPlaceholder p {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.uploadPlaceholder span {
+  font-size: 0.85rem;
+}
+
+.thumbnailPreview {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+/* Course Preview section */
+.previewContainer {
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  height: fit-content;
+  position: sticky;
+  top: 2rem;
+}
+
+.previewTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  margin: 0;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--divider-color);
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.coursePreview {
+  overflow: hidden;
+}
+
+.coursePreviewImage {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+}
+
+.coursePreviewImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholderImage {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #f4f4f7, #e9e9f0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--subtext-color);
+}
+
+.coursePreviewContent {
+  padding: 1.5rem;
+}
+
+.previewCourseTitle {
+  font-size: 1.2rem;
+  margin: 0 0 1rem;
+  color: var(--text-dark);
+  line-height: 1.4;
+}
+
+.courseLevel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.coursePrice {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--divider-color);
+}
+
+.priceTag {
+  font-size: 1.4rem;
+  font-weight: 700;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.freeTag {
+  display: inline-block;
+  padding: 0.3rem 1rem;
+  background: var(--gradient-light);
+  color: var(--primary);
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* Loading state */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  text-align: center;
+  color: var(--text-medium);
+}
+
+.loadingSpinner {
+  color: var(--primary);
+  animation: spin 1.5s linear infinite;
+  margin-bottom: 1rem;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 1200px) {
+  .courseEditorContent {
+    grid-template-columns: 3fr 2fr;
+  }
+  
+  .formSection {
+    padding: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .courseEditorContent {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .previewContainer {
+    position: static;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header {
     flex-direction: column;
-    align-items: stretch;
+    align-items: flex-start;
   }
-
-  .cancelButton,
-  .submitButton {
+  
+  .formRow {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .buttons {
+    flex-direction: column-reverse;
+  }
+  
+  .submitButton, .cancelButton {
     width: 100%;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .formSection {
+    padding: 1.25rem;
+  }
+  
+  .previewTitle, .sectionTitle {
+    padding: 1.25rem;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .uploadPlaceholder {
+    padding: 1.5rem;
   }
 }

@@ -1,0 +1,477 @@
+.gradingPage {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(127, 86, 218, 0.1);
+  color: #7f56da;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.backButton:hover {
+  background: rgba(127, 86, 218, 0.2);
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #7f56da, #ea6fb8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0;
+}
+
+.gradingContainer {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 2rem;
+}
+
+.submissionInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.infoCard {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  border: 1px solid #f0f0f0;
+  height: fit-content;
+}
+
+.cardHeader {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f9f9ff;
+}
+
+.cardHeader h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cardHeader h2 svg {
+  color: #7f56da;
+}
+
+.cardContent {
+  padding: 1.5rem;
+}
+
+.cardContent h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.assignmentDescription {
+  color: #555;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.detailsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.detailItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.detailLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.detailValue {
+  font-weight: 500;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.studentInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.studentAvatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.studentAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarFallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #7f56da, #ea6fb8);
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.studentDetails {
+  flex: 1;
+}
+
+.studentDetails h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1.2rem;
+}
+
+.studentDetails p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.submissionDetails {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.lateSubmission {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.submissionPreview {
+  width: 100%;
+  height: 400px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f9f9ff;
+}
+
+.pdfPreview {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.imagePreview {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.filePreview {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+
+.filePreview svg {
+  color: #7f56da;
+  margin-bottom: 1rem;
+}
+
+.viewFileButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(127, 86, 218, 0.1);
+  color: #7f56da;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: 1rem;
+  transition: all 0.2s ease;
+}
+
+.viewFileButton:hover {
+  background: rgba(127, 86, 218, 0.2);
+}
+
+.textSubmission {
+  background: #f9f9ff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  height: 400px;
+  overflow-y: auto;
+}
+
+.textContent {
+  color: #333;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.noSubmission {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+
+.noSubmission svg {
+  color: #7f56da;
+  margin-bottom: 1rem;
+}
+
+.gradedBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(72, 187, 120, 0.1);
+  color: #48bb78;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.gradingForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formGroup label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.required {
+  color: #e53e3e;
+  margin-left: 0.25rem;
+}
+
+.gradeInput {
+  padding: 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.gradeInput:focus {
+  outline: none;
+  border-color: #7f56da;
+  box-shadow: 0 0 0 2px rgba(127, 86, 218, 0.2);
+}
+
+.feedbackInput {
+  padding: 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  width: 100%;
+  resize: vertical;
+  min-height: 120px;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.feedbackInput:focus {
+  outline: none;
+  border-color: #7f56da;
+  box-shadow: 0 0 0 2px rgba(127, 86, 218, 0.2);
+}
+
+.submitButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(90deg, #7f56da, #ea6fb8);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+
+.submitButton:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.submitButton:disabled {
+  background: #e0e0e0;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.downloadButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  background: rgba(127, 86, 218, 0.1);
+  color: #7f56da;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.downloadButton:hover {
+  background: rgba(127, 86, 218, 0.2);
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0;
+  color: #7f56da;
+}
+
+.loadingSpinner {
+  animation: spin 1.5s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 992px) {
+  .gradingContainer {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .gradingPage {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .detailsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .studentAvatar {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .submissionPreview,
+  .textSubmission {
+    height: 300px;
+  }
+}
+
+@media (max-width: 576px) {
+  .gradingPage {
+    padding: 1rem;
+    border-radius: 0;
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .cardHeader {
+    padding: 0.75rem 1rem;
+  }
+  
+  .cardContent {
+    padding: 1rem;
+  }
+  
+  .studentInfo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .submitButton {
+    width: 100%;
+  }
+}

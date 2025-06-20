@@ -1,0 +1,292 @@
+.section {
+  padding: 5rem 0;
+  background-color: #f9f9ff;
+  overflow: hidden;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.titleGroup {
+  max-width: 600px;
+}
+
+.badge {
+  display: inline-block;
+  background: linear-gradient(90deg, rgba(127, 86, 218, 0.15), rgba(234, 111, 184, 0.15));
+  color: #7f56da;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, #7f56da, #ea6fb8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+.controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.controlBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  border: 1px solid #e0e0e0;
+  color: #444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.controlBtn:hover:not(.disabled) {
+  background: #7f56da;
+  border-color: #7f56da;
+  color: white;
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.instructorsTrack {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.instructorCard {
+  padding: 0 15px;
+  flex-shrink: 0;
+}
+
+.cardInner {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cardInner:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.imageWrapper {
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+}
+
+.instructorImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.cardInner:hover .instructorImage {
+  transform: scale(1.05);
+}
+
+.instructorInfo {
+  padding: 1.5rem;
+}
+
+.instructorName {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: #333;
+}
+
+.instructorTitle {
+  color: #7f56da;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.instructorBio {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.ratingWrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #f9a825;
+  font-weight: 600;
+}
+
+.statsDivider {
+  width: 1px;
+  height: 20px;
+  background-color: #e0e0e0;
+  margin: 0 10px;
+}
+
+.courseCount {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.courseCount span {
+  font-weight: 600;
+  color: #333;
+}
+
+.stats {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.studentsCount {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.studentsCount span {
+  font-weight: 600;
+  color: #333;
+}
+
+.viewProfileBtn {
+  display: inline-block;
+  width: 100%;
+  padding: 10px;
+  background: rgba(127, 86, 218, 0.1);
+  color: #7f56da;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.viewProfileBtn:hover {
+  background: #7f56da;
+  color: white;
+}
+
+.allInstructorsBtn {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.viewAllBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: linear-gradient(90deg, #7f56da, #ea6fb8);
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.viewAllBtn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.btnIcon {
+  transition: transform 0.3s ease;
+}
+
+.viewAllBtn:hover .btnIcon {
+  transform: translateX(4px);
+}
+
+@media (max-width: 992px) {
+  .title {
+    font-size: 2.2rem;
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .titleGroup {
+    max-width: 100%;
+  }
+  
+  .controls {
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.8rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+  }
+  
+  .section {
+    padding: 4rem 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .instructorCard {
+    padding: 0 10px;
+  }
+  
+  .imageWrapper {
+    height: 200px;
+  }
+}

@@ -1,131 +1,374 @@
-/* File: src/features/instructor/styles/LessonEditor.module.css */
-
-.lessonEditor {
-  max-width: 800px;
-  margin: auto;
-  padding: 2rem;
-  background: #fff;
-  border-radius: 1rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+.lessonEditorPage {
+  width: 100%;
+  padding-bottom: 2rem;
 }
 
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.header h1 {
-  font-size: 1.75rem;
-  font-weight: bold;
-  color: #333;
+  margin-bottom: 1.5rem;
 }
 
 .backButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   background: transparent;
-  border: 1px solid #ccc;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
+  color: var(--primary);
+  border: none;
+  font-size: 0.9rem;
   font-weight: 500;
-  color: #555;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  padding: 0.5rem 0;
 }
 
 .backButton:hover {
-  border-color: #007BFF;
-  color: #007BFF;
+  color: var(--secondary);
+}
+
+.lessonEditor {
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.editorHeader {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--divider-color);
+}
+
+.titleSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--text-dark);
+  font-weight: 700;
+}
+
+.moduleTitle,
+.courseTitle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-medium);
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+}
+
+.formSection {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--divider-color);
+}
+
+.formSection:last-child {
+  border-bottom: none;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.25rem;
+  margin: 0 0 1.5rem;
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.sectionTitle svg {
+  color: var(--primary);
 }
 
 .formGroup {
-  display: flex;
-  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+.formGroup:last-child {
+  margin-bottom: 0;
 }
 
 .formGroup label {
-  font-weight: 600;
+  display: block;
+  font-weight: 500;
   margin-bottom: 0.5rem;
-  color: #444;
+  color: var(--text-medium);
+  font-size: 0.95rem;
+}
+
+.inputWrapper {
+  position: relative;
 }
 
 .formGroup input,
+.formGroup select,
 .formGroup textarea {
-  padding: 0.75rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 0.5rem;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
   font-size: 1rem;
-  transition: border 0.2s ease;
+  background-color: white;
+  transition: all var(--transition-fast);
+  color: var(--text-dark);
+  font-family: var(--font-family);
 }
 
 .formGroup input:focus,
+.formGroup select:focus,
 .formGroup textarea:focus {
-  border-color: #007BFF;
+  border-color: var(--primary);
   outline: none;
+  box-shadow: 0 0 0 3px rgba(131, 103, 255, 0.1);
 }
 
-.error {
-  color: #dc3545;
+.inputError {
+  border-color: var(--error) !important;
+}
+
+.errorMessage {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--error);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.labelWithHelp {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.helpButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: var(--subtext-color);
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
+}
+
+.helpButton:hover {
+  color: var(--primary);
+  background-color: rgba(131, 103, 255, 0.05);
+}
+
+.markdownTips {
+  background-color: #f9fafe;
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--divider-color);
+}
+
+.markdownTips h4 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.markdownTips ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.markdownTips li {
+  margin-bottom: 0.25rem;
   font-size: 0.9rem;
-  margin-top: 0.25rem;
+  color: var(--text-medium);
+}
+
+.markdownTips code {
+  background-color: rgba(131, 103, 255, 0.1);
+  padding: 0.1rem 0.3rem;
+  border-radius: var(--radius-sm);
+  font-family: monospace;
+  color: var(--primary);
+}
+
+.positionInput {
+  position: relative;
+}
+
+.positionIcon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--subtext-color);
+}
+
+.positionInput input {
+  padding-left: 2.5rem !important;
+}
+
+.helperText {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--subtext-color);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
 }
 
 .buttons {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
-  flex-wrap: wrap;
+  padding: 1.5rem 2rem;
+  background-color: #f9fafe;
+}
+
+.cancelButton,
+.submitButton {
+  padding: 0.8rem 1.5rem;
+  border-radius: var(--radius-full);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-normal);
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .cancelButton {
-  background: transparent;
-  color: #666;
-  border: 1px solid #ccc;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
+  background-color: white;
+  color: var(--text-medium);
+  border: 1px solid var(--border-color);
+}
+
+.cancelButton:hover:not(:disabled) {
+  border-color: var(--subtext-color);
+  color: var(--text-dark);
 }
 
 .submitButton {
-  background: #007BFF;
-  color: #fff;
+  background: var(--gradient-primary);
+  color: white;
   border: none;
-  padding: 0.5rem 1.5rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(131, 103, 255, 0.3);
 }
 
-.submitButton:hover {
-  background-color: #0056b3;
+.submitButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(131, 103, 255, 0.4);
 }
 
-.loading {
+.submitButton:disabled,
+.cancelButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.buttonIcon {
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
   text-align: center;
-  padding: 2rem;
-  font-size: 1.2rem;
-  color: #555;
+  color: var(--text-medium);
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-@media screen and (max-width: 600px) {
-  .lessonEditor {
-    padding: 1rem;
-  }
+.loadingSpinner {
+  color: var(--primary);
+  animation: spin 1.5s linear infinite;
+  margin-bottom: 1rem;
+}
 
+/* Responsive styles */
+@media screen and (max-width: 992px) {
+  .formSection {
+    padding: 1.25rem 1.5rem;
+  }
+  
+  .editorHeader {
+    padding: 1.25rem 1.5rem;
+  }
+  
   .buttons {
-    flex-direction: column;
-    align-items: stretch;
+    padding: 1.25rem 1.5rem;
   }
+}
 
+@media screen and (max-width: 768px) {
+  .buttons {
+    flex-direction: column-reverse;
+    gap: 0.75rem;
+  }
+  
   .cancelButton,
   .submitButton {
     width: 100%;
+    justify-content: center;
+  }
+  
+  .labelWithHelp {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .helpButton {
+    padding: 0;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .formSection {
+    padding: 1rem 1.25rem;
+  }
+  
+  .editorHeader {
+    padding: 1rem 1.25rem;
+  }
+  
+  .buttons {
+    padding: 1rem 1.25rem;
+  }
+  
+  .title {
+    font-size: 1.35rem;
+  }
+  
+  .formGroup input,
+  .formGroup textarea {
+    padding: 0.7rem 0.9rem;
+    font-size: 0.95rem;
   }
 }

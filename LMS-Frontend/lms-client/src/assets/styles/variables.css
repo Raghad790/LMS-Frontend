@@ -1,14 +1,52 @@
 :root {
-  --primary: #7f56da;
-  --secondary: #ff7eb3;
+  /* Main colors - purple-pink gradient theme */
+  --primary: #8367ff;
+  --secondary: #ff6b8b;
   --accent: #e0d7f9;
-  --light-bg: #f9f9fe;
-
+  --light-bg: #f9fafe;
+  
+  /* Text colors */
   --text-dark: #2e2e2e;
+  --text-medium: #4a4a4a;
   --subtext-color: #6c6f7d;
-  --border-color: #dee2e6;
-
-  --shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+  
+  /* Border and UI colors */
+  --border-color: #e4e7ed;
+  --divider-color: #f0f1f7;
+  
+  /* Success, warning, error colors */
+  --success: #41ce8e;
+  --warning: #ffab49;
+  --error: #ff5c5c;
+  --info: #5abdf9;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 15px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #8367ff, #ff6b8b);
+  --gradient-light: linear-gradient(135deg, rgba(131, 103, 255, 0.1), rgba(255, 107, 139, 0.1));
+  
+  /* Typography */
   --font-family: 'Poppins', sans-serif;
-  --radius: 12px;
+  
+  /* Border radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+  
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
 }

@@ -1,0 +1,395 @@
+.assignmentListPage {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(127, 86, 218, 0.1);
+  color: #7f56da;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  width: fit-content;
+}
+
+.backButton:hover {
+  background: rgba(127, 86, 218, 0.2);
+}
+
+.titleArea {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #7f56da, #ea6fb8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0;
+}
+
+.courseTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.dateDisplay {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #f9f9ff;
+  border-radius: 8px;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 4rem 0;
+  background: #f9f9ff;
+  border-radius: 12px;
+  color: #666;
+}
+
+.emptyIcon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  color: #7f56da;
+  opacity: 0.5;
+}
+
+.emptyState h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.assignmentListContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.moduleSection {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.moduleTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.5rem;
+  color: #333;
+  margin: 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #eee;
+}
+
+.moduleTitle svg {
+  color: #7f56da;
+}
+
+.lessonSection {
+  margin-left: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.lessonTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.2rem;
+  color: #444;
+  margin: 0;
+  font-weight: 600;
+}
+
+.lessonTitle svg {
+  color: #7f56da;
+}
+
+.assignmentGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.assignmentCard {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  border: 1px solid #f0f0f0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.assignmentCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.assignmentDetails {
+  padding: 1.25rem;
+  flex-grow: 1;
+}
+
+.assignmentTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+  color: #333;
+}
+
+.assignmentMetadata {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #666;
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  background: #f9f9ff;
+}
+
+.deadlinePassed {
+  color: #ef4444;
+}
+
+.statusActive {
+  background: rgba(113, 128, 150, 0.1);
+  color: #718096;
+}
+
+.statusWarning {
+  background: rgba(237, 137, 54, 0.1);
+  color: #ed8936;
+}
+
+.statusPending {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.statusComplete {
+  background: rgba(72, 187, 120, 0.1);
+  color: #48bb78;
+}
+
+.assignmentDescription {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.5;
+  min-height: 40px;
+  max-height: 80px;
+  overflow: hidden;
+}
+
+.noDescription {
+  font-style: italic;
+  color: #999;
+}
+
+.assignmentActions {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem 1.25rem;
+  background: #f9f9ff;
+  border-top: 1px solid #f0f0f0;
+}
+
+.editButton,
+.deleteButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.editButton {
+  background: rgba(127, 86, 218, 0.1);
+  color: #7f56da;
+  flex: 1;
+}
+
+.editButton:hover {
+  background: rgba(127, 86, 218, 0.2);
+}
+
+.deleteButton {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.deleteButton:hover {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+.addAssignmentCard {
+  background: #f9f9ff;
+  border: 2px dashed #d0d0f0;
+  border-radius: 12px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  height: 100%;
+  min-height: 200px;
+}
+
+.addAssignmentCard:hover {
+  background: rgba(127, 86, 218, 0.05);
+  border-color: #7f56da;
+}
+
+.addAssignmentCard svg {
+  color: #7f56da;
+}
+
+.addAssignmentCard p {
+  color: #7f56da;
+  font-weight: 600;
+  margin: 0;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0;
+  color: #7f56da;
+}
+
+.loadingSpinner {
+  animation: spin 1.5s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 992px) {
+  .assignmentGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .assignmentListPage {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .assignmentGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .moduleSection {
+    gap: 1.5rem;
+  }
+  
+  .lessonSection {
+    margin-left: 0;
+  }
+  
+  .moduleTitle {
+    font-size: 1.3rem;
+  }
+  
+  .lessonTitle {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .assignmentListPage {
+    padding: 1rem;
+    border-radius: 0;
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .assignmentDetails {
+    padding: 1rem;
+  }
+  
+  .assignmentActions {
+    padding: 0.75rem 1rem;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .addAssignmentCard {
+    padding: 1.5rem;
+    min-height: 160px;
+  }
+}

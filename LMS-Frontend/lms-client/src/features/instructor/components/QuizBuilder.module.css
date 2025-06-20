@@ -1,255 +1,374 @@
-/* LMS-Frontend/lms-client/src/features/instructor/components/QuizBuilder.module.css */
-
-.quizBuilder {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
+.quizBuilderPage {
+  width: 100%;
+  padding-bottom: 2rem;
 }
 
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.header h1 {
-  margin: 0;
+  margin-bottom: 1.5rem;
 }
 
 .backButton {
-  padding: 8px 16px;
-  background-color: #f0f0f0;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
   display: flex;
   align-items: center;
   gap: 8px;
+  background: transparent;
+  color: var(--primary);
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  padding: 0.5rem 0;
 }
 
 .backButton:hover {
-  background-color: #e0e0e0;
+  color: var(--secondary);
 }
 
-.form {
-  background-color: white;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.quizBuilder {
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-.formGroup {
-  margin-bottom: 20px;
-  width: 100%;
+.builderHeader {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--divider-color);
 }
 
-.formGroup label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 500;
-}
-
-.formGroup input,
-.formGroup textarea,
-.formGroup select {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
-}
-
-.formRow {
+.titleSection {
   display: flex;
-  gap: 20px;
-  margin-bottom: 20px;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.questionsSection {
-  margin-top: 30px;
-}
-
-.sectionHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.sectionHeader h2 {
+.title {
+  font-size: 1.5rem;
   margin: 0;
+  color: var(--text-dark);
+  font-weight: 700;
 }
 
-.addButton {
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
+.courseTitle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-medium);
+}
+
+.builderContent {
+  padding: 1.5rem 2rem;
+}
+
+.questionFormSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sectionTitle {
   display: flex;
   align-items: center;
   gap: 8px;
+  font-size: 1.25rem;
+  margin: 0;
+  color: var(--text-dark);
+  font-weight: 600;
 }
 
-.addButton:hover {
-  background-color: #388e3c;
+.sectionTitle svg {
+  color: var(--primary);
 }
 
-.questionsList {
+.newQuestionForm {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 0.75rem;
 }
 
-.emptyState {
-  text-align: center;
-  padding: 40px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  border: 1px dashed #ddd;
-}
-
-.questionCard {
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.questionHeader {
+.inputGroup {
   display: flex;
-  align-items: center;
-  background-color: #f0f0f0;
-  padding: 10px 15px;
-  border-bottom: 1px solid #ddd;
+  gap: 1rem;
 }
 
-.dragHandle {
-  cursor: move;
-  margin-right: 10px;
-  color: #777;
-}
-
-.questionNumber {
-  font-weight: 500;
+.questionInput {
   flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  font-size: 0.95rem;
+  transition: var(--transition-fast);
 }
 
-.deleteQuestionButton {
-  background: none;
-  border: none;
-  color: #f44336;
-  cursor: pointer;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
+.questionInput:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(131, 103, 255, 0.1);
 }
 
-.questionContent {
-  padding: 15px;
-}
-
-.optionsSection {
-  margin-top: 15px;
-}
-
-.optionsSection label {
-  display: block;
-  margin-bottom: 10px;
-  font-weight: 500;
-}
-
-.optionsList {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.optionItem {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.optionItem input[type="text"] {
-  flex: 1;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.deleteOptionButton {
-  background: none;
-  border: none;
-  color: #f44336;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-
-.deleteOptionButton:disabled {
-  color: #ccc;
+.questionInput:disabled {
+  background-color: #f9fafe;
   cursor: not-allowed;
 }
 
-.addOptionButton {
-  background: none;
-  border: 1px dashed #ccc;
-  color: #2196f3;
-  padding: 8px;
-  margin-top: 10px;
-  border-radius: 4px;
+.addButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.75rem 1.5rem;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-full);
+  font-weight: 500;
   cursor: pointer;
+  transition: var(--transition-normal);
+  box-shadow: 0 4px 15px rgba(131, 103, 255, 0.3);
+  white-space: nowrap;
+}
+
+.addButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(131, 103, 255, 0.4);
+}
+
+.addButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.helpText {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--subtext-color);
+  font-size: 0.85rem;
+}
+
+/* Empty state */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  background-color: #f9fafe;
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--border-color);
+}
+
+.emptyState svg {
+  color: var(--border-color);
+  margin-bottom: 1rem;
+}
+
+.emptyState h3 {
+  color: var(--text-dark);
+  margin: 0 0 0.75rem;
+  font-size: 1.25rem;
+}
+
+.emptyState p {
+  color: var(--text-medium);
+  margin: 0;
+  max-width: 400px;
+}
+
+/* Drag instructions */
+.dragInstructions {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  padding: 0.75rem;
+  background-color: #f9fafe;
+  color: var(--subtext-color);
+  font-size: 0.9rem;
+  font-style: italic;
+  border-radius: var(--radius-md);
 }
 
-.addOptionButton:hover {
-  background-color: #f0f0f0;
-}
-
-.trueFalseOptions {
+/* Question list */
+.questionList {
   display: flex;
-  gap: 30px;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.formActions {
+.questionItem {
+  position: relative;
+  display: grid;
+  grid-template-columns: 50px 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  transition: var(--transition-normal);
+}
+
+.questionItem:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.dragging {
+  box-shadow: var(--shadow-lg) !important;
+  border: 2px solid var(--primary) !important;
+  background-color: rgba(131, 103, 255, 0.02);
+}
+
+.questionNumber {
   display: flex;
-  justify-content: flex-end;
-  gap: 15px;
-  margin-top: 30px;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--gradient-light);
+  color: var(--primary);
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 0.9rem;
 }
 
-.cancelButton {
-  padding: 10px 20px;
-  background-color: #f0f0f0;
+.questionText {
+  flex: 1;
+  color: var(--text-dark);
+  font-size: 1rem;
+  word-break: break-word;
+}
+
+.questionActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dragHandle {
+  cursor: grab;
+  color: var(--subtext-color);
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
+}
+
+.dragHandle:hover {
+  color: var(--primary);
+  background-color: rgba(131, 103, 255, 0.1);
+}
+
+.deleteButton {
+  background: transparent;
   border: none;
-  border-radius: 4px;
+  padding: 0.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--error);
+  border-radius: var(--radius-sm);
   cursor: pointer;
+  transition: var(--transition-fast);
 }
 
-.submitButton {
-  padding: 10px 20px;
-  background-color: #2196f3;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+.deleteButton:hover:not(:disabled) {
+  background-color: rgba(255, 92, 92, 0.1);
 }
 
-.cancelButton:hover {
-  background-color: #e0e0e0;
+.deleteButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-.submitButton:hover {
-  background-color: #0b7dda;
-}
-
-.loading {
+/* Loading state */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
   text-align: center;
-  padding: 40px;
+  color: var(--text-medium);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.loadingSpinner {
+  color: var(--primary);
+  animation: spin 1.5s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive styles */
+@media screen and (max-width: 992px) {
+  .builderContent {
+    padding: 1.25rem 1.5rem;
+  }
+  
+  .builderHeader {
+    padding: 1.25rem 1.5rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .inputGroup {
+    flex-direction: column;
+  }
+  
+  .addButton {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .questionItem {
+    grid-template-columns: 40px 1fr;
+    grid-template-rows: auto auto;
+    gap: 0.5rem 0.75rem;
+  }
+  
+  .questionText {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  
+  .questionActions {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: flex-end;
+  }
+  
+  .questionNumber {
+    grid-column: 1;
+    grid-row: 1;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .builderContent {
+    padding: 1rem;
+  }
+  
+  .builderHeader {
+    padding: 1rem;
+  }
+  
+  .title {
+    font-size: 1.35rem;
+  }
 }
