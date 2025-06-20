@@ -34,12 +34,15 @@ import CourseEditor from "./features/instructor/components/CourseEditor";
 import ModuleManager from "./features/instructor/components/ModuleManager";
 import LessonEditor from "./features/instructor/components/LessonEditor";
 import CourseStudents from "./features/instructor/components/CourseStudents";
- import QuizBuilder from "./features/instructor/components/QuizBuilder";
- import QuizManagement from "./features/instructor/components/QuizManagement";
- import CourseAnalytics from "./features/instructor/components/CourseAnalytics";
- import DiscussionManagement from "./features/instructor/components/DiscussionManagement";
+import QuizBuilder from "./features/instructor/components/QuizBuilder";
+import QuizManagement from "./features/instructor/components/QuizManagement";
+import CourseAnalytics from "./features/instructor/components/CourseAnalytics";
+import DiscussionManagement from "./features/instructor/components/DiscussionManagement";
+import AssignmentList from "./features/instructor/components/AssignmentList";
+import SubmissionList from "./features/instructor/components/SubmissionList";
+import SubmissionGrading from "./features/instructor/components/SubmissionGrading";
+
 function App() {
-  
   const { loading } = useAuth();
 
   if (loading) return <div>Loading...</div>;
@@ -48,6 +51,7 @@ function App() {
     <Routes>
       {/* 🔓 Public Routes */}
       <Route path="/" element={<Home />} />
+
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/unauthorized" element={<Unauthorized />} />
@@ -84,18 +88,42 @@ function App() {
         <Route path="courses" element={<InstructorCourseManager />} />
         <Route path="courses/create" element={<CourseEditor />} />
         <Route path="courses/edit/:courseId" element={<CourseEditor />} />
+        <Route
+          path="courses/:courseId/analytics"
+          element={<CourseAnalytics />}
+        />
+        <Route path="courses/:courseId/students" element={<CourseStudents />} />
+        <Route
+          path="courses/:courseId/discussions"
+          element={<DiscussionManagement />}
+        />
         <Route path="courses/:courseId/modules" element={<ModuleManager />} />
         <Route
           path="modules/:moduleId/lessons/create"
           element={<LessonEditor />}
         />
         <Route path="lessons/:lessonId/edit" element={<LessonEditor />} />
-        <Route path="courses/:courseId/students" element={<CourseStudents />} />
         <Route path="courses/:courseId/quizzes" element={<QuizManagement />} />
-  <Route path="courses/:courseId/quizzes/create" element={<QuizBuilder />} />
-  <Route path="courses/:courseId/quizzes/:quizId/edit" element={<QuizBuilder />} />
-  <Route path="courses/:courseId/analytics" element={<CourseAnalytics />} />
-  <Route path="courses/:courseId/discussions" element={<DiscussionManagement />} />
+        <Route
+          path="courses/:courseId/quizzes/create"
+          element={<QuizBuilder />}
+        />
+        <Route
+          path="courses/:courseId/quizzes/:quizId/edit"
+          element={<QuizBuilder />}
+        />
+        <Route
+          path="courses/:courseId/assignments"
+          element={<AssignmentList />}
+        />
+        <Route
+          path="assignments/:assignmentId/submissions"
+          element={<SubmissionList />}
+        />
+        <Route
+          path="submissions/:submissionId/grade"
+          element={<SubmissionGrading />}
+        />
       </Route>
 
       {/* 🔐 Admin Routes */}

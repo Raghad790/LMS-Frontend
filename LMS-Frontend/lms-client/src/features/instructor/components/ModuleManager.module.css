@@ -1,189 +1,582 @@
-/* File: src/features/instructor/styles/ModuleManager.module.css */
-
 .moduleManager {
-  padding: 2rem;
-  max-width: 1100px;
-  margin: auto;
+  width: 100%;
+  padding-bottom: 2rem;
 }
 
+/* Header styling */
 .header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-bottom: 2rem;
 }
 
-.header h1 {
-  font-size: 1.75rem;
-  color: #333;
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .backButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   background: transparent;
-  border: 1px solid #ccc;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  color: #555;
+  color: var(--primary);
+  border: none;
+  font-size: 0.9rem;
   font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  padding: 0.5rem 0;
+  width: fit-content;
 }
 
 .backButton:hover {
-  color: #007BFF;
-  border-color: #007BFF;
+  color: var(--secondary);
+}
+
+.titleArea {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.title {
+  font-size: 1.75rem;
+  margin: 0;
+  color: var(--text-dark);
+  font-weight: 700;
+}
+
+.courseTitle {
+  font-size: 1rem;
+  color: var(--subtext-color);
+  margin: 0;
+}
+
+.dateDisplay {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--subtext-color);
+  padding: 0.5rem 1rem;
+  background-color: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Stats cards */
+.statsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.statCard {
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition-normal);
+}
+
+.statCard:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.statIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(131, 103, 255, 0.15), rgba(255, 107, 139, 0.15));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+}
+
+.statInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.statValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.statLabel {
+  font-size: 0.875rem;
+  color: var(--subtext-color);
+}
+
+/* Module container */
+.moduleContainer {
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.moduleContainerHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--divider-color);
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sectionTitle h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.sectionTitle svg {
+  color: var(--primary);
 }
 
 .newModuleForm {
   display: flex;
   gap: 1rem;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
+  flex: 1;
+  max-width: 500px;
 }
 
 .moduleInput {
   flex: 1;
   padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  min-width: 250px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-color);
+  font-size: 0.95rem;
+  transition: var(--transition-fast);
+}
+
+.moduleInput:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(131, 103, 255, 0.1);
+}
+
+.moduleInput:disabled {
+  background-color: #f9fafe;
+  cursor: not-allowed;
 }
 
 .addButton {
-  background: #007BFF;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.75rem 1.5rem;
+  background: var(--gradient-primary);
   color: white;
   border: none;
-  padding: 0.75rem 1.25rem;
-  border-radius: 0.5rem;
+  border-radius: var(--radius-full);
+  font-weight: 500;
   cursor: pointer;
-  font-weight: 600;
+  transition: var(--transition-normal);
+  box-shadow: 0 4px 15px rgba(131, 103, 255, 0.3);
+  white-space: nowrap;
 }
 
-.addButton:hover {
-  background-color: #0056b3;
+.addButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(131, 103, 255, 0.4);
 }
 
-.empty {
-  text-align: center;
-  font-size: 1.1rem;
-  color: #666;
+.addButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-.moduleList {
+/* Empty state */
+.emptyState {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.emptyIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+  background: var(--gradient-light);
+  border-radius: 50%;
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+}
+
+.emptyState h3 {
+  color: var(--text-dark);
+  margin: 0 0 0.75rem;
+  font-size: 1.25rem;
+}
+
+.emptyState p {
+  color: var(--text-medium);
+  margin: 0;
+  max-width: 400px;
+}
+
+/* Drag instructions */
+.dragInstructions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0.75rem;
+  background-color: #f9fafe;
+  color: var(--subtext-color);
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+/* Module list */
+.moduleList {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .moduleItem {
-  background: #fff;
-  border-radius: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  padding: 1.5rem;
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  transition: var(--transition-normal);
 }
 
+.moduleItem:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.dragging {
+  box-shadow: var(--shadow-lg) !important;
+  border: 2px solid var(--primary) !important;
+  background-color: rgba(131, 103, 255, 0.02);
+}
+
+/* Module header */
 .moduleHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 1rem 1.25rem;
+  background-color: #f9fafe;
+  border-bottom: 1px solid var(--divider-color);
+}
+
+.moduleHeaderLeft {
+  display: flex;
+  align-items: center;
   gap: 1rem;
-  margin-bottom: 1rem;
 }
 
 .dragHandle {
   cursor: grab;
-  font-size: 1.2rem;
-  color: #666;
-  margin-right: 0.5rem;
+  color: var(--subtext-color);
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
 }
 
+.dragHandle:hover {
+  color: var(--primary);
+  background-color: rgba(131, 103, 255, 0.1);
+}
+
+.moduleInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.moduleInfo h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.lessonCount {
+  font-size: 0.85rem;
+  color: var(--subtext-color);
+}
+
+.moduleActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.expandButton,
 .deleteButton {
-  background: #dc3545;
-  color: white;
-  border: none;
-  padding: 0.4rem 0.8rem;
-  border-radius: 0.4rem;
-  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background: white;
+  color: var(--text-medium);
   cursor: pointer;
+  transition: var(--transition-fast);
 }
 
-.deleteButton:hover {
-  background-color: #c82333;
+.expandButton:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background-color: rgba(131, 103, 255, 0.05);
 }
 
+.deleteButton:hover:not(:disabled) {
+  border-color: var(--error);
+  color: var(--error);
+  background-color: rgba(255, 92, 92, 0.05);
+}
+
+.deleteButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Module content */
+.moduleContent {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Lesson list */
 .lessonList {
-  padding-left: 1.25rem;
-  border-left: 3px solid #eee;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  border-left: 3px solid var(--divider-color);
+  padding-left: 1.25rem;
 }
 
 .lessonItem {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #f8f9fa;
-  padding: 0.5rem 1rem;
-  border-radius: 0.4rem;
+  padding: 0.75rem 1rem;
+  background: #f9fafe;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--divider-color);
+  transition: var(--transition-fast);
+}
+
+.lessonItem:hover {
+  background: white;
+  border-color: var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.lessonInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text-medium);
+}
+
+.lessonInfo svg {
+  color: var(--primary);
+}
+
+.noLessons {
+  padding: 1rem;
+  text-align: center;
+  color: var(--subtext-color);
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: var(--radius-md);
+}
+
+.noLessons p {
+  margin: 0;
+  font-style: italic;
 }
 
 .editButton {
-  background: #ffc107;
-  color: #000;
-  border: none;
-  padding: 0.3rem 0.75rem;
-  border-radius: 0.3rem;
-  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.5rem 1rem;
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  color: var(--text-medium);
   font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--transition-fast);
 }
 
-.editButton:hover {
-  background-color: #e0a800;
+.editButton:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary);
+  background-color: rgba(131, 103, 255, 0.05);
+}
+
+.editButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .addLessonButton {
-  margin-top: 1rem;
-  align-self: flex-start;
-  background: #28a745;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.75rem 1.25rem;
+  background-color: white;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  border-radius: var(--radius-full);
   font-weight: 500;
   cursor: pointer;
+  transition: var(--transition-fast);
+  align-self: flex-start;
+  margin-top: 0.5rem;
 }
 
-.addLessonButton:hover {
-  background-color: #218838;
+.addLessonButton:hover:not(:disabled) {
+  background-color: rgba(131, 103, 255, 0.05);
+  transform: translateY(-2px);
 }
 
-.loading {
-  text-align: center;
+.addLessonButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Loading state */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
   padding: 2rem;
-  font-size: 1.2rem;
-  color: #555;
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
 }
 
-@media screen and (max-width: 600px) {
+.loadingSpinner {
+  color: var(--primary);
+  animation: spin 1.5s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive styles */
+@media screen and (max-width: 992px) {
+  .moduleContainerHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .newModuleForm {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
   .moduleHeader {
     flex-direction: column;
     align-items: flex-start;
+    gap: 1rem;
   }
-
+  
+  .moduleHeaderLeft {
+    width: 100%;
+  }
+  
+  .moduleActions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  
   .lessonItem {
     flex-direction: column;
     align-items: flex-start;
+    gap: 0.75rem;
   }
+  
+  .editButton {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .addLessonButton {
+    width: 100%;
+    justify-content: center;
+    align-self: stretch;
+  }
+}
 
+@media screen and (max-width: 576px) {
   .newModuleForm {
     flex-direction: column;
+    gap: 0.75rem;
   }
-
-  .addButton,
-  .moduleInput {
+  
+  .addButton {
     width: 100%;
+    justify-content: center;
+  }
+  
+  .moduleList {
+    padding: 1rem;
+  }
+  
+  .moduleContent {
+    padding: 1rem;
+  }
+  
+  .title {
+    font-size: 1.5rem;
   }
 }

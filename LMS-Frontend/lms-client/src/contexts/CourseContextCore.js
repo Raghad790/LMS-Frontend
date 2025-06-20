@@ -1,6 +1,13 @@
-// LMS-Frontend/lms-client/src/contexts/CourseContextCore.js
-// This file ONLY creates and exports the context
+// src/contexts/CourseContextCore.jsx
 import { createContext } from "react";
 
-// Just create and export the context - nothing else
-export const CourseContext = createContext(null);
+export const CourseContext = createContext({
+  courses: [],
+  enrolledCourses: [],
+  instructorCourses: [],
+  loading: true,
+  fetchPublicCourses: () => {},
+  fetchEnrolledCourses: () => {},
+  fetchInstructorCourses: () => {},
+  enrollInCourse: () => {}
+});

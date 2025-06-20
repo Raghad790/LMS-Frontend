@@ -1,0 +1,572 @@
+.submissionListPage {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(127, 86, 218, 0.1);
+  color: #7f56da;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  width: fit-content;
+}
+
+.backButton:hover {
+  background: rgba(127, 86, 218, 0.2);
+}
+
+.titleArea {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #7f56da, #ea6fb8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0;
+}
+
+.assignmentTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.lessonTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0.25rem 0 0;
+}
+
+.assignmentDetails {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.submissionControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background: #f9f9ff;
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+.searchBox {
+  position: relative;
+  flex-grow: 1;
+  max-width: 400px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #7f56da;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #7f56da;
+  box-shadow: 0 0 0 2px rgba(127, 86, 218, 0.2);
+}
+
+.filtersContainer {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filterGroup,
+.sortGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.filterGroup label,
+.sortGroup label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.filterOptions {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+}
+
+.filterOptions button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  color: #666;
+}
+
+.activeFilter {
+  background: #7f56da !important;
+  color: white !important;
+  font-weight: 600;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdownToggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #333;
+  min-width: 150px;
+}
+
+.dropdownToggle:hover {
+  background: #f5f5f5;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  z-index: 100;
+  display: none;
+  overflow: hidden;
+}
+
+.dropdown:hover .dropdownMenu {
+  display: block;
+}
+
+.dropdownMenu button {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border: none;
+  background: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.dropdownMenu button:hover {
+  background: #f5f5f5;
+}
+
+.submissionStats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.statCard {
+  background: white;
+  border-radius: 10px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #f0f0f0;
+}
+
+.statCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.statValue {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: #7f56da;
+  line-height: 1;
+}
+
+.statLabel {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 3rem 0;
+  background: #f9f9ff;
+  border-radius: 12px;
+  color: #666;
+}
+
+.emptyState svg {
+  color: #7f56da;
+  opacity: 0.5;
+  margin-bottom: 1rem;
+}
+
+.emptyState h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.submissionsTable {
+  overflow-x: auto;
+}
+
+.submissionsTable table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.submissionsTable th {
+  text-align: left;
+  padding: 1rem;
+  background: #f9f9ff;
+  color: #333;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-bottom: 2px solid #eee;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submissionsTable th:hover {
+  background: #f0f0ff;
+}
+
+.submissionsTable td {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+}
+
+.studentCell {
+  min-width: 220px;
+}
+
+.studentInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.studentAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7f56da, #ea6fb8);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.studentName {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.studentEmail {
+  font-size: 0.85rem;
+  color: #777;
+  font-weight: normal;
+}
+
+.submissionTime {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.lateIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-left: 0.5rem;
+}
+
+.fileLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  background: rgba(127, 86, 218, 0.1);
+  color: #7f56da;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  width: fit-content;
+}
+
+.fileLink:hover {
+  background: rgba(127, 86, 218, 0.2);
+}
+
+.textSubmission {
+  display: inline-block;
+  padding: 0.4rem 0.75rem;
+  background: rgba(45, 55, 72, 0.1);
+  color: #2d3748;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.gradeStatus {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.gradeHigh {
+  background: rgba(72, 187, 120, 0.1);
+  color: #48bb78;
+}
+
+.gradeMedium {
+  background: rgba(237, 137, 54, 0.1);
+  color: #ed8936;
+}
+
+.gradeLow {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.notGraded {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  background: rgba(113, 128, 150, 0.1);
+  color: #718096;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.gradeButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(90deg, #7f56da, #ea6fb8);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.gradeButton:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0;
+  color: #7f56da;
+}
+
+.loadingSpinner {
+  animation: spin 1.5s linear infinite;
+  margin-bottom: 1rem;
+}
+
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0;
+  color: #ef4444;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 992px) {
+  .filtersContainer {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .searchBox {
+    max-width: none;
+    width: 100%;
+  }
+  
+  .submissionListPage {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .assignmentDetails {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+  
+  .submissionStats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .filterGroup, .sortGroup {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .submissionsTable {
+    font-size: 0.9rem;
+  }
+  
+  .submissionsTable th, 
+  .submissionsTable td {
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .submissionListPage {
+    padding: 1rem;
+    border-radius: 0;
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .submissionStats {
+    grid-template-columns: 1fr;
+  }
+  
+  .studentAvatar {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+  
+  .submissionsTable {
+    font-size: 0.85rem;
+  }
+  
+  .fileLink, .textSubmission, .gradeButton {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+  }
+  
+  .gradeStatus, .notGraded {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+  }
+}

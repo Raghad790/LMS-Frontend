@@ -1,7 +1,6 @@
-// src/features/ui/auth/LoginForm.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from './LoginForm.module.css';
-import { TextField, Button, InputAdornment, IconButton, Alert } from "@mui/material";
+import { TextField, Button, InputAdornment, IconButton, Alert, CircularProgress } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
@@ -10,6 +9,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import GoogleLoginButton from "../../../components/auth/GoogleLoginButton";
 import { useAuth } from "../../../hooks/useAuth";
 import api from "../../../services/api";
+import { Mail, Lock, ArrowRight } from "lucide-react";
+import logo from "../../../assets/images/logo.png";
 
 const schema = yup.object().shape({
   email: yup.string().email("Enter a valid email").required("Email is required"),
@@ -22,6 +23,12 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [animateIn, setAnimateIn] = useState(false);
+
+  useEffect(() => {
+    // Trigger animation after component mounts
+    setAnimateIn(true);
+  }, []);
 
   const {
     handleSubmit,
@@ -88,80 +95,160 @@ const LoginForm = () => {
 
   return (
     <div className={styles.pageContainer}>
-      <div className={styles.loginCard}>
-        <h2 className={styles.title}>Welcome Back to Khatwa!</h2>
-        <p className={styles.subtitle}>Use your email or Google account</p>
+      <div className={`${styles.authWrapper} ${animateIn ? styles.animateIn : ''}`}>
+        {/* Left Side - Form */}
+        <div className={styles.formSide}>
+          <div className={styles.logoContainer}>
+            <img src={logo} alt="Khatwa" className={styles.logo} />
+            <h3 className={styles.logoText}>Khatwa</h3>
+          </div>
 
-        <GoogleLoginButton />
-        <p className={styles.orText}>Or log in with email</p>
+          <div className={styles.loginCard}>
+            <h2 className={styles.title}>Welcome Back!</h2>
+            <p className={styles.subtitle}>Log in to continue your learning journey</p>
 
-        {error && (
-          <Alert severity="error" sx={{ mb: 2, width: '100%' }}>
-            {error}
-          </Alert>
-        )}
-
-        <form onSubmit={handleSubmit(onSubmit)} className={styles.form} noValidate>
-          <Controller
-            name="email"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Your Email"
-                fullWidth
-                margin="normal"
-                error={!!errors.email}
-                helperText={errors.email?.message}
-                disabled={isLoading}
-              />
+            {error && (
+              <Alert 
+                severity="error" 
+                className={styles.alert}
+                onClose={() => setError("")}
+              >
+                {error}
+              </Alert>
             )}
-          />
 
-          <Controller
-            name="password"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Password"
-                type={showPassword ? "text" : "password"}
+            <form onSubmit={handleSubmit(onSubmit)} className={styles.form} noValidate>
+              <div className={styles.inputGroup}>
+                <label className={styles.inputLabel}>
+                  <Mail size={18} />
+                  <span>Email</span>
+                </label>
+                <Controller
+                  name="email"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      placeholder="your.email@example.com"
+                      fullWidth
+                      variant="outlined"
+                      error={!!errors.email}
+                      helperText={errors.email?.message}
+                      disabled={isLoading}
+                      className={styles.textField}
+                      InputProps={{
+                        classes: {
+                          root: styles.input,
+                          focused: styles.focusedInput,
+                        }
+                      }}
+                    />
+                  )}
+                />
+              </div>
+
+              <div className={styles.inputGroup}>
+                <label className={styles.inputLabel}>
+                  <Lock size={18} />
+                  <span>Password</span>
+                </label>
+                <Controller
+                  name="password"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      placeholder="••••••••"
+                      type={showPassword ? "text" : "password"}
+                      fullWidth
+                      variant="outlined"
+                      error={!!errors.password}
+                      helperText={errors.password?.message}
+                      disabled={isLoading}
+                      className={styles.textField}
+                      InputProps={{
+                        classes: {
+                          root: styles.input,
+                          focused: styles.focusedInput,
+                        },
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton 
+                              onClick={() => setShowPassword((prev) => !prev)}
+                              edge="end"
+                              disabled={isLoading}
+                              className={styles.visibilityIcon}
+                            >
+                              {showPassword ? 
+                                <VisibilityOff className={styles.icon} /> : 
+                                <Visibility className={styles.icon} />
+                              }
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  )}
+                />
+              </div>
+
+              <Button
+                variant="contained"
+                type="submit"
                 fullWidth
-                margin="normal"
-                error={!!errors.password}
-                helperText={errors.password?.message}
+                className={styles.submitBtn}
                 disabled={isLoading}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton 
-                        onClick={() => setShowPassword((prev) => !prev)}
-                        edge="end"
-                        disabled={isLoading}
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            )}
-          />
+              >
+                {isLoading ? (
+                  <CircularProgress size={24} className={styles.loadingSpinner} />
+                ) : (
+                  <>
+                    Log In <ArrowRight size={18} className={styles.btnIcon} />
+                  </>
+                )}
+              </Button>
 
-          <Button
-            variant="contained"
-            type="submit"
-            fullWidth
-            className={styles.submitBtn}
-            disabled={isLoading}
-          >
-            {isLoading ? "Logging in..." : "Log In"}
-          </Button>
+              <div className={styles.divider}>
+                <span>OR</span>
+              </div>
 
-          <p className={styles.authRedirect}>
-            Don't have an account? <Link to="/register">Sign up for free</Link>
-          </p>
-        </form>
+              <GoogleLoginButton className={styles.googleButton} />
+
+              <p className={styles.authRedirect}>
+                Don't have an account yet? <Link to="/register">Create an account</Link>
+              </p>
+            </form>
+          </div>
+        </div>
+
+        {/* Right Side - Image/Design */}
+        <div className={styles.imageSide}>
+          <div className={styles.contentWrapper}>
+            <h2 className={styles.welcomeTitle}>Welcome to Khatwa!</h2>
+            <p className={styles.welcomeText}>
+              Your journey to new skills and knowledge starts here. 
+              Log in to continue learning or create an account to get started.
+            </p>
+            <div className={styles.features}>
+              <div className={styles.featureItem}>
+                <div className={styles.featureIcon}>✓</div>
+                <div className={styles.featureText}>Expert-led courses</div>
+              </div>
+              <div className={styles.featureItem}>
+                <div className={styles.featureIcon}>✓</div>
+                <div className={styles.featureText}>Interactive learning</div>
+              </div>
+              <div className={styles.featureItem}>
+                <div className={styles.featureIcon}>✓</div>
+                <div className={styles.featureText}>Flexible study plans</div>
+              </div>
+            </div>
+          </div>
+          <div className={styles.shapesContainer}>
+            <div className={styles.shape1}></div>
+            <div className={styles.shape2}></div>
+          </div>
+        </div>
       </div>
     </div>
   );
