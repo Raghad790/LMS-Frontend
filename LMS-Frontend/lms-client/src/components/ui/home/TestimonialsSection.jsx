@@ -1,158 +1,297 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "./TestimonialsSection.module.css";
-import { Quote } from "lucide-react";
+import { Quote, Star, ChevronLeft, ChevronRight } from "lucide-react";
+import pic1 from "../../../assets/images/omar.jpg";
+import pic2 from "../../../assets/images/lelia.jpg";
+import pic3 from "../../../assets/images/faisel.jpg";
 
 const TestimonialsSection = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isInView, setIsInView] = useState(false);
+  const [autoplayEnabled, setAutoplayEnabled] = useState(true);
+  const [progressWidth, setProgressWidth] = useState(0);
+  const [animationClass, setAnimationClass] = useState("");
+  const sectionRef = useRef(null);
+  const intervalRef = useRef(null);
+
   const testimonials = [
     {
       id: 1,
       name: "Omar Al-Farsi",
-      role: "Web Developer",
+      role: "Full-stack Developer",
       company: "Tech Innovate",
-      image: "https://via.placeholder.com/100",
-      text: "Khatwa completely transformed my career path. I went from basic coding knowledge to becoming a full-stack developer in just 6 months. The structured curriculum and hands-on projects gave me real-world skills that employers value.",
-      rating: 5
+      image: pic1,
+      text: "The web development courses on Khatwa completely transformed my career. The instructors explain complex concepts in a way that's easy to understand, and the hands-on projects prepared me for real-world challenges.",
+      rating: 5,
+      course: "Advanced React & Node.js Bootcamp",
     },
     {
       id: 2,
       name: "Leila Nasser",
       role: "UX Designer",
       company: "Creative Solutions",
-      image: "https://via.placeholder.com/100",
-      text: "After completing the UX/UI design courses on Khatwa, I was able to transition from graphic design to UX design seamlessly. The instructors were incredibly knowledgeable and supportive throughout my learning journey.",
-      rating: 5
+      image: pic2,
+      text: "The UX/UI design courses on Khatwa helped me transition from graphic design to UX. The curriculum is comprehensive and up-to-date with industry standards. I especially appreciated the portfolio projects and personalized feedback from instructors.",
+      rating: 5,
+      course: "Complete UX/UI Design Masterclass",
     },
     {
       id: 3,
       name: "Faisal Ibrahim",
       role: "Data Analyst",
       company: "Data Metrics",
-      image: "https://via.placeholder.com/100",
-      text: "As someone with zero background in data science, Khatwa made the learning process accessible and engaging. The step-by-step approach helped me build confidence and skills that I now use daily in my new role as a data analyst.",
-      rating: 5
+      image: pic3,
+      text: "As someone with zero background in data science, I was worried the content would be over my head. But Khatwa's step-by-step approach made the learning process accessible and engaging. The instructors are responsive and supportive.",
+      rating: 4,
+      course: "Data Science Fundamentals",
     },
-    {
-      id: 4,
-      name: "Zainab Khalid",
-      role: "Frontend Developer",
-      company: "WebSolutions",
-      image: "https://via.placeholder.com/100",
-      text: "The frontend development path on Khatwa is exceptional. I learned modern frameworks and best practices that made me stand out in job interviews. Within weeks of completing the courses, I received multiple job offers.",
-      rating: 5
-    }
   ];
-  
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [autoplay, setAutoplay] = useState(true);
-  
+
+  // Intersection Observer to detect when section is in view
   useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-  
-  useEffect(() => {
-    let interval;
-    if (autoplay) {
-      interval = setInterval(() => {
-        setActiveIndex(prev => (prev + 1) % testimonials.length);
-      }, 5000);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsInView(true);
+        } else {
+          setIsInView(false);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    // Store the ref value in a variable inside the effect
+    const currentRef = sectionRef.current;
+
+    if (currentRef) {
+      observer.observe(currentRef);
     }
-    
-    return () => clearInterval(interval);
-  }, [autoplay, testimonials.length]);
-  
-  const getVisibleCount = () => {
-    if (windowWidth >= 1200) return 3;
-    if (windowWidth >= 768) return 2;
-    return 1;
+
+    return () => {
+      // Use the stored reference value in the cleanup function
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, []);
+
+  // Add animation class when changing testimonials
+  useEffect(() => {
+    setAnimationClass("fadeIn");
+    const timer = setTimeout(() => {
+      setAnimationClass("");
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [activeIndex]);
+
+  // Auto-rotate testimonials when in view
+  useEffect(() => {
+    if (isInView && autoplayEnabled) {
+      intervalRef.current = setInterval(() => {
+        setActiveIndex((prev) =>
+          prev === testimonials.length - 1 ? 0 : prev + 1
+        );
+      }, 8000);
+    } else {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    }
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [isInView, autoplayEnabled, testimonials.length]);
+
+  const handlePrevious = () => {
+    setAutoplayEnabled(false);
+    setActiveIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+
+    // Re-enable autoplay after user interaction
+    setTimeout(() => {
+      setAutoplayEnabled(true);
+    }, 10000);
   };
-  
-  const visibleCount = getVisibleCount();
-  
-  const handleDotClick = (index) => {
+
+  const handleNext = () => {
+    setAutoplayEnabled(false);
+    setActiveIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+
+    // Re-enable autoplay after user interaction
+    setTimeout(() => {
+      setAutoplayEnabled(true);
+    }, 10000);
+  };
+
+  const handleIndicatorClick = (index) => {
+    if (index === activeIndex) return;
+
+    setAutoplayEnabled(false);
     setActiveIndex(index);
-    setAutoplay(false);
-    setTimeout(() => setAutoplay(true), 10000);
+
+    // Re-enable autoplay after user interaction
+    setTimeout(() => {
+      setAutoplayEnabled(true);
+    }, 10000);
   };
-  
+
+  // Calculate animation progress for the progress bar
+  useEffect(() => {
+    if (isInView && autoplayEnabled) {
+      const interval = setInterval(() => {
+        setProgressWidth((prev) => {
+          if (prev >= 100) {
+            return 0;
+          }
+          return prev + 0.5;
+        });
+      }, 40); // 8000ms / 100 = 80ms per 1%, but we use 0.5% increments
+
+      return () => clearInterval(interval);
+    } else {
+      setProgressWidth(0);
+    }
+  }, [isInView, autoplayEnabled, activeIndex]);
+
+  // Reset progress when active index changes
+  useEffect(() => {
+    setProgressWidth(0);
+  }, [activeIndex]);
+
   return (
-    <section className={styles.section}>
-      <div className={styles.shapesContainer}>
-        <div className={styles.shape1}></div>
-        <div className={styles.shape2}></div>
+    <section className={styles.section} ref={sectionRef}>
+      <div className={styles.gradientBackground}>
+        <div className={styles.gradientOverlay}></div>
+        <div className={styles.patternOverlay}></div>
+        <div className={styles.glowCircle}></div>
       </div>
-      
+
       <div className={styles.container}>
-        <div className={styles.header}>
-          <span className={styles.badge}>SUCCESS STORIES</span>
-          <h2 className={styles.title}>What Our Students Say</h2>
-          <p className={styles.subtitle}>
-            Hear from students who have changed their careers and lives with Khatwa
-          </p>
+        <div className={styles.testimonialHeader}>
+          <div
+            className={`${styles.headerContent} ${
+              isInView ? styles.animateIn : ""
+            }`}
+          >
+            <span className={styles.badge}>STUDENT VOICES</span>
+            <h2 className={styles.title}>What Our Students Say</h2>
+            <p className={styles.subtitle}>
+              Read authentic reviews from our community of learners
+            </p>
+          </div>
         </div>
-        
-        <div className={styles.testimonialSlider}>
-          <div className={styles.testimonialTrack} style={{ 
-            transform: `translateX(-${activeIndex * (100 / visibleCount)}%)`,
-            width: `${(testimonials.length / visibleCount) * 100}%`
-          }}>
-            {testimonials.map(testimonial => (
-              <div 
-                key={testimonial.id} 
-                className={styles.testimonialCard}
-                style={{ width: `${100 / testimonials.length * visibleCount}%` }}
-              >
-                <div className={styles.cardInner}>
-                  <div className={styles.quoteIcon}>
-                    <Quote size={24} />
-                  </div>
-                  
-                  <div className={styles.stars}>
-                    {[...Array(5)].map((_, i) => (
-                      <span 
-                        key={i} 
-                        className={`${styles.star} ${i < testimonial.rating ? styles.filled : ''}`}
-                      >
-                        ★
-                      </span>
-                    ))}
-                  </div>
-                  
-                  <p className={styles.testimonialText}>{testimonial.text}</p>
-                  
-                  <div className={styles.testimonialAuthor}>
-                    <img 
-                      src={testimonial.image} 
-                      alt={testimonial.name}
-                      className={styles.authorImage}
+
+        <div className={styles.testimonialWrapper}>
+          <div
+            key={activeIndex}
+            className={`${styles.testimonialCardWrapper} ${animationClass}`}
+          >
+            <div className={styles.testimonialCard}>
+              <div className={styles.testimonialCardInner}>
+                <div className={styles.quoteIconWrapper}>
+                  <Quote size={24} />
+                </div>
+
+                <div className={styles.testimonialRating}>
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      size={16}
+                      fill={
+                        i < testimonials[activeIndex].rating
+                          ? "#FFD700"
+                          : "none"
+                      }
+                      stroke={
+                        i < testimonials[activeIndex].rating
+                          ? "#FFD700"
+                          : "#e0e0e0"
+                      }
+                      className={styles.starIcon}
                     />
-                    <div className={styles.authorInfo}>
-                      <h4 className={styles.authorName}>{testimonial.name}</h4>
-                      <p className={styles.authorRole}>
-                        {testimonial.role} at {testimonial.company}
-                      </p>
-                    </div>
+                  ))}
+                </div>
+
+                <blockquote className={styles.testimonialText}>
+                  "{testimonials[activeIndex].text}"
+                </blockquote>
+
+                <div className={styles.courseInfo}>
+                  <div className={styles.courseChip}>
+                    Course: {testimonials[activeIndex].course}
+                  </div>
+                </div>
+
+                <div className={styles.testimonialFooter}>
+                  <img
+                    src={testimonials[activeIndex].image}
+                    alt={testimonials[activeIndex].name}
+                    className={styles.authorAvatar}
+                  />
+
+                  <div className={styles.authorInfo}>
+                    <h3 className={styles.authorName}>
+                      {testimonials[activeIndex].name}
+                    </h3>
+                    <p className={styles.authorTitle}>
+                      {testimonials[activeIndex].role} at{" "}
+                      {testimonials[activeIndex].company}
+                    </p>
                   </div>
                 </div>
               </div>
-            ))}
+
+              <div className={styles.testimonialDecor}>
+                <div className={styles.decorCircle1}></div>
+                <div className={styles.decorCircle2}></div>
+                <div className={styles.decorLine}></div>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.testimonialControls}>
+            <div className={styles.navigationButtons}>
+              <button
+                className={styles.navButton}
+                onClick={handlePrevious}
+                aria-label="Previous testimonial"
+              >
+                <ChevronLeft size={24} />
+              </button>
+
+              <button
+                className={styles.navButton}
+                onClick={handleNext}
+                aria-label="Next testimonial"
+              >
+                <ChevronRight size={24} />
+              </button>
+            </div>
+
+            <div className={styles.indicators}>
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  className={`${styles.indicator} ${
+                    index === activeIndex ? styles.activeIndicator : ""
+                  }`}
+                  onClick={() => handleIndicatorClick(index)}
+                  aria-label={`Go to testimonial ${index + 1}`}
+                  aria-current={index === activeIndex}
+                />
+              ))}
+            </div>
           </div>
         </div>
-        
-        <div className={styles.dots}>
-          {testimonials.map((_, index) => (
-            <button
-              key={index}
-              className={`${styles.dot} ${index === activeIndex ? styles.activeDot : ''}`}
-              onClick={() => handleDotClick(index)}
-              aria-label={`Testimonial ${index + 1}`}
-            />
-          ))}
+
+        <div className={styles.progressBarContainer}>
+          <div
+            className={styles.progressBar}
+            style={{ width: `${progressWidth}%` }}
+          ></div>
         </div>
       </div>
     </section>

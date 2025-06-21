@@ -1,0 +1,186 @@
+.faqSection {
+  padding: 5rem 0;
+  background-color: #f9f9ff;
+}
+
+.faqHeader {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.faqBadge {
+  display: inline-block;
+  background: rgba(127, 86, 218, 0.1);
+  color: #7f56da;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 8px 16px;
+  border-radius: 50px;
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+}
+
+.faqTitle {
+  font-size: 2.5rem !important;
+  font-weight: 800 !important;
+  margin-bottom: 1rem !important;
+  background: linear-gradient(90deg, #7f56da, #ea6fb8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+.faqDescription {
+  font-size: 1.125rem !important;
+  color: #666 !important;
+  max-width: 700px;
+  margin: 0 auto !important;
+  line-height: 1.6 !important;
+}
+
+.faqGrid {
+  margin-bottom: 4rem;
+}
+
+.accordion {
+  margin-bottom: 1rem !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+}
+
+.accordionSummary {
+  background-color: white;
+  padding: 0 1.5rem !important;
+}
+
+.accordionQuestion {
+  font-weight: 600 !important;
+  color: #333 !important;
+  font-size: 1.1rem !important;
+  padding: 1rem 0;
+}
+
+.accordionDetails {
+  padding: 0 1.5rem 1.5rem !important;
+  background-color: #fafafa;
+}
+
+.accordionAnswer {
+  color: #555 !important;
+  font-size: 1rem !important;
+  line-height: 1.7 !important;
+}
+
+.moreHelp {
+  text-align: center;
+  background-color: white;
+  padding: 3rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.moreHelpTitle {
+  font-weight: 700 !important;
+  color: #333 !important;
+  margin-bottom: 1rem !important;
+  font-size: 1.75rem !important;
+}
+
+.moreHelpDescription {
+  font-size: 1.1rem !important;
+  color: #666 !important;
+  margin-bottom: 2rem !important;
+  max-width: 600px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.moreHelpButton {
+  background: linear-gradient(90deg, #7f56da, #ea6fb8) !important;
+  padding: 12px 28px !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  border-radius: 8px !important;
+  text-transform: none !important;
+  box-shadow: 0 5px 15px rgba(127, 86, 218, 0.25) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.moreHelpButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(127, 86, 218, 0.35) !important;
+}
+
+@media (max-width: 992px) {
+  .faqTitle {
+    font-size: 2.2rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .faqSection {
+    padding: 4rem 0;
+  }
+  
+  .faqTitle {
+    font-size: 1.8rem !important;
+  }
+  
+  .faqDescription {
+    font-size: 1rem !important;
+  }
+  
+  .moreHelp {
+    padding: 2rem;
+  }
+  
+  .moreHelpTitle {
+    font-size: 1.5rem !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .faqSection {
+    padding: 3rem 0;
+  }
+  
+  .faqBadge {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+  
+  .faqHeader {
+    margin-bottom: 2.5rem;
+  }
+  
+  .accordion {
+    margin-bottom: 0.75rem !important;
+  }
+  
+  .accordionSummary {
+    padding: 0 1.25rem !important;
+  }
+  
+  .accordionQuestion {
+    font-size: 1rem !important;
+  }
+  
+  .accordionDetails {
+    padding: 0 1.25rem 1.25rem !important;
+  }
+  
+  .moreHelp {
+    padding: 1.5rem;
+  }
+  
+  .moreHelpDescription {
+    font-size: 1rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+  
+  .moreHelpButton {
+    padding: 10px 24px !important;
+  }
+}

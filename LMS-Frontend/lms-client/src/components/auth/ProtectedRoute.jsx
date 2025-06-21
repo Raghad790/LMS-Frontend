@@ -1,21 +1,37 @@
 // src/components/auth/ProtectedRoute.jsx
-import { Navigate } from 'react-router-dom';
-import { useAuth } from "../../hooks/useAuth";
+import { Navigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
-const ProtectedRoute = ({ children, role }) => {
-  const { user } = useAuth();
+// Fixed ProtectedRoute component to accept both role and children props
+const ProtectedRoute = ({ role, children }) => {
+  const { user, loading } = useAuth();
 
-  // 1. Not logged in → redirect to login
+  console.log(
+    "🔒 ProtectedRoute check - User:",
+    user?.name || "None",
+    "Role:",
+    user?.role || "None"
+  );
+
+  if (loading) {
+    return <div>Loading protected route...</div>;
+  }
+
+  // Check if user is authenticated
   if (!user) {
-    return <Navigate to="/login" replace />;
+    console.warn("⚠️ Access to protected route denied: No user");
+    return <Navigate to="/login" />;
   }
 
-  // 2. Logged in but wrong role → redirect to unauthorized page
+  // Check if user has required role (if specified)
   if (role && user.role !== role) {
-    return <Navigate to="/unauthorized" replace />;
+    console.warn(
+      `⚠️ Access to protected route denied: Required role ${role}, user has ${user.role}`
+    );
+    return <Navigate to="/unauthorized" />;
   }
 
-  // 3. Passed ✅
+  console.log("✅ Protected route access granted");
   return children;
 };
 

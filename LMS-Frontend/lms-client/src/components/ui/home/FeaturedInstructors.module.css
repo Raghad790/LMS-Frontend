@@ -1,7 +1,6 @@
 .section {
   padding: 5rem 0;
   background-color: #f9f9ff;
-  overflow: hidden;
 }
 
 .container {
@@ -11,21 +10,17 @@
 }
 
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
   margin-bottom: 3rem;
-  flex-wrap: wrap;
-  gap: 2rem;
-}
-
-.titleGroup {
-  max-width: 600px;
+  text-align: center;
 }
 
 .badge {
   display: inline-block;
-  background: linear-gradient(90deg, rgba(127, 86, 218, 0.15), rgba(234, 111, 184, 0.15));
+  background: linear-gradient(
+    90deg,
+    rgba(127, 86, 218, 0.15),
+    rgba(234, 111, 184, 0.15)
+  );
   color: #7f56da;
   font-size: 0.8rem;
   font-weight: 600;
@@ -39,254 +34,294 @@
   font-size: 2.5rem;
   font-weight: 800;
   margin-bottom: 1rem;
-  background: linear-gradient(90deg, #7f56da, #ea6fb8);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  display: inline-block;
+  color: #333;
 }
 
 .subtitle {
   font-size: 1.1rem;
   color: #666;
   line-height: 1.6;
+  max-width: 700px;
+  margin: 0 auto;
 }
 
-.controls {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.controlBtn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: white;
-  border: 1px solid #e0e0e0;
-  color: #444;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.controlBtn:hover:not(.disabled) {
-  background: #7f56da;
-  border-color: #7f56da;
-  color: white;
-}
-
-.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.instructorsTrack {
-  display: flex;
-  transition: transform 0.5s ease;
+.instructorsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
 }
 
 .instructorCard {
-  padding: 0 15px;
-  flex-shrink: 0;
-}
-
-.cardInner {
   background: white;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
-.cardInner:hover {
+.instructorCard:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
-.imageWrapper {
-  width: 100%;
-  height: 240px;
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.profileSection {
+  padding: 2rem;
+  text-align: center;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.profileImageWrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 1.5rem;
+  border-radius: 50%;
   overflow: hidden;
 }
 
-.instructorImage {
+.profileImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
 }
 
-.cardInner:hover .instructorImage {
-  transform: scale(1.05);
-}
-
-.instructorInfo {
-  padding: 1.5rem;
+.profileImageFallback {
+  display: none; /* Only shown if image fails to load */
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #7f56da, #ea6fb8);
+  color: white;
+  font-size: 3rem;
+  font-weight: 600;
+  align-items: center;
+  justify-content: center;
 }
 
 .instructorName {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 700;
-  margin-bottom: 0.25rem;
+  margin: 0 0 0.5rem;
   color: #333;
 }
 
 .instructorTitle {
+  font-size: 1rem;
   color: #7f56da;
-  font-size: 0.9rem;
-  margin-bottom: 0.75rem;
-  font-weight: 600;
+  margin: 0;
 }
 
-.instructorBio {
-  font-size: 0.9rem;
-  color: #666;
-  margin-bottom: 1rem;
-  line-height: 1.5;
-}
-
-.ratingWrapper {
+.statsSection {
   display: flex;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.rating {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  color: #f9a825;
-  font-weight: 600;
-}
-
-.statsDivider {
-  width: 1px;
-  height: 20px;
-  background-color: #e0e0e0;
-  margin: 0 10px;
-}
-
-.courseCount {
-  font-size: 0.9rem;
-  color: #666;
-}
-
-.courseCount span {
-  font-weight: 600;
-  color: #333;
-}
-
-.stats {
-  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 1rem;
-  margin-bottom: 1.25rem;
+  padding: 1.5rem;
+  background: #f9f9ff;
 }
 
-.studentsCount {
-  font-size: 0.9rem;
-  color: #666;
+.statItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #555;
 }
 
-.studentsCount span {
+.statIcon {
+  color: #7f56da;
+}
+
+.statValue {
   font-weight: 600;
-  color: #333;
 }
 
-.viewProfileBtn {
+.expertiseSection {
+  padding: 1.5rem;
+  flex-grow: 1;
+}
+
+.expertiseTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.expertiseTag {
   display: inline-block;
-  width: 100%;
-  padding: 10px;
+  padding: 0.3rem 0.8rem;
   background: rgba(127, 86, 218, 0.1);
   color: #7f56da;
-  text-align: center;
-  text-decoration: none;
-  font-weight: 600;
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border-radius: 20px;
 }
 
-.viewProfileBtn:hover {
-  background: #7f56da;
+.cardFooter {
+  padding: 1.5rem;
+  border-top: 1px solid rgba(127, 86, 218, 0.1);
+  text-align: center;
+  position: relative;
+}
+
+.cardFooter::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: 15%;
+  right: 15%;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #7f56da,
+    #ea6fb8,
+    transparent
+  );
+  border-radius: 3px;
+}
+
+.coursesButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem;
+  background: white;
+  color: #7f56da;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-image: linear-gradient(white, white),
+    linear-gradient(90deg, #7f56da, #ea6fb8);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+.coursesButton::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, #7f56da, #ea6fb8);
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s ease;
+  border-radius: 8px;
+}
+
+.coursesButton:hover {
   color: white;
 }
 
-.allInstructorsBtn {
-  margin-top: 3rem;
-  text-align: center;
+.coursesButton:hover::before {
+  transform: scaleX(1);
 }
 
-.viewAllBtn {
+.coursesButtonText {
+  position: relative;
+  z-index: 1;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+}
+
+.coursesButtonIcon {
+  margin-left: 8px;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 24px;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease;
+}
+
+.coursesButton:hover .coursesButtonIcon {
+  transform: translateX(4px);
+}
+
+/* If you prefer a more 3D effect, add this style */
+.instructorCard:hover .coursesButton {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(127, 86, 218, 0.2);
+}
+
+/* For a pulse effect when the component first appears */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(127, 86, 218, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(127, 86, 218, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(127, 86, 218, 0);
+  }
+}
+
+.instructorCard:nth-child(1) .coursesButton {
+  animation: pulse 2s infinite;
+  animation-delay: 0.5s;
+}
+
+.instructorCard:nth-child(2) .coursesButton {
+  animation: pulse 2s infinite;
+  animation-delay: 1s;
+}
+
+.instructorCard:nth-child(3) .coursesButton {
+  animation: pulse 2s infinite;
+  animation-delay: 1.5s;
+}
+
+.viewCoursesBtn {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
   background: linear-gradient(90deg, #7f56da, #ea6fb8);
   color: white;
   text-decoration: none;
   font-weight: 600;
   border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.viewAllBtn:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
-}
-
-.btnIcon {
-  transition: transform 0.3s ease;
-}
-
-.viewAllBtn:hover .btnIcon {
-  transform: translateX(4px);
+  width: 100%;
 }
 
 @media (max-width: 992px) {
   .title {
     font-size: 2.2rem;
   }
-  
-  .header {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  
-  .titleGroup {
-    max-width: 100%;
-  }
-  
-  .controls {
-    margin-top: 1rem;
-  }
 }
 
 @media (max-width: 768px) {
+  .instructorsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+
   .title {
     font-size: 1.8rem;
-  }
-  
-  .subtitle {
-    font-size: 1rem;
-  }
-  
-  .section {
-    padding: 4rem 0;
   }
 }
 
 @media (max-width: 576px) {
+  .section {
+    padding: 3rem 0;
+  }
+
+  .instructorsGrid {
+    grid-template-columns: 1fr;
+  }
+
   .title {
-    font-size: 1.5rem;
-  }
-  
-  .instructorCard {
-    padding: 0 10px;
-  }
-  
-  .imageWrapper {
-    height: 200px;
+    font-size: 1.6rem;
   }
 }

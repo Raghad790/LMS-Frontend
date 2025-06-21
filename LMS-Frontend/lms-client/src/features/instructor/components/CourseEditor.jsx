@@ -28,10 +28,16 @@ const FALLBACK_CATEGORIES = [
   { id: 4, name: "Marketing" },
 ];
 
-// Updated schema - removed price validation
+// Updated schema - added min length validation for description
 const courseSchema = yup.object().shape({
-  title: yup.string().required("Course title is required"),
-  description: yup.string().required("Description is required"),
+  title: yup
+    .string()
+    .required("Course title is required")
+    .min(5, "Title must be at least 5 characters"),
+  description: yup
+    .string()
+    .required("Description is required")
+    .min(10, "Description must be at least 10 characters"),
   level: yup.string().required("Please select a difficulty level"),
   category_id: yup.string().required("Please select a category"),
   is_published: yup.boolean(),
@@ -43,16 +49,17 @@ const CourseEditor = () => {
   const isEditMode = !!courseId;
   const [categories, setCategories] = useState(FALLBACK_CATEGORIES);
   const [loading, setLoading] = useState(true);
-  const [thumbnail, setThumbnail] = useState(null);
   const [thumbnailPreview, setThumbnailPreview] = useState("");
   const [uploadedThumbnail, setUploadedThumbnail] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [uploadError, setUploadError] = useState("");
 
   const {
     register,
     handleSubmit,
     reset,
     watch,
+    setError,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(courseSchema),
@@ -69,7 +76,7 @@ const CourseEditor = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await api.get("/categories");
+        const response = await api.get(`/categories`);
         let categoriesData = [];
         if (response.data?.categories) {
           categoriesData = response.data.categories;
@@ -161,19 +168,29 @@ const CourseEditor = () => {
     fetchCategories();
     fetchCourse();
   }, [courseId, isEditMode, reset, navigate]);
-
-  const handleThumbnailChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setThumbnail(file);
-      setThumbnailPreview(URL.createObjectURL(file));
-    }
-  };
-
   // Handle when a file is uploaded via the FileUploader component
   const handleThumbnailUpload = (fileData) => {
+    console.log("File uploaded successfully:", fileData);
     setUploadedThumbnail(fileData);
-    setThumbnailPreview(fileData.secure_url);
+    setUploadError(""); // Clear any previous errors
+
+    // Check for all possible URL formats in the response
+    const imageUrl =
+      fileData.secure_url ||
+      fileData.url ||
+      fileData.file_url ||
+      (fileData.data && fileData.data.url) ||
+      (fileData.data && fileData.data.secure_url);
+
+    if (imageUrl) {
+      setThumbnailPreview(imageUrl);
+      console.log("Setting thumbnail preview URL:", imageUrl);
+      toast.success("Thumbnail uploaded successfully!");
+    } else {
+      console.error("No URL found in the upload response:", fileData);
+      setUploadError("Uploaded file doesn't have a valid URL");
+      toast.error("Failed to process uploaded thumbnail");
+    }
   };
 
   const onSubmit = async (data) => {
@@ -188,23 +205,12 @@ const CourseEditor = () => {
       formData.append("description", data.description);
       formData.append("level", data.level);
       formData.append("category_id", data.category_id);
-      formData.append("is_published", data.is_published);
-
-      // If we have an uploaded file, add the secure URL
+      formData.append("is_published", data.is_published); // If we have an uploaded file, add the secure URL
       if (uploadedThumbnail) {
         formData.append("thumbnail_url", uploadedThumbnail.secure_url);
       }
-      // Or if we have a file selected for upload, append it
-      else if (thumbnail) {
-        formData.append("thumbnail", thumbnail);
-      }
 
-      console.log("Form data being sent:");
-      console.log("- title:", data.title);
-      console.log("- description:", data.description);
-      console.log("- level:", data.level);
-      console.log("- category_id:", data.category_id);
-      console.log("- is_published:", data.is_published);
+      console.log("Form data being sent:", formData);
 
       if (isEditMode) {
         await api.put(`/courses/${courseId}`, formData, {
@@ -214,7 +220,7 @@ const CourseEditor = () => {
         });
         toast.success("Course updated successfully");
       } else {
-        await api.post("/courses", formData, {
+        await api.post(`/courses`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -225,12 +231,29 @@ const CourseEditor = () => {
     } catch (error) {
       console.error("Form submission error:", error);
 
-      if (error.response?.data?.message) {
-        toast.error(error.response.data.message);
-      } else if (error.response?.data?.error) {
-        toast.error(error.response.data.error);
+      // Handle 404 and 500 errors gracefully
+      if (error.response) {
+        if (error.response.status === 404) {
+          toast.error("Resource not found. Please try again later.");
+        } else if (error.response.status === 500) {
+          toast.error("Internal server error. Please contact support.");
+        } else if (error.response.data?.errors) {
+          const backendErrors = error.response.data.errors;
+          Object.keys(backendErrors).forEach((field) => {
+            setError(field, {
+              type: "server",
+              message: backendErrors[field],
+            });
+          });
+        } else if (error.response.data?.message) {
+          toast.error(error.response.data.message);
+        } else if (error.response.data?.error) {
+          toast.error(error.response.data.error);
+        } else {
+          toast.error("An unexpected error occurred.");
+        }
       } else {
-        toast.error("An error occurred while saving the course");
+        toast.error("Network error. Please check your connection.");
       }
     } finally {
       setIsSubmitting(false);
@@ -392,31 +415,10 @@ const CourseEditor = () => {
                 maxSizeMB={5}
               />
 
-              {/* Or keep your existing manual upload UI */}
-              {!uploadedThumbnail && (
-                <div className={styles.thumbnailUpload}>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    id="thumbnail"
-                    onChange={handleThumbnailChange}
-                    className={styles.fileInput}
-                  />
-                  <label htmlFor="thumbnail" className={styles.thumbnailLabel}>
-                    {thumbnailPreview ? (
-                      <img
-                        src={thumbnailPreview}
-                        alt="Course thumbnail preview"
-                        className={styles.thumbnailPreview}
-                      />
-                    ) : (
-                      <div className={styles.uploadPlaceholder}>
-                        <Upload size={32} />
-                        <p>Upload Thumbnail</p>
-                        <span>Recommended size: 1280×720px</span>
-                      </div>
-                    )}
-                  </label>
+              {uploadError && (
+                <div className={styles.errorMessage}>
+                  <AlertCircle size={16} />
+                  <span>{uploadError}</span>
                 </div>
               )}
             </div>

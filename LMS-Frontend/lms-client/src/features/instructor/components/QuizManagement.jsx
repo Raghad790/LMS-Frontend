@@ -18,7 +18,7 @@ import {
   Clock,
   CheckCircle,
   MoreVertical,
-  MessageSquare
+  MessageSquare,
 } from "lucide-react";
 
 const QuizManagement = () => {
@@ -28,25 +28,27 @@ const QuizManagement = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isDeleting, setIsDeleting] = useState(false);
-  
+
   // Current date for display
-  const currentDate = new Date().toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
+  const currentDate = new Date().toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        
+
         // Fetch course info
-        const courseResponse = await api.get(`/courses/${courseId}`);
-        setCourse(courseResponse.data.data);
-        
+        const courseResponse = await api.get(`/api/courses/${courseId}`);
+        setCourse(courseResponse.data.data || courseResponse.data.course);
+
         // Fetch quizzes for this course
-        const quizzesResponse = await api.get(`/courses/${courseId}/quizzes`);
+        const quizzesResponse = await api.get(
+          `/api/quizzes/courses/${courseId}/quizzes`
+        );
         setQuizzes(quizzesResponse.data.data || []);
       } catch (error) {
         toast.error("Failed to load quizzes");
@@ -55,27 +57,31 @@ const QuizManagement = () => {
         setLoading(false);
       }
     };
-    
+
     fetchData();
   }, [courseId]);
-  
+
   const handleCreateQuiz = () => {
     navigate(`/dashboard/instructor/courses/${courseId}/quizzes/create`);
   };
-  
+
   const handleEditQuiz = (quizId) => {
     navigate(`/dashboard/instructor/courses/${courseId}/quizzes/${quizId}/edit`);
   };
-  
+
   const handleDeleteQuiz = async (quizId) => {
-    if (!window.confirm("Are you sure you want to delete this quiz? This action cannot be undone.")) {
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this quiz? This action cannot be undone."
+      )
+    ) {
       return;
     }
-    
+
     try {
       setIsDeleting(true);
-      await api.delete(`/quizzes/${quizId}`);
-      setQuizzes(quizzes.filter(q => q.id !== quizId));
+      await api.delete(`/api/quizzes/${quizId}`);
+      setQuizzes(quizzes.filter((q) => q.id !== quizId));
       toast.success("Quiz deleted successfully");
     } catch (error) {
       toast.error("Failed to delete quiz");
@@ -84,22 +90,28 @@ const QuizManagement = () => {
       setIsDeleting(false);
     }
   };
-  
+
   const handleViewResults = (quizId) => {
     navigate(`/dashboard/instructor/courses/${courseId}/quizzes/${quizId}/results`);
   };
-  
+
   const handlePreview = (quizId) => {
     navigate(`/dashboard/instructor/courses/${courseId}/quizzes/${quizId}/preview`);
   };
-  
+
   // Calculate stats
   const stats = {
     totalQuizzes: quizzes.length,
-    totalQuestions: quizzes.reduce((sum, quiz) => sum + (quiz.questions?.length || 0), 0),
-    totalAttempts: quizzes.reduce((sum, quiz) => sum + (quiz.attempts_count || 0), 0)
+    totalQuestions: quizzes.reduce(
+      (sum, quiz) => sum + (quiz.questions?.length || 0),
+      0
+    ),
+    totalAttempts: quizzes.reduce(
+      (sum, quiz) => sum + (quiz.attempts_count || 0),
+      0
+    ),
   };
-  
+
   if (loading) {
     return (
       <div className={styles.loadingContainer}>
@@ -108,20 +120,22 @@ const QuizManagement = () => {
       </div>
     );
   }
-  
+
   return (
     <div className={styles.quizManagementPage}>
       <div className={styles.header}>
         <div className={styles.headerLeft}>
-          <button 
+          <button
             className={styles.backButton}
-            onClick={() => navigate(`/dashboard/instructor/courses/edit/${courseId}`)}
+            onClick={() =>
+              navigate(`/dashboard/instructor/courses/edit/${courseId}`)
+            }
             aria-label="Back to course"
           >
             <ArrowLeft size={18} />
             <span>Back to Course</span>
           </button>
-          
+
           <div className={styles.titleArea}>
             <h1 className={styles.title}>Quizzes & Assessments</h1>
             <p className={styles.courseTitle}>
@@ -130,13 +144,13 @@ const QuizManagement = () => {
             </p>
           </div>
         </div>
-        
+
         <div className={styles.dateDisplay}>
           <Calendar size={16} />
           <span>{currentDate}</span>
         </div>
       </div>
-      
+
       <div className={styles.statsContainer}>
         <div className={styles.statCard}>
           <div className={styles.statIcon}>
@@ -147,7 +161,7 @@ const QuizManagement = () => {
             <span className={styles.statLabel}>Total Quizzes</span>
           </div>
         </div>
-        
+
         <div className={styles.statCard}>
           <div className={styles.statIcon}>
             <CheckCircle size={22} />
@@ -157,7 +171,7 @@ const QuizManagement = () => {
             <span className={styles.statLabel}>Total Questions</span>
           </div>
         </div>
-        
+
         <div className={styles.statCard}>
           <div className={styles.statIcon}>
             <BarChart2 size={22} />
@@ -168,23 +182,20 @@ const QuizManagement = () => {
           </div>
         </div>
       </div>
-      
+
       <div className={styles.quizContainer}>
         <div className={styles.quizContainerHeader}>
           <div className={styles.sectionTitle}>
             <MessageSquare size={20} />
             <h2>Manage Quizzes</h2>
           </div>
-          
-          <button
-            className={styles.createButton}
-            onClick={handleCreateQuiz}
-          >
+
+          <button className={styles.createButton} onClick={handleCreateQuiz}>
             <Plus size={18} />
             <span>Create New Quiz</span>
           </button>
         </div>
-        
+
         {quizzes.length === 0 ? (
           <div className={styles.emptyState}>
             <div className={styles.emptyIcon}>
@@ -220,15 +231,21 @@ const QuizManagement = () => {
                       <MessageSquare size={16} className={styles.quizIcon} />
                       <span>{quiz.title}</span>
                     </td>
-                    <td className={styles.hideOnMobile}>{quiz.questions?.length || 0}</td>
+                    <td className={styles.hideOnMobile}>
+                      {quiz.questions?.length || 0}
+                    </td>
                     <td className={styles.hideOnSmall}>
                       <div className={styles.timeLimit}>
                         <Clock size={14} />
                         <span>{quiz.time_limit} min</span>
                       </div>
                     </td>
-                    <td className={styles.hideOnMobile}>{quiz.passing_score}%</td>
-                    <td className={styles.hideOnSmall}>{quiz.attempts_count || 0}</td>
+                    <td className={styles.hideOnMobile}>
+                      {quiz.passing_score}%
+                    </td>
+                    <td className={styles.hideOnSmall}>
+                      {quiz.attempts_count || 0}
+                    </td>
                     <td>
                       <div className={styles.actionButtons}>
                         <button
@@ -268,7 +285,7 @@ const QuizManagement = () => {
                           <span className={styles.hideButtonText}>Delete</span>
                         </button>
                       </div>
-                      
+
                       <div className={styles.mobileActions}>
                         <div className={styles.dropdown}>
                           <button className={styles.dropdownToggle}>

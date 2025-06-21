@@ -1,191 +1,139 @@
-import { useState, useEffect } from "react";
 import styles from "./FeaturedInstructors.module.css";
-import { Star, ArrowRight, ArrowLeft } from "lucide-react";
+import { Star, Users, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
-
+import instru1 from "../../../assets/images/instructor01.jpg";
+import instru2 from "../../../assets/images/instructor02.jpg";
+import instru3 from "../../../assets/images/instructor03.jpg";
 const FeaturedInstructors = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
   const instructors = [
     {
       id: 1,
       name: "Dr. Sarah Johnson",
       title: "Web Development Expert",
-      image: "https://via.placeholder.com/300x300",
+
+      image: instru1,
       rating: 4.9,
       students: 5240,
       courses: 12,
-      bio: "Full-stack developer with 10+ years of industry experience",
+      expertise: ["React", "Node.js", "JavaScript"],
     },
     {
       id: 2,
       name: "Prof. Ahmed Hassan",
       title: "UX Design Specialist",
-      image: "https://via.placeholder.com/300x300",
+      image: instru2,
       rating: 4.8,
       students: 4100,
       courses: 8,
-      bio: "Award-winning designer with expertise in user experience",
+      expertise: ["UI/UX", "Figma", "User Research"],
     },
     {
       id: 3,
-      name: "Maria Rodriguez",
-      title: "Data Science Instructor",
-      image: "https://via.placeholder.com/300x300",
-      rating: 4.9,
-      students: 6300,
-      courses: 10,
-      bio: "Data scientist with experience at top tech companies",
-    },
-    {
-      id: 4,
       name: "Dr. Michael Chen",
       title: "AI & Machine Learning",
-      image: "https://via.placeholder.com/300x300",
+      image: instru3,
       rating: 4.7,
       students: 3850,
       courses: 6,
-      bio: "PhD in Computer Science specializing in artificial intelligence",
-    },
-    {
-      id: 5,
-      name: "Laila Mahmoud",
-      title: "Mobile App Development",
-      image: "https://via.placeholder.com/300x300",
-      rating: 4.8,
-      students: 4700,
-      courses: 9,
-      bio: "iOS and Android developer with 8+ years of experience",
+      expertise: ["AI", "Deep Learning", "TensorFlow"],
     },
   ];
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const getVisibleCount = () => {
-    if (windowWidth >= 1200) return 4;
-    if (windowWidth >= 992) return 3;
-    if (windowWidth >= 576) return 2;
-    return 1;
-  };
-
-  const visibleCount = getVisibleCount();
-  const maxSlide = Math.max(0, instructors.length - visibleCount);
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev < maxSlide ? prev + 1 : prev));
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev > 0 ? prev - 1 : prev));
-  };
 
   return (
     <section className={styles.section}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <div className={styles.titleGroup}>
+          <div className={styles.headerContent}>
             <span className={styles.badge}>OUR EXPERT INSTRUCTORS</span>
-            <h2 className={styles.title}>Learn from the Best in the Field</h2>
+            <h2 className={styles.title}>Learn from Industry Leaders</h2>
             <p className={styles.subtitle}>
-              Our instructors are industry experts with years of practical
-              experience
+              Our instructors are experienced professionals who bring real-world
+              expertise to every course, helping you master in-demand skills
             </p>
-          </div>
-
-          <div className={styles.controls}>
-            <button
-              className={`${styles.controlBtn} ${
-                currentSlide === 0 ? styles.disabled : ""
-              }`}
-              onClick={prevSlide}
-              disabled={currentSlide === 0}
-              aria-label="Previous instructors"
-            >
-              <ArrowLeft size={20} />
-            </button>
-            <button
-              className={`${styles.controlBtn} ${
-                currentSlide === maxSlide ? styles.disabled : ""
-              }`}
-              onClick={nextSlide}
-              disabled={currentSlide === maxSlide}
-              aria-label="Next instructors"
-            >
-              <ArrowRight size={20} />
-            </button>
           </div>
         </div>
 
-        <div
-          className={styles.instructorsTrack}
-          style={{
-            transform: `translateX(-${currentSlide * (100 / visibleCount)}%)`,
-            width: `${(instructors.length / visibleCount) * 100}%`,
-          }}
-        >
+        <div className={styles.instructorsGrid}>
           {instructors.map((instructor) => (
-            <div
-              key={instructor.id}
-              className={styles.instructorCard}
-              style={{ width: `${(100 / instructors.length) * visibleCount}%` }}
-            >
-              <div className={styles.cardInner}>
-                <div className={styles.imageWrapper}>
-                  <img
-                    src={instructor.image}
-                    alt={instructor.name}
-                    className={styles.instructorImage}
-                  />
+            <div key={instructor.id} className={styles.instructorCard}>
+              <div className={styles.cardContent}>
+                <div className={styles.profileSection}>
+                  <div className={styles.profileImageWrapper}>
+                    {/* Fallback in case image doesn't load */}
+                    <div className={styles.profileImageFallback}>
+                      {instructor.name.charAt(0)}
+                    </div>
+                    <img
+                      src={instructor.image}
+                      alt={instructor.name}
+                      className={styles.profileImage}
+                      onError={(e) => {
+                        e.target.style.display = "none";
+                        e.target.previousSibling.style.display = "flex";
+                      }}
+                    />
+                  </div>
+
+                  <div className={styles.instructorMeta}>
+                    <h3 className={styles.instructorName}>{instructor.name}</h3>
+                    <p className={styles.instructorTitle}>{instructor.title}</p>
+                  </div>
                 </div>
-
-                <div className={styles.instructorInfo}>
-                  <h3 className={styles.instructorName}>{instructor.name}</h3>
-                  <p className={styles.instructorTitle}>{instructor.title}</p>
-                  <p className={styles.instructorBio}>{instructor.bio}</p>
-
-                  <div className={styles.ratingWrapper}>
-                    <div className={styles.rating}>
-                      <Star size={16} className={styles.starIcon} />
-                      <span>{instructor.rating}</span>
-                    </div>
-                    <div className={styles.statsDivider}></div>
-                    <div className={styles.courseCount}>
-                      <span>{instructor.courses}</span> Courses
-                    </div>
+                <div className={styles.statsSection}>
+                  <div className={styles.statItem}>
+                    <Star size={18} className={styles.statIcon} />
+                    <span className={styles.statValue}>
+                      {instructor.rating}
+                    </span>
                   </div>
 
-                  <div className={styles.stats}>
-                    <div className={styles.studentsCount}>
-                      <span>{instructor.students.toLocaleString()}</span>{" "}
-                      Students
-                    </div>
+                  <div className={styles.statItem}>
+                    <BookOpen size={18} className={styles.statIcon} />
+                    <span className={styles.statValue}>
+                      {instructor.courses} Courses
+                    </span>
                   </div>
 
-                  <Link
-                    to={`/instructors/${instructor.id}`}
-                    className={styles.viewProfileBtn}
-                  >
-                    View Profile
+                  <div className={styles.statItem}>
+                    <Users size={18} className={styles.statIcon} />
+                    <span className={styles.statValue}>
+                      {instructor.students.toLocaleString()} Students
+                    </span>
+                  </div>
+                </div>
+                <div className={styles.expertiseSection}>
+                  <div className={styles.expertiseTags}>
+                    {instructor.expertise.map((skill, i) => (
+                      <span key={i} className={styles.expertiseTag}>
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>{" "}
+                <div className={styles.cardFooter}>
+                  <Link to="/courses" className={styles.coursesButton}>
+                    <span className={styles.coursesButtonText}>
+                      Explore Courses
+                    </span>
+                    <span className={styles.coursesButtonIcon}>
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M12 4L10.59 5.41L16.17 11H4V13H16.17L10.59 18.59L12 20L20 12L12 4Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </span>
                   </Link>
                 </div>
               </div>
             </div>
           ))}
-        </div>
-
-        <div className={styles.allInstructorsBtn}>
-          <Link to="/instructors" className={styles.viewAllBtn}>
-            View All Instructors{" "}
-            <ArrowRight size={16} className={styles.btnIcon} />
-          </Link>
         </div>
       </div>
     </section>

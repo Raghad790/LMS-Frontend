@@ -1,7 +1,7 @@
 // src/pages/Dashboard/InstructorDashboard/InstructorDashboard.jsx
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../hooks/useAuth";
+import  useAuth  from "../../../hooks/useAuth";
 import { useCourses } from "../../../hooks/useCourses";
 import api from "../../../services/api";
 import styles from "./InstructorDashboard.module.css";
@@ -24,6 +24,7 @@ import {
   FileText,
   Award,
 } from "lucide-react";
+import { toast } from "react-toastify";
 
 const InstructorDashboard = () => {
   const navigate = useNavigate();
@@ -40,6 +41,8 @@ const InstructorDashboard = () => {
   const [timeline, setTimeline] = useState([]);
 
   useEffect(() => {
+    if (!user) return; // Wait until user is set
+
     const fetchAdditionalStats = async () => {
       try {
         const assignmentsResponse = await api.get(
@@ -57,35 +60,45 @@ const InstructorDashboard = () => {
               `/lessons/module/${module.id}`
             );
             const lessons = lessonsResponse.data.data || [];
-
-            videoCount += lessons.filter(
-              (lesson) => lesson.content_type === "video"
-            ).length;
+            videoCount += lessons.length;
           }
         }
 
         setStats((prevStats) => ({
           ...prevStats,
-          totalVideos: videoCount,
           pendingGradings: pendingAssignments.length,
+          totalVideos: videoCount,
         }));
       } catch (error) {
         console.error("Error fetching additional stats:", error);
+        toast.error("Failed to load additional stats. Please try again later.");
       }
     };
 
     const fetchTimeline = async () => {
       try {
         const timelineResponse = await api.get("/timeline/upcoming");
-        setTimeline(timelineResponse.data.data || []);
+        const timelineData = timelineResponse.data.data || [];
+
+        // Validate and sanitize timeline data
+        const sanitizedTimeline = timelineData.map((event) => ({
+          date: event.date || "Date not available",
+          title: event.title || "Untitled Event",
+          description: event.description || "No description provided",
+        }));
+
+        setTimeline(sanitizedTimeline);
       } catch (error) {
         console.error("Error fetching timeline:", error);
+        toast.error(
+          error.response?.data?.message || "Failed to load timeline. Please try again later."
+        );
       }
     };
 
     fetchAdditionalStats();
     fetchTimeline();
-  }, [instructorCourses]);
+  }, [user, instructorCourses]);
 
   useEffect(() => {
     setStats({
@@ -397,10 +410,15 @@ const InstructorDashboard = () => {
                   <div className={styles.timelineContent}>
                     <div className={styles.timelineDate}>
                       <Clock size={14} />
-                      <span>{event.date}</span>
+                      <span>{new Date(event.date).toLocaleDateString("en-US", {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}</span>
                     </div>
-                    <h4>{event.title}</h4>
-                    <p>{event.description}</p>
+                    <h4>{event.title || "Untitled Event"}</h4>
+                    <p>{event.description || "No description available."}</p>
                   </div>
                 </div>
               ))

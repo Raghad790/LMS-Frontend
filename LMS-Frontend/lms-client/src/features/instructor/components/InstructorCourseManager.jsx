@@ -36,7 +36,7 @@ const InstructorCourseManager = () => {
     const fetchInstructorCourses = async () => {
       try {
         setLoading(true);
-        const response = await api.get("/courses/me/mine");
+        const response = await api.get(`/courses/me/mine`);
         setCourses(response.data.data);
       } catch (error) {
         toast.error("Failed to fetch your courses");

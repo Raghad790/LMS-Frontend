@@ -1,7 +1,19 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
-import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable } from "@dnd-kit/sortable";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+} from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { toast } from "react-toastify";
 import api from "../../../services/api";
@@ -19,7 +31,7 @@ import {
   Calendar,
   MoreVertical,
   Menu,
-  X
+  X,
 } from "lucide-react";
 
 const ModuleManager = () => {
@@ -31,14 +43,14 @@ const ModuleManager = () => {
   const [newModuleTitle, setNewModuleTitle] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [expandedModules, setExpandedModules] = useState({});
-  
+
   // Current date for display
-  const currentDate = new Date().toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
+  const currentDate = new Date().toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
-  
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -54,22 +66,22 @@ const ModuleManager = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        
+
         // Fetch course details
         const courseResponse = await api.get(`/courses/${courseId}`);
         setCourse(courseResponse.data.data);
-        
+
         // Fetch modules
         const modulesResponse = await api.get(`/courses/${courseId}/modules`);
         const fetchedModules = modulesResponse.data.data || [];
-        
+
         // Set all modules to expanded by default
         const initialExpandedState = {};
-        fetchedModules.forEach(module => {
+        fetchedModules.forEach((module) => {
           initialExpandedState[module.id] = true;
         });
         setExpandedModules(initialExpandedState);
-        
+
         setModules(fetchedModules);
       } catch (error) {
         toast.error("Failed to load course modules");
@@ -98,7 +110,7 @@ const ModuleManager = () => {
 
       const newModule = response.data.data;
       setModules([...modules, newModule]);
-      setExpandedModules({...expandedModules, [newModule.id]: true});
+      setExpandedModules({ ...expandedModules, [newModule.id]: true });
       setNewModuleTitle("");
       toast.success("Module created successfully");
     } catch (error) {
@@ -138,11 +150,11 @@ const ModuleManager = () => {
   const handleEditLesson = (lessonId) => {
     navigate(`/dashboard/instructor/lessons/${lessonId}/edit`);
   };
-  
+
   const toggleModuleExpansion = (moduleId) => {
     setExpandedModules({
       ...expandedModules,
-      [moduleId]: !expandedModules[moduleId]
+      [moduleId]: !expandedModules[moduleId],
     });
   };
 
@@ -168,11 +180,14 @@ const ModuleManager = () => {
       console.error("Error updating module positions:", error);
     }
   };
-  
+
   // Calculate stats
   const stats = {
     totalModules: modules.length,
-    totalLessons: modules.reduce((total, module) => total + (module.lessons?.length || 0), 0)
+    totalLessons: modules.reduce(
+      (total, module) => total + (module.lessons?.length || 0),
+      0
+    ),
   };
 
   if (loading) {
@@ -188,27 +203,31 @@ const ModuleManager = () => {
     <div className={styles.moduleManager}>
       <div className={styles.header}>
         <div className={styles.headerLeft}>
-          <button 
+          <button
             className={styles.backButton}
-            onClick={() => navigate(`/dashboard/instructor/courses/edit/${courseId}`)}
+            onClick={() =>
+              navigate(`/dashboard/instructor/courses/edit/${courseId}`)
+            }
             aria-label="Back to course"
           >
             <ArrowLeft size={18} />
             <span>Back to Course</span>
           </button>
-          
+
           <div className={styles.titleArea}>
             <h1 className={styles.title}>Course Modules</h1>
-            <p className={styles.courseTitle}>{course?.title || "Unknown Course"}</p>
+            <p className={styles.courseTitle}>
+              {course?.title || "Unknown Course"}
+            </p>
           </div>
         </div>
-        
+
         <div className={styles.dateDisplay}>
           <Calendar size={16} />
           <span>{currentDate}</span>
         </div>
       </div>
-      
+
       <div className={styles.statsContainer}>
         <div className={styles.statCard}>
           <div className={styles.statIcon}>
@@ -219,7 +238,7 @@ const ModuleManager = () => {
             <span className={styles.statLabel}>Total Modules</span>
           </div>
         </div>
-        
+
         <div className={styles.statCard}>
           <div className={styles.statIcon}>
             <FileText size={22} />
@@ -237,7 +256,7 @@ const ModuleManager = () => {
             <BookOpen size={20} />
             <h2>Manage Modules</h2>
           </div>
-          
+
           <div className={styles.newModuleForm}>
             <input
               type="text"
@@ -247,8 +266,8 @@ const ModuleManager = () => {
               className={styles.moduleInput}
               disabled={isSubmitting}
             />
-            <button 
-              onClick={handleCreateModule} 
+            <button
+              onClick={handleCreateModule}
               className={styles.addButton}
               disabled={!newModuleTitle.trim() || isSubmitting}
             >
@@ -276,9 +295,9 @@ const ModuleManager = () => {
           </div>
         )}
 
-        <DndContext 
+        <DndContext
           sensors={sensors}
-          collisionDetection={closestCenter} 
+          collisionDetection={closestCenter}
           onDragEnd={handleDragEnd}
         >
           <SortableContext items={modules.map((module) => module.id)}>
@@ -303,31 +322,37 @@ const ModuleManager = () => {
   );
 };
 
-const SortableModule = ({ 
-  module, 
-  isExpanded, 
-  onToggleExpand, 
-  onDelete, 
-  onAddLesson, 
+const SortableModule = ({
+  module,
+  isExpanded,
+  onToggleExpand,
+  onDelete,
+  onAddLesson,
   onEditLesson,
-  disabled 
+  disabled,
 }) => {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-    useSortable({ id: module.id });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: module.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
     zIndex: isDragging ? 1 : 0,
   };
-  
+
   const lessonCount = module.lessons?.length || 0;
 
   return (
-    <div 
-      ref={setNodeRef} 
-      style={style} 
-      className={`${styles.moduleItem} ${isDragging ? styles.dragging : ''}`}
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`${styles.moduleItem} ${isDragging ? styles.dragging : ""}`}
     >
       <div className={styles.moduleHeader}>
         <div className={styles.moduleHeaderLeft}>
@@ -337,11 +362,11 @@ const SortableModule = ({
           <div className={styles.moduleInfo}>
             <h3>{module.title}</h3>
             <span className={styles.lessonCount}>
-              {lessonCount} {lessonCount === 1 ? 'lesson' : 'lessons'}
+              {lessonCount} {lessonCount === 1 ? "lesson" : "lessons"}
             </span>
           </div>
         </div>
-        
+
         <div className={styles.moduleActions}>
           <button
             onClick={onToggleExpand}
@@ -350,7 +375,7 @@ const SortableModule = ({
           >
             {isExpanded ? <X size={20} /> : <Menu size={20} />}
           </button>
-          
+
           <button
             onClick={() => onDelete(module.id)}
             className={styles.deleteButton}

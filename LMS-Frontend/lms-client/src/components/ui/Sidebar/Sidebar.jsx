@@ -11,7 +11,7 @@ import {
   HelpCircle,
   LogOut,
 } from "lucide-react";
-import { useAuth } from "../../../hooks/useAuth";
+import useAuth from "../../../hooks/useAuth";
 
 const Sidebar = ({ collapsed }) => {
   const { user, logout } = useAuth();

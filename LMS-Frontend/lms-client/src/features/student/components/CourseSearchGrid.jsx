@@ -13,7 +13,7 @@ import {
   InputLabel,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { useAuth } from "../../../hooks/useAuth";
+import  useAuth  from "../../../hooks/useAuth";
 
 const CourseSearchGrid = () => {
   const [courses, setCourses] = useState([]);

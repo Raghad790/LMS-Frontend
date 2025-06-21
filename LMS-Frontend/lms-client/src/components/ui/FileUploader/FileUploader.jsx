@@ -1,63 +1,77 @@
 // src/components/common/FileUploader.jsx
-import { useState } from 'react';
-import { Upload, X, CheckCircle, AlertCircle } from 'lucide-react';
-import api from '../../../services/api';
-import styles from './FileUploader.module.css';
+import { useState } from "react";
+import { Upload, X, CheckCircle, AlertCircle } from "lucide-react";
+import api from "../../../services/api";
+import styles from "./FileUploader.module.css";
 
-const FileUploader = ({ onUploadComplete, acceptTypes = "image/*", maxSizeMB = 5 }) => {
+const FileUploader = ({
+  onUploadComplete,
+  acceptTypes = "image/*",
+  maxSizeMB = 5,
+}) => {
   const [file, setFile] = useState(null);
-  const [preview, setPreview] = useState('');
+  const [preview, setPreview] = useState("");
   const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [progress, setProgress] = useState(0);
   const [uploadedFile, setUploadedFile] = useState(null);
-  
+
   const maxSizeBytes = maxSizeMB * 1024 * 1024;
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
-    setError('');
-    
+    setError("");
+
     if (!selectedFile) {
       setFile(null);
-      setPreview('');
+      setPreview("");
       return;
     }
-    
+
     // Check file size
     if (selectedFile.size > maxSizeBytes) {
       setError(`File size must be less than ${maxSizeMB}MB`);
       return;
     }
-    
+
     setFile(selectedFile);
-    
+
     // Create preview for images
-    if (selectedFile.type.startsWith('image/')) {
+    if (selectedFile.type.startsWith("image/")) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreview(reader.result);
       };
       reader.readAsDataURL(selectedFile);
     } else {
-      setPreview('');
+      setPreview("");
     }
   };
-  
+
   const handleUpload = async () => {
     if (!file) return;
-    
+
     const formData = new FormData();
-    formData.append('file', file);
-    
+    formData.append("file", file);
+
     setUploading(true);
     setProgress(0);
-    setError('');
-    
+    setError("");
+
     try {
-      const response = await api.post('/uploads/upload', formData, {
+      // Get token from both possible storage locations
+      const token =
+        localStorage.getItem("lms_auth_token") || localStorage.getItem("token");
+
+      console.log(
+        "Uploading file with token:",
+        token ? "Token exists" : "No token found"
+      );
+      // Use the correct endpoint for uploads - make sure it matches your backend
+      const response = await api.post("/uploads", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
+          Authorization: token ? `Bearer ${token}` : "",
         },
         onUploadProgress: (progressEvent) => {
           const percentCompleted = Math.round(
@@ -66,28 +80,29 @@ const FileUploader = ({ onUploadComplete, acceptTypes = "image/*", maxSizeMB = 5
           setProgress(percentCompleted);
         },
       });
-      
-      setUploadedFile(response.data.data);
-      
+
+      console.log("Upload response:", response.data);
+      setUploadedFile(response.data.data || response.data);
+
       // Call the callback if provided
       if (onUploadComplete) {
-        onUploadComplete(response.data.data);
+        onUploadComplete(response.data.data || response.data);
       }
     } catch (error) {
-      console.error('Upload error:', error);
-      setError(error.response?.data?.message || 'Error uploading file');
+      console.error("Upload error:", error);
+      setError(error.response?.data?.message || "Error uploading file");
     } finally {
       setUploading(false);
     }
   };
-  
+
   const handleRemove = () => {
     setFile(null);
-    setPreview('');
+    setPreview("");
     setUploadedFile(null);
-    setError('');
+    setError("");
   };
-  
+
   return (
     <div className={styles.fileUploader}>
       {!file && !uploadedFile ? (
@@ -108,24 +123,24 @@ const FileUploader = ({ onUploadComplete, acceptTypes = "image/*", maxSizeMB = 5
       ) : (
         <div className={styles.preview}>
           {preview && (
-            <img 
-              src={preview} 
-              alt="File preview" 
-              className={styles.previewImage} 
+            <img
+              src={preview}
+              alt="File preview"
+              className={styles.previewImage}
             />
           )}
-          
+
           <div className={styles.fileInfo}>
             <p>{file?.name || uploadedFile?.original_name}</p>
             <span>
               {((file?.size || uploadedFile?.size) / 1024 / 1024).toFixed(2)} MB
             </span>
           </div>
-          
+
           {!uploadedFile && (
             <div className={styles.actions}>
-              <button 
-                onClick={handleUpload} 
+              <button
+                onClick={handleUpload}
                 className={styles.uploadButton}
                 disabled={uploading}
               >
@@ -141,9 +156,9 @@ const FileUploader = ({ onUploadComplete, acceptTypes = "image/*", maxSizeMB = 5
                   </>
                 )}
               </button>
-              
-              <button 
-                onClick={handleRemove} 
+
+              <button
+                onClick={handleRemove}
                 className={styles.removeButton}
                 disabled={uploading}
               >
@@ -152,15 +167,12 @@ const FileUploader = ({ onUploadComplete, acceptTypes = "image/*", maxSizeMB = 5
               </button>
             </div>
           )}
-          
+
           {uploadedFile && (
             <div className={styles.uploadSuccess}>
               <CheckCircle size={16} className={styles.successIcon} />
               <span>Uploaded successfully</span>
-              <button 
-                onClick={handleRemove} 
-                className={styles.removeButton}
-              >
+              <button onClick={handleRemove} className={styles.removeButton}>
                 <X size={16} />
                 <span>Remove</span>
               </button>
@@ -168,7 +180,7 @@ const FileUploader = ({ onUploadComplete, acceptTypes = "image/*", maxSizeMB = 5
           )}
         </div>
       )}
-      
+
       {error && (
         <div className={styles.error}>
           <AlertCircle size={16} />

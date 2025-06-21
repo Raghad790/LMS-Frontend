@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Bell, MessageSquare, Search, Menu, User } from "lucide-react";
-import { useAuth } from "../../../hooks/useAuth";
+import useAuth from "../../../hooks/useAuth";
 import styles from "./TopBar.module.css";
 
 const TopBar = ({ isSidebarCollapsed, onToggleSidebar }) => {
