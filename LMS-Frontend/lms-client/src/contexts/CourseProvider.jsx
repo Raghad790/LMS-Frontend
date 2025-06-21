@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { toast } from "react-toastify";
-import { useAuth } from "../hooks/useAuth";
+import useAuth from "../hooks/useAuth";
 import { CourseContext } from "./CourseContextCore";
 import api from "../services/api";
 
 export const CourseProvider = ({ children }) => {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [courses, setCourses] = useState([]);
   const [enrolledCourses, setEnrolledCourses] = useState([]);
   const [instructorCourses, setInstructorCourses] = useState([]);
@@ -117,36 +117,41 @@ export const CourseProvider = ({ children }) => {
       setLoading(false);
     }
   }, [user]);
-const fetchInstructorCourses = useCallback(async () => {
-  if (!user || user.role !== "instructor") {
-    setInstructorCourses([]);
-    return;
-  }
-
-  try {
-    setLoading(true);
-    console.log("Fetching instructor courses for user ID:", user.id);
-    
-    const response = await api.get("/courses/me/mine");
-    console.log("Instructor courses response:", response.data);
-    
-    let instructorData = [];
-    if (response.data?.courses) {
-      instructorData = response.data.courses;
-    } else if (response.data?.data) {
-      instructorData = response.data.data;
-    } else if (Array.isArray(response.data)) {
-      instructorData = response.data;
+  const fetchInstructorCourses = useCallback(async () => {
+    if (!user || user.role !== "instructor") {
+      setInstructorCourses([]);
+      return;
     }
-    
-    setInstructorCourses(instructorData.length > 0 ? instructorData : []);
-  } catch (error) {
-    console.error("Error fetching instructor courses:", error);
-    setInstructorCourses([]);
-  } finally {
-    setLoading(false);
-  }
-}, [user]);
+
+    if (authLoading || !user) {
+      console.warn("Skipping instructor courses fetch: User not authenticated");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      console.log("Fetching instructor courses for user ID:", user.id);
+
+      const response = await api.get("/courses/me/mine");
+      console.log("Instructor courses response:", response.data);
+
+      let instructorData = [];
+      if (response.data?.courses) {
+        instructorData = response.data.courses;
+      } else if (response.data?.data) {
+        instructorData = response.data.data;
+      } else if (Array.isArray(response.data)) {
+        instructorData = response.data;
+      }
+
+      setInstructorCourses(instructorData.length > 0 ? instructorData : []);
+    } catch (error) {
+      console.error("Error fetching instructor courses:", error);
+      setInstructorCourses([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [user, authLoading]);
 
   const enrollInCourse = async (courseId) => {
     if (!user) {
@@ -165,6 +170,8 @@ const fetchInstructorCourses = useCallback(async () => {
   };
 
   useEffect(() => {
+    if (authLoading) return; // Wait for authentication to resolve
+
     fetchPublicCourses();
     if (user) {
       if (user.role === "student") {
@@ -173,7 +180,13 @@ const fetchInstructorCourses = useCallback(async () => {
         fetchInstructorCourses();
       }
     }
-  }, [user, fetchPublicCourses, fetchEnrolledCourses, fetchInstructorCourses]);
+  }, [
+    authLoading,
+    user,
+    fetchPublicCourses,
+    fetchEnrolledCourses,
+    fetchInstructorCourses,
+  ]);
 
   const contextValue = {
     courses,

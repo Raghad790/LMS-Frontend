@@ -38,18 +38,18 @@ const SubmissionList = () => {
         setLoading(true);
         
         // Fetch assignment details
-        const assignmentResponse = await api.get(`/assignments/${assignmentId}`);
+        const assignmentResponse = await api.get(`/api/assignments/${assignmentId}`);
         const assignmentData = assignmentResponse.data.data;
         setAssignment(assignmentData);
         
         // Fetch lesson details
         if (assignmentData?.lesson_id) {
-          const lessonResponse = await api.get(`/lessons/${assignmentData.lesson_id}`);
+          const lessonResponse = await api.get(`/api/lessons/${assignmentData.lesson_id}`);
           setLesson(lessonResponse.data.data);
         }
         
         // Fetch submissions for this assignment
-        const submissionsResponse = await api.get(`/submission/assignment/${assignmentId}`);
+        const submissionsResponse = await api.get(`/api/submission/assignment/${assignmentId}`);
         setSubmissions(submissionsResponse.data.data || []);
         
       } catch (error) {

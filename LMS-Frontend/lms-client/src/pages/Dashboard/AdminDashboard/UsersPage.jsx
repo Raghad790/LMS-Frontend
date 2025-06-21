@@ -1,7 +1,7 @@
 import styles from "./UsersPage.module.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useAuth } from "../../../hooks/useAuth";
+import  useAuth  from "../../../hooks/useAuth";
 import UserTable from "../../../components/ui/admin/UserTable/UserTable";
 
 const UsersPage = () => {

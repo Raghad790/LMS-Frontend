@@ -3,7 +3,7 @@ import { useStudentCourses } from "../../../features/student/hooks/useStudentCou
 import styles from "./Main.module.css";
 import { CircularProgress } from "@mui/material";
 import CourseCard from "../../../features/student/components/CourseCard";
-import { useAuth } from "../../../hooks/useAuth";
+import  useAuth from "../../../hooks/useAuth";
 import CoursePreviewSidebar from "../../../features/student/components/CoursePreviewSidebar";
 
 const Main = () => {

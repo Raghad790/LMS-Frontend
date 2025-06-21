@@ -317,7 +317,9 @@ const LessonEditor = () => {
                 )}
                 <p className={styles.helperText}>
                   <Info size={14} />
-                  <span>Lessons are displayed in ascending order by position</span>
+                  <span>
+                    Lessons are displayed in ascending order by position
+                  </span>
                 </p>
               </div>
             </div>

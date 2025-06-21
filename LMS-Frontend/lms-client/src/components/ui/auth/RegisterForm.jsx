@@ -19,7 +19,7 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import GoogleLoginButton from "../../../components/auth/GoogleLoginButton";
-import { useAuth } from "../../../hooks/useAuth";
+import useAuth from "../../../hooks/useAuth";
 import api from "../../../services/api";
 import { Mail, Lock, User, ArrowRight, Check } from "lucide-react";
 import logo from "../../../assets/images/logo.png";
@@ -75,7 +75,7 @@ const RegisterForm = () => {
   });
 
   const password = watch("password", "");
-  
+
   // Password strength indicators
   const hasLowerCase = /[a-z]/.test(password);
   const hasUpperCase = /[A-Z]/.test(password);
@@ -93,7 +93,7 @@ const RegisterForm = () => {
 
     setError("");
     setLoading(true);
-    
+
     try {
       // Use api service instead of direct axios calls
       const res = await api.post("/auth/register", payload);
@@ -103,7 +103,7 @@ const RegisterForm = () => {
         if (res.data.token) {
           localStorage.setItem("token", res.data.token);
         }
-        
+
         // Update auth context with user data
         login(res.data.user);
 
@@ -117,15 +117,19 @@ const RegisterForm = () => {
       }
     } catch (error) {
       console.error("Registration error:", error);
-      
+
       if (error.response) {
         // The server responded with an error
         if (error.response.status === 400) {
           setError(error.response.data?.message || "Invalid registration data");
         } else if (error.response.status === 404) {
-          setError("Server endpoint not found. Please check API configuration.");
+          setError(
+            "Server endpoint not found. Please check API configuration."
+          );
         } else if (error.response.status === 409) {
-          setError("Email already exists. Please use a different email or log in.");
+          setError(
+            "Email already exists. Please use a different email or log in."
+          );
         } else {
           setError(error.response.data?.message || "Registration failed");
         }
@@ -143,14 +147,16 @@ const RegisterForm = () => {
 
   return (
     <div className={styles.pageContainer}>
-      <div className={`${styles.authWrapper} ${animateIn ? styles.animateIn : ''}`}>
+      <div
+        className={`${styles.authWrapper} ${animateIn ? styles.animateIn : ""}`}
+      >
         {/* Left Side - Image/Design */}
         <div className={styles.imageSide}>
           <div className={styles.contentWrapper}>
             <h2 className={styles.welcomeTitle}>Join Khatwa Today!</h2>
             <p className={styles.welcomeText}>
-              Create an account to start your learning journey with us. 
-              Access our library of courses and expand your knowledge.
+              Create an account to start your learning journey with us. Access
+              our library of courses and expand your knowledge.
             </p>
             <div className={styles.features}>
               <div className={styles.featureItem}>
@@ -159,11 +165,15 @@ const RegisterForm = () => {
               </div>
               <div className={styles.featureItem}>
                 <div className={styles.featureIcon}>✓</div>
-                <div className={styles.featureText}>Access to premium courses</div>
+                <div className={styles.featureText}>
+                  Access to premium courses
+                </div>
               </div>
               <div className={styles.featureItem}>
                 <div className={styles.featureIcon}>✓</div>
-                <div className={styles.featureText}>Track your learning progress</div>
+                <div className={styles.featureText}>
+                  Track your learning progress
+                </div>
               </div>
             </div>
           </div>
@@ -182,11 +192,13 @@ const RegisterForm = () => {
 
           <div className={styles.registerCard}>
             <h2 className={styles.title}>Create Your Account</h2>
-            <p className={styles.subtitle}>Sign up in seconds to start learning</p>
+            <p className={styles.subtitle}>
+              Sign up in seconds to start learning
+            </p>
 
             {error && (
-              <Alert 
-                severity="error" 
+              <Alert
+                severity="error"
                 className={styles.alert}
                 onClose={() => setError("")}
               >
@@ -194,7 +206,11 @@ const RegisterForm = () => {
               </Alert>
             )}
 
-            <form className={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
+            <form
+              className={styles.form}
+              onSubmit={handleSubmit(onSubmit)}
+              noValidate
+            >
               <div className={styles.inputGroup}>
                 <label className={styles.inputLabel}>
                   <User size={18} />
@@ -217,7 +233,7 @@ const RegisterForm = () => {
                         classes: {
                           root: styles.input,
                           focused: styles.focusedInput,
-                        }
+                        },
                       }}
                     />
                   )}
@@ -246,7 +262,7 @@ const RegisterForm = () => {
                         classes: {
                           root: styles.input,
                           focused: styles.focusedInput,
-                        }
+                        },
                       }}
                     />
                   )}
@@ -279,16 +295,24 @@ const RegisterForm = () => {
                         },
                         endAdornment: (
                           <InputAdornment position="end">
-                            <IconButton 
+                            {" "}
+                            <IconButton
                               onClick={() => setShowPassword((prev) => !prev)}
                               edge="end"
                               disabled={loading}
                               className={styles.visibilityIcon}
-                            >
-                              {showPassword ? 
-                                <VisibilityOff className={styles.icon} /> : 
-                                <Visibility className={styles.icon} />
+                              aria-label={
+                                showPassword ? "Hide password" : "Show password"
                               }
+                              title={
+                                showPassword ? "Hide password" : "Show password"
+                              }
+                            >
+                              {showPassword ? (
+                                <Visibility className={styles.icon} />
+                              ) : (
+                                <VisibilityOff className={styles.icon} />
+                              )}
                             </IconButton>
                           </InputAdornment>
                         ),
@@ -296,23 +320,43 @@ const RegisterForm = () => {
                     />
                   )}
                 />
-                
+
                 {/* Password strength indicators */}
                 {password && (
                   <div className={styles.passwordStrength}>
-                    <div className={`${styles.strengthItem} ${hasMinLength ? styles.valid : ''}`}>
+                    <div
+                      className={`${styles.strengthItem} ${
+                        hasMinLength ? styles.valid : ""
+                      }`}
+                    >
                       <Check size={14} /> Min. 8 characters
                     </div>
-                    <div className={`${styles.strengthItem} ${hasUpperCase ? styles.valid : ''}`}>
+                    <div
+                      className={`${styles.strengthItem} ${
+                        hasUpperCase ? styles.valid : ""
+                      }`}
+                    >
                       <Check size={14} /> Uppercase letter
                     </div>
-                    <div className={`${styles.strengthItem} ${hasLowerCase ? styles.valid : ''}`}>
+                    <div
+                      className={`${styles.strengthItem} ${
+                        hasLowerCase ? styles.valid : ""
+                      }`}
+                    >
                       <Check size={14} /> Lowercase letter
                     </div>
-                    <div className={`${styles.strengthItem} ${hasNumber ? styles.valid : ''}`}>
+                    <div
+                      className={`${styles.strengthItem} ${
+                        hasNumber ? styles.valid : ""
+                      }`}
+                    >
                       <Check size={14} /> Number
                     </div>
-                    <div className={`${styles.strengthItem} ${hasSpecialChar ? styles.valid : ''}`}>
+                    <div
+                      className={`${styles.strengthItem} ${
+                        hasSpecialChar ? styles.valid : ""
+                      }`}
+                    >
                       <Check size={14} /> Special character
                     </div>
                   </div>
@@ -345,16 +389,24 @@ const RegisterForm = () => {
                         },
                         endAdornment: (
                           <InputAdornment position="end">
-                            <IconButton 
+                            {" "}
+                            <IconButton
                               onClick={() => setShowConfirm((prev) => !prev)}
                               edge="end"
                               disabled={loading}
                               className={styles.visibilityIcon}
-                            >
-                              {showConfirm ? 
-                                <VisibilityOff className={styles.icon} /> : 
-                                <Visibility className={styles.icon} />
+                              aria-label={
+                                showConfirm ? "Hide password" : "Show password"
                               }
+                              title={
+                                showConfirm ? "Hide password" : "Show password"
+                              }
+                            >
+                              {showConfirm ? (
+                                <Visibility className={styles.icon} />
+                              ) : (
+                                <VisibilityOff className={styles.icon} />
+                              )}
                             </IconButton>
                           </InputAdornment>
                         ),
@@ -372,15 +424,18 @@ const RegisterForm = () => {
                     <>
                       <FormControlLabel
                         control={
-                          <Checkbox 
-                            {...field} 
-                            color="primary" 
-                            disabled={loading} 
+                          <Checkbox
+                            {...field}
+                            color="primary"
+                            disabled={loading}
                             className={styles.checkbox}
                           />
                         }
                         label={
-                          <Typography variant="body2" className={styles.termsText}>
+                          <Typography
+                            variant="body2"
+                            className={styles.termsText}
+                          >
                             I agree to the{" "}
                             <a href="#" className={styles.link}>
                               terms & conditions
@@ -406,10 +461,14 @@ const RegisterForm = () => {
                 disabled={loading}
               >
                 {loading ? (
-                  <CircularProgress size={24} className={styles.loadingSpinner} />
+                  <CircularProgress
+                    size={24}
+                    className={styles.loadingSpinner}
+                  />
                 ) : (
                   <>
-                    Create Account <ArrowRight size={18} className={styles.btnIcon} />
+                    Create Account{" "}
+                    <ArrowRight size={18} className={styles.btnIcon} />
                   </>
                 )}
               </Button>

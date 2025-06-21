@@ -1,0 +1,161 @@
+.infoContainer {
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.infoTitle {
+  font-weight: 700 !important;
+  margin-bottom: 2rem !important;
+  color: #333;
+}
+
+.contactItems {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  margin-bottom: 2rem;
+}
+
+.contactItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.iconWrapper {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(127, 86, 218, 0.1), rgba(234, 111, 184, 0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7f56da;
+}
+
+.contactLabel {
+  font-weight: 600 !important;
+  margin-bottom: 0.25rem !important;
+  color: #333;
+}
+
+.contactValue {
+  color: #555 !important;
+  line-height: 1.6 !important;
+}
+
+.liveChat {
+  background: linear-gradient(135deg, #7f56da 0%, #ea6fb8 100%);
+  padding: 1.5rem;
+  border-radius: 12px;
+  color: white;
+  margin-bottom: 2rem;
+  margin-top: auto;
+}
+
+.liveChatContent {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.liveChatIcon {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.liveChatTitle {
+  font-weight: 600 !important;
+  margin-bottom: 0.25rem !important;
+}
+
+.liveChatText {
+  opacity: 0.9 !important;
+}
+
+.chatButton {
+  background-color: white !important;
+  color: #7f56da !important;
+  width: 100%;
+  font-weight: 600 !important;
+  padding: 10px !important;
+  text-transform: none !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.chatButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+.socialSection {
+  text-align: center;
+}
+
+.socialTitle {
+  font-weight: 600 !important;
+  color: #333;
+  margin-bottom: 1rem !important;
+}
+
+.socialIcons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.socialIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555 !important;
+  transition: all 0.3s ease;
+}
+
+.socialIcon:hover {
+  background: linear-gradient(135deg, #7f56da 0%, #ea6fb8 100%);
+  color: white !important;
+  transform: translateY(-3px);
+}
+
+@media (max-width: 576px) {
+  .infoContainer {
+    padding: 1.5rem;
+  }
+  
+  .infoTitle {
+    font-size: 1.3rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+  
+  .contactItems {
+    gap: 1.25rem;
+  }
+  
+  .iconWrapper {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+  }
+  
+  .liveChat {
+    padding: 1.25rem;
+  }
+}

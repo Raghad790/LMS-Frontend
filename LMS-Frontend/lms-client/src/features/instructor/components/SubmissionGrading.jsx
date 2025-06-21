@@ -36,17 +36,17 @@ const SubmissionGrading = () => {
         setLoading(true);
         
         // Get submission details
-        const submissionResponse = await api.get(`/submission/${submissionId}`);
+        const submissionResponse = await api.get(`/api/submission/${submissionId}`);
         const submissionData = submissionResponse.data.data;
         setSubmission(submissionData);
         
         if (submissionData) {
           // Get assignment details
-          const assignmentResponse = await api.get(`/assignments/${submissionData.assignment_id}`);
+          const assignmentResponse = await api.get(`/api/assignments/${submissionData.assignment_id}`);
           setAssignment(assignmentResponse.data.data);
           
           // Get student details
-          const studentResponse = await api.get(`/users/${submissionData.user_id}`);
+          const studentResponse = await api.get(`/api/users/${submissionData.user_id}`);
           setStudent(studentResponse.data.data);
           
           // Set initial grade and feedback if exists
@@ -80,7 +80,7 @@ const SubmissionGrading = () => {
     try {
       setSubmitting(true);
       
-      await api.put(`/submission/${submissionId}/grade`, {
+      await api.put(`/api/submission/${submissionId}/grade`, {
         grade: gradeValue,
         feedback
       });

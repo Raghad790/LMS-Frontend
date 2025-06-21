@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
 import logo from "../../../assets/images/logo.png";
 import { Menu, X, Search, Phone, Mail, ChevronDown, User } from "lucide-react"; 
-import { useAuth } from "../../../hooks/useAuth"; 
+import useAuth from "../../../hooks/useAuth"; 
 
 const Header = () => {
   const { user } = useAuth(); 

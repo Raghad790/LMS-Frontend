@@ -109,7 +109,6 @@ const AssignmentList = () => {
   const handleViewSubmissions = (assignmentId) => {
     navigate(`/dashboard/instructor/assignments/${assignmentId}/submissions`);
   };
-
   const handleDeleteAssignment = async (assignmentId) => {
     if (
       !window.confirm(

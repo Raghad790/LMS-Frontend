@@ -1,6 +1,16 @@
 import { Link } from "react-router-dom";
 import styles from "./CategoriesSection.module.css";
 import { Code, Palette, ChartBar, Database, Server, BookOpen, Globe, Briefcase } from "lucide-react";
+import cat1 from "../../../assets/images/webdev.jpg";
+import cat2 from "../../../assets/images/ui.jpg";
+import cat3 from "../../../assets/images/datascience.jpg";
+import cat4 from "../../../assets/images/databasemang.jpg";
+import cat5 from "../../../assets/images/backenddevelop.jpg";
+import cat6 from "../../../assets/images/languagelearning.jpg";
+import cat7 from "../../../assets/images/academic.jpg";
+import cat8 from "../../../assets/images/businessskills.jpg";
+import cat9 from "../../../assets/images/prog.jpg";
+
 
 const CategoriesSection = () => {
   const categories = [
@@ -11,7 +21,7 @@ const CategoriesSection = () => {
       icon: Code,
       color: "#7f56da",
       courses: 42,
-      backgroundImage: "https://via.placeholder.com/400x250"
+      backgroundImage: cat1
     },
     {
       id: 2,
@@ -20,7 +30,7 @@ const CategoriesSection = () => {
       icon: Palette,
       color: "#ea6fb8",
       courses: 35,
-      backgroundImage: "https://via.placeholder.com/400x250"
+      backgroundImage: cat2
     },
     {
       id: 3,
@@ -29,7 +39,7 @@ const CategoriesSection = () => {
       icon: ChartBar,
       color: "#56c2da",
       courses: 28,
-      backgroundImage: "https://via.placeholder.com/400x250"
+      backgroundImage: cat3
     },
     {
       id: 4,
@@ -38,7 +48,7 @@ const CategoriesSection = () => {
       icon: Database,
       color: "#da8256",
       courses: 19,
-      backgroundImage: "https://via.placeholder.com/400x250"
+      backgroundImage: cat4
     },
     {
       id: 5,
@@ -47,7 +57,7 @@ const CategoriesSection = () => {
       icon: Server,
       color: "#56da69",
       courses: 31,
-      backgroundImage: "https://via.placeholder.com/400x250"
+      backgroundImage: cat5
     },
     {
       id: 6,
@@ -56,7 +66,7 @@ const CategoriesSection = () => {
       icon: Globe,
       color: "#5668da",
       courses: 24,
-      backgroundImage: "https://via.placeholder.com/400x250"
+      backgroundImage: cat6
     },
     {
       id: 7,
@@ -65,7 +75,7 @@ const CategoriesSection = () => {
       icon: BookOpen,
       color: "#da56a2",
       courses: 37,
-      backgroundImage: "https://via.placeholder.com/400x250"
+      backgroundImage: cat7
     },
     {
       id: 8,
@@ -74,8 +84,18 @@ const CategoriesSection = () => {
       icon: Briefcase,
       color: "#dac156",
       courses: 26,
-      backgroundImage: "https://via.placeholder.com/400x250"
-    }
+      backgroundImage: cat8
+    },
+    
+    {
+  id: 9,
+  name: "Programming",
+  description: "Master the fundamentals and advanced topics of software development",
+  icon: Code, // replace with a relevant icon like `Code` if using Lucide or similar
+  color: "#6c63ff", // updated to a coding-themed color (purple/indigo)
+  courses: 26,
+  backgroundImage: cat9
+}
   ];
 
   return (

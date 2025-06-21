@@ -106,6 +106,7 @@
   border-radius: 10px;
   background-color: #f8f9fa;
   transition: all 0.3s ease;
+  padding-right: 45px !important; /* Prevent text from flowing under the eye icon */
 }
 
 .input:hover {
@@ -118,11 +119,22 @@
 }
 
 .icon {
-  color: #7f56da;
+  color: #7f56da !important;
+  font-size: 20px !important;
 }
 
 .visibilityIcon {
-  color: #7f56da;
+  color: #7f56da !important;
+  margin-right: -8px !important;
+  padding: 8px !important;
+  position: absolute !important;
+  right: 0 !important;
+  z-index: 10 !important;
+}
+
+.visibilityIcon:hover {
+  background-color: rgba(127, 86, 218, 0.08) !important;
+  border-radius: 50% !important;
 }
 
 .submitBtn {
@@ -304,29 +316,36 @@
     flex-direction: column-reverse;
     height: auto;
     max-width: 500px;
+    width: 95%;
   }
-  
+
   .formSide {
     max-width: 100%;
+    width: 100%;
+    padding: 1.5rem;
   }
-  
+
   .imageSide {
     padding: 2rem;
     min-height: 250px;
   }
-  
+
   .welcomeTitle {
     font-size: 1.8rem;
     text-align: center;
   }
-  
+
   .welcomeText {
     font-size: 1rem;
     text-align: center;
   }
-  
+
   .features {
     display: none;
+  }
+
+  .input {
+    font-size: 16px !important; /* Prevent zoom on focus in iOS */
   }
 }
 
@@ -334,36 +353,67 @@
   .pageContainer {
     padding: 0;
   }
-  
+
   .authWrapper {
     height: 100vh;
     max-height: none;
     border-radius: 0;
+    width: 100%;
   }
-  
+
   .formSide {
-    padding: 1.5rem;
+    padding: 1.25rem;
+    flex: 1;
   }
-  
+
   .imageSide {
-    min-height: 180px;
-    padding: 1.5rem;
+    min-height: 150px;
+    padding: 1.25rem;
   }
-  
+
   .welcomeTitle {
     font-size: 1.5rem;
   }
-  
+
   .welcomeText {
     font-size: 0.9rem;
     margin-bottom: 0;
   }
-  
+
   .title {
     font-size: 1.5rem;
   }
-  
+
   .subtitle {
     font-size: 0.9rem;
+  }
+
+  /* Better touch targets */
+  .submitBtn {
+    height: 52px;
+  }
+
+  .visibilityIcon {
+    padding: 10px !important;
+  }
+}
+
+/* Add extra small device improvements */
+@media (max-width: 375px) {
+  .formSide {
+    padding: 1rem;
+  }
+
+  .logoContainer {
+    margin-bottom: 1rem;
+  }
+
+  .title {
+    font-size: 1.3rem;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
   }
 }

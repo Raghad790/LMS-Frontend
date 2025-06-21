@@ -1,13 +1,26 @@
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import { Menu, X, ChevronLeft } from "lucide-react";
 import Sidebar from "../../ui/Sidebar/Sidebar";
 import TopBar from "../../ui/Topbar/TopBar";
 import styles from "./DashboardLayoutV2.module.css";
+import useAuth from "../../../hooks/useAuth";
 
 const DashboardLayoutV2 = () => {
+  const { user } = useAuth();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Debug log to check authentication state
+  console.log(
+    "📋 Dashboard layout rendering, user:",
+    user?.name || "No user",
+    "role:",
+    user?.role || "No role"
+  );
+
+  // We no longer need this check as ProtectedRoute handles authentication
+  // The ProtectedRoute component will ensure user is authenticated before rendering this component
 
   const toggleSidebar = () => {
     setSidebarCollapsed((prev) => !prev);

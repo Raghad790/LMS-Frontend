@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import styles from "./CourseDetailsView.module.css";
 import api from "../../../services/api";
 import { CircularProgress } from "@mui/material";
-import { useAuth } from "../../../hooks/useAuth";
+import useAuth  from "../../../hooks/useAuth";
 
 const CourseDetailsView = () => {
   const { courseId } = useParams();

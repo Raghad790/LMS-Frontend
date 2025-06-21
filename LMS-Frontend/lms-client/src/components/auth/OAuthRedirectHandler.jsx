@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 import api from "../../services/api";
 import styles from "./OAuthRedirectHandler.module.css";
 
@@ -32,7 +32,7 @@ const OAuthRedirectHandler = () => {
     restoreUser();
   }, [login, navigate]); // Added 'login' and 'navigate' to the dependency array
 
- return (
+  return (
     <div className={styles.spinnerContainer}>
       <div className={styles.spinner}></div>
       <p className={styles.message}>Logging you in with Google...</p>
